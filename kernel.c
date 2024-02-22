@@ -71,7 +71,7 @@ void terminal_setcolour(uint8_t colour)
 
 void terminal_putentryat(char c, uint8_t colour, size_t x, size_t y)
 {
-    const size_t index = y * VGA_WIDTGH + x;
+    const size_t index = y * VGA_WIDTH + x;
     terminal_buffer[index] = vga_entry(c, colour);
 }
 

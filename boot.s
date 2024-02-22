@@ -45,4 +45,5 @@ _start:
     jmp 1b
 
 / * Set the size of the _start symbol to the current location ('.'), minus its start. * /
-.size _start, . - _start   
+.size _start, . - _start
+   

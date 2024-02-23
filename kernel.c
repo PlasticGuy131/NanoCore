@@ -127,7 +127,7 @@ void kernel_main(void)
 
     terminal_intro_splash();
     terminal_writestring("Testing scrolling:");
-    for (size_t i = 0; i < 100; i++)
+    /*for (size_t i = 0; i < 100; i++)
     {
         char str[4];
         int out = i;
@@ -147,6 +147,12 @@ void kernel_main(void)
             out -= digit;
         }
         str[digits] = '\0';
+        terminal_writestring(str);
+    }*/
+    for (size_t i = 0; i < 10; i++)
+    {
+        char str[2];
+        str[0] = i + '0';
         terminal_writestring(str);
     }
 }

@@ -94,6 +94,8 @@ void terminal_scroll()
         const size_t index = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
         terminal_buffer[index] = vga_entry(' ', terminal_colour);
     }
+
+    terminal_row = VGA_HEIGHT - 1;
 }
 
 void terminal_putchar(char c)
@@ -102,14 +104,14 @@ void terminal_putchar(char c)
     {
         case '\n':
             terminal_column = 0;
-            if (++terminal_row >= VGA_HEIGHT) { terminal_row = 0; }
+            if (++terminal_row >= VGA_HEIGHT) { terminal_scroll(); }
             break;
         default:
             terminal_putentryat(c, terminal_colour, terminal_column, terminal_row);
             if(++terminal_column >= VGA_WIDTH)
             {
                 terminal_column = 0;
-                if (++terminal_row >= VGA_HEIGHT) { terminal_row = 0; }
+                if (++terminal_row >= VGA_HEIGHT) { terminal_scroll(); }
             }
     }
 }

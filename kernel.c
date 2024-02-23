@@ -127,32 +127,17 @@ void kernel_main(void)
 
     terminal_intro_splash();
     terminal_writestring("Testing scrolling:");
-    /*for (size_t i = 0; i < 100; i++)
+    for (size_t i = 0; i < 100; i++)
     {
-        char str[4];
+        char str[4] = " N\n";
         int out = i;
-        int heading = 1;
-        size_t digits = 0;
-        while (heading <= out)
+        if (i >= 10)
         {
-            digits += 1;
-            heading *= 10;
+            int tens = i / 10;
+            str[0] = tens + '0';
+            out -= tens * 10;
         }
-        heading /= 10;
-
-        for (size_t j = 0; j < digits; j++)
-        {
-            char digit = (out / j);
-            str[j] = digit + '0';
-            out -= digit;
-        }
-        str[digits] = '\0';
-        terminal_writestring(str);
-    }*/
-    for (size_t i = 0; i < 10; i++)
-    {
-        char str[2];
-        str[0] = i + '0';
+        str[1] = out + '0';
         terminal_writestring(str);
     }
 }

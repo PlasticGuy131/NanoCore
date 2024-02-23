@@ -42,6 +42,7 @@ size_t strlen(const char* str)
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
+static const char* VERSION = "N/A";
 
 size_t terminal_row;
 size_t terminal_column;
@@ -115,7 +116,9 @@ void terminal_intro_splash()
     terminal_setcolour(vga_entry_colour(VGA_COLOUR_BLUE, VGA_COLOUR_BLACK));
     terminal_writestring("COR/ENAN/OCOR/ENAN/O\n");
     terminal_setcolour(vga_entry_colour(VGA_COLOUR_WHITE, VGA_COLOUR_BLACK));
-    terminal_writestring("NANO CORE\nv.N/A\nWelcome.\n");
+    terminal_writestring("NANO CORE v.");
+    terminal_writestring(VERSION);
+    terminal_writestring("\nWelcome.\n");
 }
 
 void kernel_main(void)

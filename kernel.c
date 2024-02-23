@@ -82,16 +82,15 @@ void terminal_putchar(char c)
     {
         case '\n':
             terminal_column = 0;
-            terminal_row++;
+            if (++terminal_row >= VGA_HEIGHT) { terminal_row = 0; }
             break;
         default:
             terminal_putentryat(c, terminal_colour, terminal_column, terminal_row);
-            if(++terminal_column == VGA_WIDTH)
+            if(++terminal_column >= VGA_WIDTH)
             {
                 terminal_column = 0;
-                if (++terminal_row == VGA_HEIGHT) { terminal_row = 0; }
+                if (++terminal_row >= VGA_HEIGHT) { terminal_row = 0; }
             }
-            break;
     }
 }
 

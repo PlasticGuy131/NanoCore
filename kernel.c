@@ -76,6 +76,26 @@ void terminal_putentryat(char c, uint8_t colour, size_t x, size_t y)
     terminal_buffer[index] = vga_entry(c, colour);
 }
 
+void terminal_scroll()
+{
+    for (size_t y = 0; y < VGA_HEIGHT-1; y++)
+    {
+        for (size_t x = 0; x < VGA_WIDTH; x++)
+        {
+            size_t index = (y + 1) * VGA_WIDTH + x;
+            uint16_t entry = terminal_buffer[index];
+            index -= VGA_WIDTH;
+            terminal_buffer[index] = entry;
+        }
+    }
+
+    for (size_t x = 0; x < VGA_WIDTH; x++)
+    {
+        const size_t index = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
+        terminal_buffer[index] = vga_entry(' ', terminal_colour);
+    }
+}
+
 void terminal_putchar(char c)
 {
     switch (c)

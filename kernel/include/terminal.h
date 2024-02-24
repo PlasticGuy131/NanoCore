@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-extern enum colour
+enum colour
 {
     COLOUR_BLACK,
     COLOUR_BLUE,

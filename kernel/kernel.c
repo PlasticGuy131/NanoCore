@@ -3,8 +3,6 @@
 
 #include <terminal.h>
 
-#define VERSION "Refactor Tests"
-
 void kernel_intro_splash()
 {
     terminal_setcolour(terminal_create_colour(COLOUR_RED, COLOUR_BLACK));

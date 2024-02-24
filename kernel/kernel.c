@@ -3,7 +3,10 @@
 
 #include <terminal.h>
 
-#define VERSION "Refactor Tests"
+#define VERSION "File Refactor"
+#ifndef ARCH
+#define ARCH "WARNING: Unknown Architecture"
+#endif
 
 void kernel_intro_splash()
 {
@@ -18,6 +21,8 @@ void kernel_intro_splash()
     terminal_setcolour(terminal_create_colour(COLOUR_WHITE, COLOUR_BLACK));
     terminal_writestring("NANO CORE v.");
     terminal_writestring(VERSION);
+    terminal_writestring("-");
+    terminal_writestring(ARCH);
     terminal_writestring("\nWelcome.\n");
 }
 
@@ -38,6 +43,6 @@ void kernel_main(void)
             out -= tens * 10;
         }
         str[1] = out + '0';
-        terminal_writestring(str);
+        //terminal_writestring(str);
     }
 }

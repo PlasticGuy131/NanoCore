@@ -5,8 +5,6 @@
 
 #include "vga.c"
 
-#define VERSION "i386-Refactor Tests"
-
 size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_colour;

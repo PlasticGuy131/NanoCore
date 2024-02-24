@@ -4,7 +4,6 @@
 #include <terminal.h>
 
 #define VERSION "File Refactor"
-#define QUOTE "
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -23,7 +22,7 @@ void kernel_intro_splash()
     terminal_writestring("NANO CORE v.");
     terminal_writestring(VERSION);
     terminal_writestring("-");
-    terminal_writestring(QUOTEARCHQUOTE);
+    terminal_writestring(ARCH);
     terminal_writestring("\nWelcome.\n");
 }
 

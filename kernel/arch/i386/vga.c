@@ -21,7 +21,6 @@
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
-static const char* VERSION = "N/A";
 
 inline uint8_t vga_entry_colour(enum colour fg, enum colour bg)
 {

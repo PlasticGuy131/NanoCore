@@ -2,25 +2,22 @@
 #include <stdint.h>
 
 /* Colour constants. */
-enum colour
-{
-    COLOUR_BLACK = 0,
-    COLOUR_BLUE = 1,
-    COLOUR_GREEN = 2,
-    COLOUR_CYAN = 3,
-    COLOUR_RED = 4,
-    COLOUR_MAGENTA = 5,
-    COLOUR_BROWN = 6,
-    COLOUR_LIGHT_GRAY = 7,
-    COLOUR_DARK_GRAY = 8,
-    COLOUR_LIGHT_BLUE = 9,
-    COLOUR_LIGHT_GREEN = 10,
-    COLOUR_LIGHT_CYAN = 11,
-    COLOUR_LIGHT_RED = 12,
-    COLOUR_LIGHT_MAGENTA = 13,
-    COLOUR_LIGHT_BROWN = 14,
-    COLOUR_WHITE = 15
-};
+#define COLOUR_BLACK 0
+#define COLOUR_BLUE 1
+#define COLOUR_GREEN 2
+#define COLOUR_CYAN 3
+#define COLOUR_RED 4
+#define COLOUR_MAGENTA 5
+#define COLOUR_BROWN 6
+#define COLOUR_LIGHT_GRAY 7
+#define COLOUR_DARK_GRAY 8
+#define COLOUR_LIGHT_BLUE 9
+#define COLOUR_LIGHT_GREEN 10
+#define COLOUR_LIGHT_CYAN 11
+#define COLOUR_LIGHT_RED 12
+#define COLOUR_LIGHT_MAGENTA 13
+#define COLOUR_LIGHT_BROWN 14
+#define COLOUR_WHITE 15
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;

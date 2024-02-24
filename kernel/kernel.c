@@ -23,7 +23,7 @@ void kernel_intro_splash()
     terminal_writestring("NANO CORE v.");
     terminal_writestring(VERSION);
     terminal_writestring("-");
-    terminal_writestring(QUOTE ARCH QUOTE);
+    terminal_writestring(QUOTEARCHQUOTE);
     terminal_writestring("\nWelcome.\n");
 }
 

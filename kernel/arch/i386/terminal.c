@@ -26,7 +26,7 @@ void terminal_initialize(void)
     }
 }
 
-uint8_t terminal_colour(enum colour fg, enum colour bg) { return vga_entry colour(fg, bg); }
+uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry colour(fg, bg); }
 
 void terminal_setcolour(uint8_t colour)
 {

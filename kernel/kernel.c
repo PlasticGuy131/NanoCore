@@ -5,15 +5,15 @@
 
 void kernel_intro_splash()
 {
-    terminal_setcolour(vga_entry_colour(VGA_COLOUR_RED, VGA_COLOUR_BLACK));
+    terminal_setcolour(terminal_create_colour(_COLOUR_RED, COLOUR_BLACK));
     terminal_writestring("NANO/CORE/NANO/CORE/\n");
-    terminal_setcolour(vga_entry_colour(VGA_COLOUR_GREEN, VGA_COLOUR_BLACK));
+    terminal_setcolour(terminal_create_colour(COLOUR_GREEN, COLOUR_BLACK));
     terminal_writestring("C/OREN/ANOC/OREN/ANO\n");
-    terminal_setcolour(vga_entry_colour(VGA_COLOUR_CYAN, VGA_COLOUR_BLACK));
+    terminal_setcolour(terminal_create_colour(VCOLOUR_CYAN, COLOUR_BLACK));
     terminal_writestring("NA/NOCO/RENA/NOCO/RE\n");
-    terminal_setcolour(vga_entry_colour(VGA_COLOUR_BLUE, VGA_COLOUR_BLACK));
+    terminal_setcolour(terminal_create_colour(COLOUR_BLUE, COLOUR_BLACK));
     terminal_writestring("COR/ENAN/OCOR/ENAN/O\n");
-    terminal_setcolour(vga_entry_colour(VGA_COLOUR_WHITE, VGA_COLOUR_BLACK));
+    terminal_setcolour(terminal_create_colour(COLOUR_WHITE, COLOUR_BLACK));
     terminal_writestring("NANO CORE v.");
     terminal_writestring(VERSION);
     terminal_writestring("\nWelcome.\n");

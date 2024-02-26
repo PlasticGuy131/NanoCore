@@ -32,10 +32,11 @@ void terminal_initialize(void)
     uint16_t unicode[512];
     char* offset = psf_setup_font(unicode);
 
+    terminal_writebyte(10);
     for (size_t i = 0; i < font->character_size; i++)
     {
-        char line = *(offset + i);
-        terminal_writeint(line);
+        char line = (char)*(offset + i);
+        terminal_writebyte(line);
         terminal_writestring("\n");
     }
 }

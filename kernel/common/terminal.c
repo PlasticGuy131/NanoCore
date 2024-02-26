@@ -32,3 +32,13 @@ void terminal_writeint(int n)
         header /= 10;
     }
 }
+
+void terminal_writebyte(unsigned char b)
+{
+    unsigned char mask = 1;
+    mask << 7;
+    for (size_t i = 0; i < 8; i++)
+    {
+        terminal_putchar((b & mask) ? '1' : '0');
+    }
+}

@@ -28,7 +28,7 @@ void terminal_initialize(void)
         }
     }
 
-    PSF_Font* font = (PSF_Font*)&_binary_font_psf_start;
+    PSF1_Header* font = (PSF1_Header*)&_binary_font_psf_start;
     if (font->magic == PSF1_FONT_MAGIC)
     {
         terminal_putchar('1');
@@ -41,7 +41,7 @@ void terminal_initialize(void)
     {
         terminal_putchar('N');
     }
-    terminal_writestring("\nMAGIC: ");
+    /*terminal_writestring("\nMAGIC: ");
     terminal_writeint(font->magic);
     terminal_writestring("\nVERSION : ");
     terminal_writeint(font->version);
@@ -56,7 +56,13 @@ void terminal_initialize(void)
     terminal_writestring("\nHEIGHT : ");
     terminal_writeint(font->height);
     terminal_writestring("\nWIDTH : ");
-    terminal_writeint(font->width);
+    terminal_writeint(font->width);*/
+    terminal_writestring("\nMAGIC : ");
+    terminal_writeint(font->magic);
+    terminal_writestring("\nMODE : ");
+    terminal_writeint(font->fontMode);
+    terminal_writestring("\nSIZE : ");
+    terminal_writeint(font->characterSize);
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

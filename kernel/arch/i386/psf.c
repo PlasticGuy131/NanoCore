@@ -19,7 +19,7 @@ typedef struct
 uint16_t* psf_generate_table()
 {
     PSF_Header* font = (PSF_Header*)&_binary_font_psf_start;
-    if (!(font->fontMode & PSF1_MODE_HAS_TAB))
+    if (!(font->font_mode & PSF1_MODE_HAS_TAB))
     {
         return NULL;
     }

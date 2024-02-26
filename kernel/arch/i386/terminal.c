@@ -31,7 +31,7 @@ void terminal_initialize(void)
 
     uint16_t unicode[512] = psf_generate_table();
 
-    PSF1_Header* font = (PSF1_Header*)&_binary_font_psf_start;
+    PSF_Header* font = (PSF_Header*)&_binary_font_psf_start;
     terminal_writestring("A: ");
     terminal_writeint('A');
     terminal_writestring(" -> ");

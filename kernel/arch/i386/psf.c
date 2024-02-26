@@ -32,7 +32,7 @@ uint16_t* psf_generate_table()
     bool ignore = false;
     while (glyph < len)
     {
-        uint16_t uc = (uint16_t)((unsigned char*)s[0]);
+        uint16_t uc = (uint16_t)(s[0]);
         if (uc == 0xFFFF)
         {
             glyph++;
@@ -44,7 +44,7 @@ uint16_t* psf_generate_table()
         }
         else if (!ignore)
         {
-            unicode[uc] = glyph
+            unicode[uc] = glyph;
         }
         s++;
     }

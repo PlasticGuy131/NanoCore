@@ -1,8 +1,11 @@
+extern char _binary_font_psf_start[]
+
 #include <stddef.h>
 #include <stdint.h>
 
 #include <terminal.h>
 
+#include "psf.c"
 #include "vga.c"
 
 size_t terminal_row;
@@ -24,7 +27,20 @@ void terminal_initialize(void)
             terminal_buffer[index] = vga_entry(' ', terminal_colour);
         }
     }
-    terminal_putchar(COLOUR_CYAN + '0');
+
+    PSF_Font* font = (PSF_Font*)&_binary_font_psf_start;
+    if (font->magic == PSF1_FONT_MAGIC)
+    {
+        terminal_putchar('1')
+    }
+    elif (font->magic == PSF_FONT_MAGIC)
+    {
+        terminal_putchar('0')
+    }
+    else
+    {
+        terminal_putchar('N')
+    }
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

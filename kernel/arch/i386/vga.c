@@ -5,7 +5,7 @@
 #define COLOUR_BLACK 0
 #define COLOUR_BLUE 1
 #define COLOUR_GREEN 2
-#define COLOUR_CYAN 9
+#define COLOUR_CYAN 3
 #define COLOUR_RED 4
 #define COLOUR_MAGENTA 5
 #define COLOUR_BROWN 6

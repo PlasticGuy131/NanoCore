@@ -3,7 +3,7 @@
 
 #include <terminal.h>
 
-#define VERSION "File Refactor"
+#define VERSION "PSF Testing"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -31,18 +31,4 @@ void kernel_main(void)
     terminal_initialize();
 
     kernel_intro_splash();
-    terminal_writestring("Testing scrolling:");
-    for (size_t i = 0; i < 100; i++)
-    {
-        char str[4] = " N\n";
-        int out = i;
-        if (i >= 10)
-        {
-            int tens = i / 10;
-            str[0] = tens + '0';
-            out -= tens * 10;
-        }
-        str[1] = out + '0';
-        //terminal_writestring(str);
-    }
 }

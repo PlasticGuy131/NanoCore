@@ -13,6 +13,7 @@ size_t terminal_column;
 uint8_t terminal_colour;
 uint16_t* terminal_buffer;
 
+
 void terminal_initialize(void)
 {
     terminal_row = 0;
@@ -28,41 +29,17 @@ void terminal_initialize(void)
         }
     }
 
+    uint16_t unicode[512] = psf_generate_table();
+
     PSF1_Header* font = (PSF1_Header*)&_binary_font_psf_start;
-    if (font->magic == PSF1_FONT_MAGIC)
-    {
-        terminal_putchar('1');
-    }
-    else if (font->magic == PSF_FONT_MAGIC)
-    {
-        terminal_putchar('0');
-    }
-    else
-    {
-        terminal_putchar('N');
-    }
-    /*terminal_writestring("\nMAGIC: ");
-    terminal_writeint(font->magic);
-    terminal_writestring("\nVERSION : ");
-    terminal_writeint(font->version);
-    terminal_writestring("\nHEADER SIZE : ");
-    terminal_writeint(font->headersize);
-    terminal_writestring("\nFLAGS : ");
-    terminal_writeint(font->flags);
-    terminal_writestring("\n#Of GLYPHS : ");
-    terminal_writeint(font->numglyph);
-    terminal_writestring("\nB PER GLYPH : ");
-    terminal_writeint(font->bytesperglyph);
-    terminal_writestring("\nHEIGHT : ");
-    terminal_writeint(font->height);
-    terminal_writestring("\nWIDTH : ");
-    terminal_writeint(font->width);*/
-    terminal_writestring("\nMAGIC : ");
-    terminal_writeint(font->magic);
-    terminal_writestring("\nMODE : ");
-    terminal_writeint(font->fontMode);
-    terminal_writestring("\nSIZE : ");
-    terminal_writeint(font->characterSize);
+    terminal_writestring("A: ");
+    terminal_writeint('A');
+    terminal_writestring(" -> ");
+    terminal_writeint(unicode['A']);
+    terminal_writestring("B: ");
+    terminal_writeint('B');
+    terminal_writestring(" -> ");
+    terminal_writeint(unicode['B']);
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

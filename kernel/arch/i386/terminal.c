@@ -41,21 +41,21 @@ void terminal_initialize(void)
     {
         terminal_putchar('N');
     }
-    terminal_writestring('\nMAGIC: ');
+    terminal_writestring("\nMAGIC: ");
     terminal_writeint(font->magic);
-    terminal_writestring('\nVERSION : ');
+    terminal_writestring("\nVERSION : ");
     terminal_writeint(font->version);
-    terminal_writestring('\nHEADER SIZE : ');
+    terminal_writestring("\nHEADER SIZE : ");
     terminal_writeint(font->headersize);
-    terminal_writestring('\nFLAGS : ');
+    terminal_writestring("\nFLAGS : ");
     terminal_writeint(font->flags);
-    terminal_writestring('\n#Of GLYPHS : ');
+    terminal_writestring("\n#Of GLYPHS : ");
     terminal_writeint(font->numglyph);
-    terminal_writestring('\nB PER GLYPH : ');
+    terminal_writestring("\nB PER GLYPH : ");
     terminal_writeint(font->bytesperglyph);
-    terminal_writestring('\nHEIGHT : ');
+    terminal_writestring("\nHEIGHT : ");
     terminal_writeint(font->height);
-    terminal_writestring('\nWIDTH : ');
+    terminal_writestring("\nWIDTH : ");
     terminal_writeint(font->width);
 }
 

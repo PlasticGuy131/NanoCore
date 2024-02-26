@@ -29,6 +29,9 @@ void terminal_initialize(void)
 
     PSF_Header* font = psf_get_header();
 
+    uint16_t unicode[512];
+    char* offset = psf_setup_font(unicode);
+
     terminal_writestring("A: ");
     terminal_writeint('A');
     terminal_writestring(" -> ");
@@ -37,9 +40,7 @@ void terminal_initialize(void)
     terminal_writeint('B');
     terminal_writestring(" -> ");
     terminal_writeint(unicode['B']);
-
-    uint16_t unicode[512];
-    char* offset = psf_setup_font(unicode);
+    terminal_writestring("\n");
 
     terminal_writebyte(10);
     terminal_writestring("\n");

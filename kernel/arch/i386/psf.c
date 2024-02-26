@@ -29,10 +29,13 @@ char* psf_setup_font(uint16_t* unicode)
     if (!(font->font_mode & PSF1_MODE_HAS_TAB))
     {
         unicode = NULL;
-        return (char*)s;
+        return (char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
     }
 
     size_t len = (font->font_mode & PSF1_MODE_512) ? 512 : 256;
+
+    s += len * character_size / 2;
+
     uint16_t glyph = 0;
     bool ignore = false;
     while (glyph < len)
@@ -53,5 +56,5 @@ char* psf_setup_font(uint16_t* unicode)
         }
         s++;
     }
-    return (char*)s;
+    return (char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
 }

@@ -29,6 +29,15 @@ void terminal_initialize(void)
 
     PSF_Header* font = psf_get_header();
 
+    terminal_writestring("A: ");
+    terminal_writeint('A');
+    terminal_writestring(" -> ");
+    terminal_writeint(unicode['A']);
+    terminal_writestring("\nB: ");
+    terminal_writeint('B');
+    terminal_writestring(" -> ");
+    terminal_writeint(unicode['B']);
+
     uint16_t unicode[512];
     char* offset = psf_setup_font(unicode);
 

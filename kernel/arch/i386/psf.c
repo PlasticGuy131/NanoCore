@@ -16,7 +16,7 @@ typedef struct
     uint8_t character_size;
 } PSF_Header;
 
-uint16_t* psf_generate_table()
+uint16_t* psf_generate_table(uint16_t* unicode)
 {
     PSF_Header* font = (PSF_Header*)&_binary_font_psf_start;
     if (!(font->font_mode & PSF1_MODE_HAS_TAB))
@@ -24,7 +24,6 @@ uint16_t* psf_generate_table()
         return NULL;
     }
 
-    uint16_t unicode[512];
     uint16_t* s = (uint16_t*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(uint16_t)));
 
     size_t len = (font->font_mode & PSF1_MODE_512) ? 512 : 256;

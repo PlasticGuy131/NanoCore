@@ -1,4 +1,4 @@
-extern char _binary_font_psf_start[];
+extern char _binary_font_psf_start;
 
 #include <stddef.h>
 #include <stdint.h>
@@ -29,7 +29,8 @@ void terminal_initialize(void)
         }
     }
 
-    uint16_t unicode[512] = psf_generate_table();
+    uint16_t unicode[512];
+    unicode = psf_generate_table(unicode);
 
     PSF_Header* font = (PSF_Header*)&_binary_font_psf_start;
     terminal_writestring("A: ");

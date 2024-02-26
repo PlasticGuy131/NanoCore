@@ -36,7 +36,7 @@ void terminal_initialize(void)
     {
         char line = offset[i] + unicode['A'] * 8;
         terminal_writeint(line);
-        terminal_writeline("\n");
+        terminal_writestring("\n");
     }
 }
 

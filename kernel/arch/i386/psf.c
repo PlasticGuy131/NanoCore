@@ -34,7 +34,7 @@ char* psf_setup_font(uint16_t* unicode)
 
     size_t len = (font->font_mode & PSF1_MODE_512) ? 512 : 256;
 
-    s += len * character_size / 2;
+    s += len * font->character_size / 2;
 
     uint16_t glyph = 0;
     bool ignore = false;

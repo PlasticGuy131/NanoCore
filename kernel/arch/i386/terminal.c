@@ -34,7 +34,7 @@ void terminal_initialize(void)
 
     for (size_t i = 0; i < font->character_size; i++)
     {
-        char line = offset[i] + unicode['A'] * 8;
+        char line = *(offset + unicode['A'] * 8 + i);
         terminal_putchar(line);
         terminal_writestring("\n");
     }

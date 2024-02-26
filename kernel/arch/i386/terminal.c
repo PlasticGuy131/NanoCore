@@ -30,16 +30,14 @@ void terminal_initialize(void)
     PSF_Header* font = psf_get_header();
 
     uint16_t unicode[512];
-    uint16_t* offset = psf_setup_font(unicode);
+    char* offset = psf_setup_font(unicode);
 
-    terminal_writestring("A: ");
-    terminal_writeint('A');
-    terminal_writestring(" -> ");
-    terminal_writeint(unicode['A']);
-    terminal_writestring("B: ");
-    terminal_writeint('B');
-    terminal_writestring(" -> ");
-    terminal_writeint(unicode['B']);
+    for (size_t i = 0; i < font->character_size; i++)
+    {
+        char line = offset[i] + unicode['A'] * 8;
+        terminal_writeint(line);
+        terminal_writeline("\n");
+    }
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

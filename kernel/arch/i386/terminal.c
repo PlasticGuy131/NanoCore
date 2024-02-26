@@ -41,6 +41,7 @@ void terminal_initialize(void)
     {
         terminal_putchar('N');
     }
+    terminal_writeint(*font);
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

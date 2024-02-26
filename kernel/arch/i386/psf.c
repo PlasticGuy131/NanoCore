@@ -27,7 +27,7 @@ uint16_t* psf_generate_table()
     uint16_t unicode[512];
     uint16_t *s = &_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(uint16_t));
 
-    size_t len = (font->fontMode & PSF1_MODE_512) ? 512 : 256;
+    size_t len = (font->font_mode & PSF1_MODE_512) ? 512 : 256;
     uint16_t glyph = 0;
     bool ignore = false;
     while (glyph < len)

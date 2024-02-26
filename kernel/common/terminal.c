@@ -24,7 +24,7 @@ void terminal_writeint(int n)
         len++;
     }
 
-    for (size_t i = 0; i < len; len++)
+    for (size_t i = 0; i < len; i++)
     {
         char c = (char)(n / header);
         terminal_putchar(c + '0');

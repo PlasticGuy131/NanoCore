@@ -36,7 +36,7 @@ void terminal_initialize(void)
     terminal_writestring("\n");
     for (size_t i = 0; i < font->character_size; i++)
     {
-        char line = (char)*(offset + i);
+        char line = (char)*(offset + unicode['A'] + i);
         terminal_writebyte(line);
         terminal_writestring("\n");
     }

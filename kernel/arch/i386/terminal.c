@@ -33,6 +33,7 @@ void terminal_initialize(void)
     char* offset = psf_setup_font(unicode);
 
     terminal_writebyte(10);
+    terminal_writestring("\n");
     for (size_t i = 0; i < font->character_size; i++)
     {
         char line = (char)*(offset + i);

@@ -35,10 +35,10 @@ void terminal_writeint(int n)
 
 void terminal_writebyte(unsigned char b)
 {
-    unsigned char mask = 1;
-    mask << 7;
+    unsigned char mask = 0x80;
     for (size_t i = 0; i < 8; i++)
     {
         terminal_putchar((b & mask) ? '1' : '0');
+        mask = mask >> 1;
     }
 }

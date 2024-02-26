@@ -1,4 +1,4 @@
-extern char _binary_font_psf_start[]
+extern char _binary_font_psf_start[];
 
 #include <stddef.h>
 #include <stdint.h>
@@ -31,15 +31,15 @@ void terminal_initialize(void)
     PSF_Font* font = (PSF_Font*)&_binary_font_psf_start;
     if (font->magic == PSF1_FONT_MAGIC)
     {
-        terminal_putchar('1')
+        terminal_putchar('1');
     }
     elif (font->magic == PSF_FONT_MAGIC)
     {
-        terminal_putchar('0')
+        terminal_putchar('0');
     }
     else
     {
-        terminal_putchar('N')
+        terminal_putchar('N');
     }
 }
 

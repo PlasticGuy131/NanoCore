@@ -1,9 +1,9 @@
-extern char _binary_font_psf_start[]
+extern char _binary_font_psf_start[];
 
 #include <stdint.h>
 
-static const int PSF1_FONT_MAGIC = 0x0436
-static const int PSF_FONT_MAGIC = 0x864ab572
+static const int PSF1_FONT_MAGIC = 0x0436;
+static const int PSF_FONT_MAGIC = 0x864ab572;
 
 typedef struct
 {

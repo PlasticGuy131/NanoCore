@@ -33,7 +33,7 @@ void terminal_initialize(void)
     {
         terminal_putchar('1');
     }
-    elif (font->magic == PSF_FONT_MAGIC)
+    else if (font->magic == PSF_FONT_MAGIC)
     {
         terminal_putchar('0');
     }

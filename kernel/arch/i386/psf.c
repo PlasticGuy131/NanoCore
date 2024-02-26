@@ -21,7 +21,7 @@ void psf_generate_table(uint16_t* unicode)
     PSF_Header* font = (PSF_Header*)&_binary_font_psf_start;
     if (!(font->font_mode & PSF1_MODE_HAS_TAB))
     {
-        unicode = NULL
+        unicode = NULL;
         return;
     }
 

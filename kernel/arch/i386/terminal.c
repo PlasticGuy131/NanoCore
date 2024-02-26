@@ -41,7 +41,22 @@ void terminal_initialize(void)
     {
         terminal_putchar('N');
     }
+    terminal_putchar('\nMAGIC: ');
     terminal_writeint(font->magic);
+    terminal_putchar('\nVERSION : ');
+    terminal_writeint(font->version);
+    terminal_putchar('\nHEADER SIZE : ');
+    terminal_writeint(font->headersize);
+    terminal_putchar('\nFLAGS : ');
+    terminal_writeint(font->flags);
+    terminal_putchar('\n#Of GLYPHS : ');
+    terminal_writeint(font->numglyph);
+    terminal_putchar('\nB PER GLYPH : ');
+    terminal_writeint(font->bytesperglyph);
+    terminal_putchar('\nHEIGHT : ');
+    terminal_writeint(font->height);
+    terminal_putchar('\nWIDTH : ');
+    terminal_writeint(font->width);
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

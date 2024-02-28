@@ -114,8 +114,8 @@ typedef struct
 
     union
     {
-        multiboot_aout_symbol_table_t aout_sym;
-        multiboot_elf_section_header_table_t elf_sec;
+        multiboot_aout_symbol_table aout_sym;
+        multiboot_elf_section_header_table elf_sec;
     } u;
 
     uint32_t mmap_length;

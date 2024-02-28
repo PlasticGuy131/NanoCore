@@ -7,8 +7,8 @@
 .set CHECKSUM,  -(MAGIC + FLAGS)
 .set VIDEOMODE,  0
 .set VWIDTH,     1024
-.set VHEIGHT     768
-.set VDEPTH      32
+.set VHEIGHT,    768
+.set VDEPTH,     32
 
 / * Create multiboot header * /
 .align 4

@@ -3,8 +3,12 @@
 
 #include <terminal.h>
 
+#include "../common/multiboot.c"
+
 #include "psf.c"
 #include "vga.c"
+
+extern MultibootInfo *multiboot_info;
 
 size_t terminal_row;
 size_t terminal_column;
@@ -32,24 +36,15 @@ void terminal_initialize(void)
     uint16_t unicode[512];
     char* offset = psf_setup_font(unicode);
 
-    terminal_writestring("A: ");
-    terminal_writeint('A');
-    terminal_writestring(" -> ");
-    terminal_writeint(unicode['A']);
-    terminal_writestring("\nB: ");
-    terminal_writeint('B');
-    terminal_writestring(" -> ");
-    terminal_writeint(unicode['B']);
-    terminal_writestring("\n");
-
-    terminal_writebyte(10);
-    terminal_writestring("\n");
+    offset += unicode['A'] * font->character_size;
     for (size_t i = 0; i < font->character_size; i++)
     {
-        char line = (char)*(offset + unicode['A'] + i);
+        char line = *offset;
         terminal_writebyte(line);
         terminal_writestring("\n");
+        offset++;
     }
+    terminal_writeint(sizeof(MultibootInfo));
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

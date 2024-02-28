@@ -43,7 +43,6 @@ typedef struct
     uint32_t height;
     uint8_t bpp;
     uint8_t type;
-    uint8_t fram;
     uint8_t colour_type_1;
     uint8_t colour_type_2;
     uint8_t colour_type_3;
@@ -65,6 +64,7 @@ typedef struct
     uint32_t syms_1;
     uint32_t syms_2;
     uint32_t syms_3;
+    uint32_t syms_4;
 
     MultibootMMAP mmap;
 

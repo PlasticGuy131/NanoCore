@@ -15,7 +15,6 @@ size_t terminal_column;
 uint8_t terminal_colour;
 uint16_t* terminal_buffer;
 
-
 void terminal_initialize(void)
 {
     terminal_row = 0;
@@ -45,6 +44,7 @@ void terminal_initialize(void)
         offset++;
     }
     terminal_writeint(sizeof(MultibootInfo));
+    terminal_writeint(sizeof(MultibootFramebufferTable));
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

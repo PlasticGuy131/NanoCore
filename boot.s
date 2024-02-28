@@ -1,14 +1,14 @@
 / * Multiboot header constants * /
-.set ALIGN,    1<<0
-.set MEMINFO,  1<<1
+.set ALIGN,     1<<0
+.set MEMINFO,   1<<1
 .set VIDEOINFO, 1<<2
-.set FLAGS,    ALIGN | MEMINFO | VIDEOINFO
-.set MAGIC,    0x1BADB002
-.set CHECKSUM, -(MAGIC + FLAGS)
-.set VIDEOMODE, 0
-.set VWIDTH 1024
-.set VHEIGHT 768
-.set VDEPTH 32
+.set FLAGS,     ALIGN | MEMINFO | VIDEOINFO
+.set MAGIC,     0x1BADB002
+.set CHECKSUM,  -(MAGIC + FLAGS)
+.set VIDEOMODE,  0
+.set VWIDTH,     1024
+.set VHEIGHT     768
+.set VDEPTH      32
 
 / * Create multiboot header * /
 .align 4

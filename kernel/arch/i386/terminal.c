@@ -43,9 +43,7 @@ void terminal_initialize(void)
         terminal_writestring("\n");
         offset++;
     }
-    terminal_writeint(sizeof(MultibootInfo));
-    terminal_writestring("\n");
-    terminal_writeint(sizeof(MultibootFramebufferTable));
+    terminal_writeint((int)multiboot_info);
     terminal_writestring("\n");
     terminal_writebyte((unsigned char)(multiboot_info->flags>>8));
     terminal_writebyte((unsigned char)multiboot_info->flags);

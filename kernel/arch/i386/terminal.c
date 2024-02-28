@@ -56,11 +56,16 @@ void terminal_initialize(void)
 
     unsigned char* screen = (char*)0xfd000000;
     //screen = (char*)&multiboot_info->framebuffer_table.addr1;
-    unsigned where = 1 * (multiboot_info->framebuffer_bpp/8) + 1 * multiboot_info->framebuffer_pitch;
-    //unsigned where = 1 * (0x20/8) + 1 * 0x1000;
-    screen[where] = 255;
-    screen[where+1] = 255;
-    screen[where+2] = 255;
+    for (int x = 1; x < 11; x++)
+    {
+        for (int y = 1; y < 11; y++)
+        {
+            unsigned where = x * (multiboot_info->framebuffer_bpp / 8) + y * multiboot_info->framebuffer_pitch;
+            screen[where] = 255;
+            screen[where+1] = 255;
+            screen[where+2] = 255;
+        }
+    }
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

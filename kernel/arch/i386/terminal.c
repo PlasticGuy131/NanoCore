@@ -8,7 +8,7 @@
 #include "psf.c"
 #include "vga.c"
 
-extern MultibootInfo *multiboot_info;
+MultibootInfo* multiboot_info;
 
 size_t terminal_row;
 size_t terminal_column;

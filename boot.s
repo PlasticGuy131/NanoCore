@@ -11,7 +11,7 @@
 .long FLAGS
 .long CHECKSUM
 
-.global multiboot_info
+.extern multiboot_info
 
 / * Multiboot does not define a stack, and so this allocates a small one of 16 KiB * /
 .section .bss

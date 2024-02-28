@@ -60,7 +60,7 @@ void terminal_initialize(void)
     {
         for (int y = 1; y < 11; y++)
         {
-            unsigned where = x * (multiboot_info->framebuffer_bpp / 8) + y * multiboot_info->framebuffer_pitch;
+            unsigned where = x * (32 / 8) + y * 4096;
             screen[where] = 255;
             screen[where+1] = 255;
             screen[where+2] = 255;

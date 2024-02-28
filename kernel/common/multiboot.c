@@ -126,39 +126,38 @@ typedef struct
 
     uint32_t config_table;
 
+    uint32_t boot_loader_name;
 
-    multiboot_uint32_t boot_loader_name;
+    uint32_t apm_table;
 
-    multiboot_uint32_t apm_table;
+    uint32_t vbe_control_info;
+    uint32_t vbe_mode_info;
+    uint16_t vbe_mode;
+    uint16_t vbe_interface_seg;
+    uint16_t vbe_interface_off;
+    uint16_t vbe_interface_len;
 
-    multiboot_uint32_t vbe_control_info;
-    multiboot_uint32_t vbe_mode_info;
-    multiboot_uint16_t vbe_mode;
-    multiboot_uint16_t vbe_interface_seg;
-    multiboot_uint16_t vbe_interface_off;
-    multiboot_uint16_t vbe_interface_len;
-
-    multiboot_uint64_t framebuffer_addr;
-    multiboot_uint32_t framebuffer_pitch;
-    multiboot_uint32_t framebuffer_width;
-    multiboot_uint32_t framebuffer_height;
-    multiboot_uint8_t framebuffer_bpp;
-    multiboot_uint8_t framebuffer_type;
+    uint64_t framebuffer_addr;
+    uint32_t framebuffer_pitch;
+    uint32_t framebuffer_width;
+    uint32_t framebuffer_height;
+    uint8_t framebuffer_bpp;
+    uint8_t framebuffer_type;
     union
     {
         struct
         {
-        multiboot_uint32_t framebuffer_palette_addr;
-        multiboot_uint16_t framebuffer_palette_num_colors;
+            uint32_t framebuffer_palette_addr;
+            uint16_t framebuffer_palette_num_colors;
         };
         struct
         {
-        multiboot_uint8_t framebuffer_red_field_position;
-        multiboot_uint8_t framebuffer_red_mask_size;
-        multiboot_uint8_t framebuffer_green_field_position;
-        multiboot_uint8_t framebuffer_green_mask_size;
-        multiboot_uint8_t framebuffer_blue_field_position;
-        multiboot_uint8_t framebuffer_blue_mask_size;
+            uint8_t framebuffer_red_field_position;
+            uint8_t framebuffer_red_mask_size;
+            uint8_t framebuffer_green_field_position;
+            uint8_t framebuffer_green_mask_size;
+            uint8_t framebuffer_blue_field_position;
+            uint8_t framebuffer_blue_mask_size;
         };
     };
 } multiboot_info;

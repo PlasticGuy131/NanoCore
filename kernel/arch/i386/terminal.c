@@ -54,8 +54,8 @@ void terminal_initialize(void)
     terminal_writeint(multiboot_info->boot_loader_name);
     terminal_writestring("\n");
 
-    unsigned char* screen = (char*)(*multiboot_info).framebuffer_table.addr1;
-    unsigned where = 10 * (*multiboot_info).framebuffer_table.bpp + 10 * (*multiboot_info).framebuffer_table.pitch;
+    unsigned char* screen = (char*)&multiboot_info->framebuffer_table.addr1;
+    unsigned where = 10 * multiboot_info->framebuffer_table.bpp + 10 * multiboot_info->framebuffer_table.pitch;
     screen[where] = COLOUR_WHITE;
 }
 

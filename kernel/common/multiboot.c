@@ -85,18 +85,18 @@ typedef struct
 
 typedef struct
 {
-  multiboot_uint32_t tabsize;
-  multiboot_uint32_t strsize;
-  multiboot_uint32_t addr;
-  multiboot_uint32_t reserved;
+  uint32_t tabsize;
+  uint32_t strsize;
+  uint32_t addr;
+  uint32_t reserved;
 } multiboot_aout_symbol_table;
 
 typedef struct
 {
-  multiboot_uint32_t num;
-  multiboot_uint32_t size;
-  multiboot_uint32_t addr;
-  multiboot_uint32_t shndx;
+  uint32_t num;
+  uint32_t size;
+  uint32_t addr;
+  uint32_t shndx;
 } multiboot_elf_section_header_table;
 
 typedef struct

@@ -34,7 +34,7 @@ _start:
 
     / * Cruicial processor state should be initialised here before the full kernel starts. This means * /
     / * floats, GDT, paging and some c++ features will not work untill they are implemented here. * /
-    mov %ebx, multiboot_info
+    movl %ebx, multiboot_info
 
     / * Enter the high-level kernel * /
     call kernel_main

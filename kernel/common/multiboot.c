@@ -6,7 +6,7 @@ typedef struct
     uint32_t upper;
 } MultibootMemory;
 
-typedef struct
+/*typedef struct
 {
     uint32_t count;
     uint32_t addr;
@@ -81,4 +81,84 @@ typedef struct
     MultibootVBETable vbe_table;
 
     MultibootFramebufferTable framebuffer_table;
-} MultibootInfo;
+} MultibootInfo;*/
+
+typedef struct
+{
+  multiboot_uint32_t tabsize;
+  multiboot_uint32_t strsize;
+  multiboot_uint32_t addr;
+  multiboot_uint32_t reserved;
+} multiboot_aout_symbol_table;
+
+typedef struct
+{
+  multiboot_uint32_t num;
+  multiboot_uint32_t size;
+  multiboot_uint32_t addr;
+  multiboot_uint32_t shndx;
+} multiboot_elf_section_header_table;
+
+typedef struct
+{
+    uint32_t flags;
+
+    uint32_t mem_lower;
+    uint32_t mem_upper;
+
+    uint32_t boot_device;
+    uint32_t cmdline;
+
+    uint32_t mods_count;
+    uint32_t mods_addr;
+
+    union
+    {
+        multiboot_aout_symbol_table_t aout_sym;
+        multiboot_elf_section_header_table_t elf_sec;
+    } u;
+
+    uint32_t mmap_length;
+    uint32_t mmap_addr;
+
+    uint32_t drives_length;
+    uint32_t drives_addr;
+
+    uint32_t config_table;
+
+
+    multiboot_uint32_t boot_loader_name;
+
+    multiboot_uint32_t apm_table;
+
+    multiboot_uint32_t vbe_control_info;
+    multiboot_uint32_t vbe_mode_info;
+    multiboot_uint16_t vbe_mode;
+    multiboot_uint16_t vbe_interface_seg;
+    multiboot_uint16_t vbe_interface_off;
+    multiboot_uint16_t vbe_interface_len;
+
+    multiboot_uint64_t framebuffer_addr;
+    multiboot_uint32_t framebuffer_pitch;
+    multiboot_uint32_t framebuffer_width;
+    multiboot_uint32_t framebuffer_height;
+    multiboot_uint8_t framebuffer_bpp;
+    multiboot_uint8_t framebuffer_type;
+    union
+    {
+        struct
+        {
+        multiboot_uint32_t framebuffer_palette_addr;
+        multiboot_uint16_t framebuffer_palette_num_colors;
+        };
+        struct
+        {
+        multiboot_uint8_t framebuffer_red_field_position;
+        multiboot_uint8_t framebuffer_red_mask_size;
+        multiboot_uint8_t framebuffer_green_field_position;
+        multiboot_uint8_t framebuffer_green_mask_size;
+        multiboot_uint8_t framebuffer_blue_field_position;
+        multiboot_uint8_t framebuffer_blue_mask_size;
+        };
+    };
+} multiboot_info;

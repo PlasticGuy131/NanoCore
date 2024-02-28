@@ -53,6 +53,13 @@ void terminal_initialize(void)
     terminal_writestring("\n");
     terminal_writeint(multiboot_info->boot_loader_name);
     terminal_writestring("\n");
+
+    MultibootFramebufferTable framebuffer_table = multiboot_info->framebuffer_table;
+    unsigned char* screen = (char*)framebuffer_table->addr1;
+    unsigned int where = 10 * framebuffer_table->bpp + 10 * framebuffer_table->pitch;
+    screen[where] = 255;
+    screen[where+1] = 255;
+    screen[where+2] = 255;
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

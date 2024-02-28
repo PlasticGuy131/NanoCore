@@ -44,7 +44,13 @@ void terminal_initialize(void)
         offset++;
     }
     terminal_writeint(sizeof(MultibootInfo));
+    terminal_writestring("\n");
     terminal_writeint(sizeof(MultibootFramebufferTable));
+    terminal_writestring("\n");
+    terminal_writebyte(multiboot_info->flags);
+    terminal_writestring("\n");
+    terminal_writestring(multiboot_info->boot_loader_name);
+    terminal_writestring("\n");
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

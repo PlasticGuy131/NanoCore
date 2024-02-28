@@ -61,6 +61,8 @@ typedef struct
 
     uint32_t cmdline;
 
+    MultibootModules mods;
+
     uint32_t syms_1;
     uint32_t syms_2;
     uint32_t syms_3;

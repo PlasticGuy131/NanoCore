@@ -54,9 +54,8 @@ void terminal_initialize(void)
     terminal_writeint(multiboot_info->boot_loader_name);
     terminal_writestring("\n");
 
-    MultibootFramebufferTable framebuffer_table = multiboot_info->framebuffer_table;
-    unsigned char* screen = (char*)&framebuffer_table.addr2;
-    unsigned int where = 10 * framebuffer_table.bpp + 10 * framebuffer_table.pitch;
+    unsigned char* screen = (char*)(*multiboot_info).framebuffer_table.addr2;
+    unsigned where = 10 * (*multiboot_info).framebuffer_table.bpp + 10 * (*multiboot_info).framebuffer_table.pitch;
     screen[where] = 255;
     screen[where+1] = 255;
     screen[where+2] = 255;

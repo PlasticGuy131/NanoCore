@@ -8,7 +8,7 @@
 #include "psf.c"
 #include "vga.c"
 
-MultibootInfo* multiboot_info;
+char multiboot_info_start;
 
 size_t terminal_row;
 size_t terminal_column;
@@ -43,12 +43,15 @@ void terminal_initialize(void)
         terminal_writestring("\n");
         offset++;
     }
+
+    MultibootInfo* multiboot_info = (MultibootInfo*)&multiboot_info_start;
+
     terminal_writeint((int)multiboot_info);
     terminal_writestring("\n");
-    terminal_writebyte((unsigned char)(multiboot_info->flags>>8));
-    terminal_writebyte((unsigned char)multiboot_info->flags);
+    terminal_writebyte((char)(multiboot_info->flags>>8));
+    terminal_writebyte((char)multiboot_info->flags);
     terminal_writestring("\n");
-    terminal_writestring((char*)multiboot_info->boot_loader_name);
+    terminal_writeint(multiboot_info->boot_loader_name);
     terminal_writestring("\n");
 }
 

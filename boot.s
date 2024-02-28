@@ -1,7 +1,8 @@
 / * Multiboot header constants * /
 .set ALIGN,    1<<0
 .set MEMINFO,  1<<1
-.set FLAGS,    ALIGN | MEMINFO
+.set VIDEOINFO 1<<2
+.set FLAGS,    ALIGN | MEMINFO | VIDEOINFO
 .set MAGIC,    0x1BADB002
 .set CHECKSUM, -(MAGIC + FLAGS)
 
@@ -34,7 +35,7 @@ _start:
 
     / * Cruicial processor state should be initialised here before the full kernel starts. This means * /
     / * floats, GDT, paging and some c++ features will not work untill they are implemented here. * /
-    movl %ebx, multiboot_info
+    movl %ebx, multiboot_info_start
 
     / * Enter the high-level kernel * /
     call kernel_main

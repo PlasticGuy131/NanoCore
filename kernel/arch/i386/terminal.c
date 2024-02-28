@@ -56,9 +56,7 @@ void terminal_initialize(void)
 
     unsigned char* screen = (char*)(*multiboot_info).framebuffer_table.addr2;
     unsigned where = 10 * (*multiboot_info).framebuffer_table.bpp + 10 * (*multiboot_info).framebuffer_table.pitch;
-    screen[where] = 255;
-    screen[where+1] = 255;
-    screen[where+2] = 255;
+    screen[where] = COLOUR_WHITE;
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

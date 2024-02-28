@@ -50,7 +50,7 @@ void terminal_initialize(void)
     terminal_writebyte((unsigned char)(multiboot_info->flags>>8));
     terminal_writebyte((unsigned char)multiboot_info->flags);
     terminal_writestring("\n");
-    terminal_writestring(multiboot_info->boot_loader_name);
+    terminal_writestring((char*)multiboot_info->boot_loader_name);
     terminal_writestring("\n");
 }
 

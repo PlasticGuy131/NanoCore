@@ -5,12 +5,21 @@
 .set FLAGS,    ALIGN | MEMINFO | VIDEOINFO
 .set MAGIC,    0x1BADB002
 .set CHECKSUM, -(MAGIC + FLAGS)
+.set VIDEOMODE, 0
+.set VWIDTH 1024
+.set VHEIGHT 768
+.set VDEPTH 32
 
 / * Create multiboot header * /
 .align 4
 .long MAGIC
 .long FLAGS
 .long CHECKSUM
+.long 0, 0, 0, 0, 0
+.long VIDEOMODE
+.long VWIDTH
+.long VHEIGHT
+.long VDEPTH
 
 .extern multiboot_info
 

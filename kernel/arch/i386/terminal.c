@@ -54,10 +54,11 @@ void terminal_initialize(void)
     terminal_writeint(multiboot_info->boot_loader_name);
     terminal_writestring("\n");
 
-    register unsigned char *screen asm("ebx");
+    unsigned char *screen;
     screen = (char*)&multiboot_info->framebuffer_table.addr1;
     unsigned where = 10 * multiboot_info->framebuffer_table.bpp + 10 * multiboot_info->framebuffer_table.pitch;
     screen[where] = COLOUR_WHITE;
+    return;
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

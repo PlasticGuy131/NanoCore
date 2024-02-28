@@ -56,10 +56,11 @@ void terminal_initialize(void)
 
     unsigned char* screen = (char*)0xfd000000;
     //screen = (char*)&multiboot_info->framebuffer_table.addr1;
-    unsigned where = 10 * multiboot_info->framebuffer_table.bpp + 10 * multiboot_info->framebuffer_table.pitch;
+    //unsigned where = 1 * (multiboot_info->framebuffer_table.bpp/8) + 1 * multiboot_info->framebuffer_table.pitch;
+    unsigned where = 1 * (0x20/8) + 1 * 0x1000;
     screen[where] = 255;
-    screen[where] = 255;
-    screen[where] = 255;
+    screen[where+1] = 255;
+    screen[where+2] = 255;
     return;
 }
 

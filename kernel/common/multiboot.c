@@ -89,7 +89,7 @@ typedef struct
   uint32_t strsize;
   uint32_t addr;
   uint32_t reserved;
-} multiboot_aout_symbol_table;
+} Multiboot_AOUT_Symbol_Table;
 
 typedef struct
 {
@@ -97,7 +97,7 @@ typedef struct
   uint32_t size;
   uint32_t addr;
   uint32_t shndx;
-} multiboot_elf_section_header_table;
+} Multiboot_ELF_Section_Header_Table;
 
 typedef struct
 {
@@ -114,8 +114,8 @@ typedef struct
 
     union
     {
-        multiboot_aout_symbol_table aout_sym;
-        multiboot_elf_section_header_table elf_sec;
+        Multiboot_AOUT_Symbol_Table aout_sym;
+        Multiboot_ELF_Section_Header_Table elf_sec;
     } u;
 
     uint32_t mmap_length;
@@ -160,4 +160,4 @@ typedef struct
             uint8_t framebuffer_blue_mask_size;
         };
     };
-} multiboot_info;
+} Multiboot_Info;

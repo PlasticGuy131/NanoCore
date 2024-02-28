@@ -1,7 +1,7 @@
 / * Multiboot header constants * /
 .set ALIGN,    1<<0
 .set MEMINFO,  1<<1
-.set VIDEOINFO 1<<2
+.set VIDEOINFO, 1<<2
 .set FLAGS,    ALIGN | MEMINFO | VIDEOINFO
 .set MAGIC,    0x1BADB002
 .set CHECKSUM, -(MAGIC + FLAGS)

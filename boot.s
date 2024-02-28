@@ -11,6 +11,8 @@
 .long FLAGS
 .long CHECKSUM
 
+.global multiboot_info
+
 / * Multiboot does not define a stack, and so this allocates a small one of 16 KiB * /
 .section .bss
 .align 16
@@ -21,7 +23,6 @@ stack_top:
 / * _start is the entry points * /
 .section .text
 .global _start
-.global multiboot_info
 .type _start, @function
 _start:
     / * bootloader has loaded into 32-bit protected mode on an x86 machine. Interrupts are disabled, * /
@@ -33,7 +34,7 @@ _start:
 
     / * Cruicial processor state should be initialised here before the full kernel starts. This means * /
     / * floats, GDT, paging and some c++ features will not work untill they are implemented here. * /
-    mov %ebx, multiboot_info
+    mov %ebx, multiboot_info(%rip)
 
     / * Enter the high-level kernel * /
     call kernel_main

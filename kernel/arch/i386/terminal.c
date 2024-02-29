@@ -51,10 +51,10 @@ void terminal_initialize(void)
     terminal_writebyte((char)(multiboot_info->flags>>8));
     terminal_writebyte((char)multiboot_info->flags);
     terminal_writestring("\n");
-    terminal_writeint((int)multiboot_info->framebuffer_addr);
+    //terminal_writeint((int)multiboot_info->framebuffer_addr);
     terminal_writestring("\n");
 
-    unsigned char* screen = (char*)0xfd000000;
+    /*unsigned char* screen = (char*)0xfd000000;
     //screen = (char*)&multiboot_info->framebuffer_table.addr1;
     for (int x = 1; x < 11; x++)
     {
@@ -65,7 +65,7 @@ void terminal_initialize(void)
             screen[where+1] = 255;
             screen[where+2] = 255;
         }
-    }
+    }*/
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

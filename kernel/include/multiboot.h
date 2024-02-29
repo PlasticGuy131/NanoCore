@@ -5,9 +5,9 @@
 
 enum Multiboot_Framebuffer_Type
 {
-    TYPE_INDEXED = 0;
-    TYPE_RGB = 1;
-    TYPE_EGA = 2;
+    TYPE_INDEXED = 0,
+    TYPE_RGB = 1,
+    TYPE_EGA = 2,
 };
 
 typedef struct

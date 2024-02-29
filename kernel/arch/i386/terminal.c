@@ -8,7 +8,7 @@
 #include "psf.c"
 #include "vga.c"
 
-extern char multiboot_info_start;
+extern uint32_t multiboot_info_start;
 
 size_t terminal_row;
 size_t terminal_column;
@@ -46,7 +46,9 @@ void terminal_initialize(void)
 
     Multiboot_Info* multiboot_info = (Multiboot_Info*)&multiboot_info_start;
 
-    terminal_writeint((int)multiboot_info_start);
+    terminal_writeint(multiboot_info_start);
+    terminal_writestring("\n");
+    terminal_writeint(0x10000);
     terminal_writestring("\n");
     terminal_writebyte((char)(multiboot_info->flags>>8));
     terminal_writebyte((char)multiboot_info->flags);

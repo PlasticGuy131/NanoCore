@@ -51,7 +51,7 @@ void terminal_initialize(void)
     terminal_writebyte((char)(multiboot_info->flags>>8));
     terminal_writebyte((char)multiboot_info->flags);
     terminal_writestring("\n");
-    terminal_writeint(multiboot_info->boot_loader_name);
+    terminal_writeint(&(*multiboot_info).framebuffer_bpp - (uint8_t*)multiboot_info);
     terminal_writestring("\n");
 
     unsigned char* screen = (char*)0xfd000000;

@@ -44,7 +44,7 @@ void terminal_initialize(void)
         offset++;
     }
 
-    Multiboot_Info* multiboot_info = (Multiboot_Info*)&multiboot_info_start;
+    Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
 
     terminal_writeint((int)multiboot_info);
     terminal_writestring("\n");

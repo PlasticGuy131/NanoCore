@@ -44,15 +44,15 @@ void terminal_initialize(void)
         offset++;
     }
 
-    //Multiboot_Info* multiboot_info = (Multiboot_Info*)&multiboot_info_start;
+    Multiboot_Info* multiboot_info = (Multiboot_Info*)&multiboot_info_start;
 
     terminal_writeint((int)multiboot_info_start);
     terminal_writestring("\n");
-    /*terminal_writebyte((char)(multiboot_info->flags>>8));
+    terminal_writebyte((char)(multiboot_info->flags>>8));
     terminal_writebyte((char)multiboot_info->flags);
     terminal_writestring("\n");
     terminal_writeint((int)multiboot_info);
-    terminal_writestring("\n");*/
+    terminal_writestring("\n");
 
     /*unsigned char* screen = (char*)0xfd000000;
     //screen = (char*)&multiboot_info->framebuffer_table.addr1;

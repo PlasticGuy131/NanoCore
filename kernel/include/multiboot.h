@@ -1,5 +1,5 @@
-#ifndef TERMINAL_H_INCLUDED
-#define TERMINAL_H_INCLUDED 1
+#ifndef MULTIBOOT_H_INCLUDED
+#define MULTIBOOT_H_INCLUDED 1
 
 #include <stdint.h>
 

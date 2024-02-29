@@ -46,7 +46,7 @@ void terminal_initialize(void)
 
     Multiboot_Info* multiboot_info = (Multiboot_Info*)&multiboot_info_start;
 
-    terminal_writeint((int)multiboot_info);
+    terminal_writeint((int)multiboot_info_start);
     terminal_writestring("\n");
     terminal_writebyte((char)(multiboot_info->flags>>8));
     terminal_writebyte((char)multiboot_info->flags);

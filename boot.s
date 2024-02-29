@@ -21,7 +21,7 @@
 .long VHEIGHT
 .long VDEPTH*/
 
-.extern multiboot_info
+.extern multiboot_info_start
 
 / * Multiboot does not define a stack, and so this allocates a small one of 16 KiB * /
 .section .bss

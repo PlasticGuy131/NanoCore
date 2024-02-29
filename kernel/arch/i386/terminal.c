@@ -2,10 +2,10 @@
 #include <stdint.h>
 
 #include <terminal.h>
-
-#include "../common/multiboot.c"
+#include <multiboot.h>
 
 #include "psf.c"
+#include "screen.c"
 #include "vga.c"
 
 extern uint32_t multiboot_info_start;
@@ -46,25 +46,12 @@ void terminal_initialize(void)
 
     Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
 
-    terminal_writeint(multiboot_info_start);
-    terminal_writestring("\n");
-    terminal_writeint(0x10000);
-    terminal_writestring("\n");
-    terminal_writebyte((char)(multiboot_info->flags>>8));
-    terminal_writebyte((char)multiboot_info->flags);
-    terminal_writestring("\n");
-    terminal_writeint((int)multiboot_info);
-    terminal_writestring("\n");
-
     char* screen = (char*)multiboot_info->framebuffer_addr;
     for (int x = 1; x < 11; x++)
     {
         for (int y = 1; y < 11; y++)
         {
-            unsigned where = x * (multiboot_info->framebuffer_bpp / 8) + y * multiboot_info->framebuffer_pitch;
-            screen[where] = 255;
-            screen[where+1] = 255;
-            screen[where+2] = 255;
+            screen_putpixel(x, y, screen_colour_rgb(255, 255, 255), multiboot_info);
         }
     }
 }

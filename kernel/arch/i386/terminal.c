@@ -118,7 +118,7 @@ static void terminal_rgb_scroll()
 
 static void terminal_scroll()
 {
-    
+    terminal_vga_scroll();
 }
 
 void terminal_putchar(char c)

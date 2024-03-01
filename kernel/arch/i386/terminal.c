@@ -36,7 +36,7 @@ void terminal_initialize(void)
     }
 
     PSF_Header* font = psf_get_header();
-    terminal_char_width = font->character_size;
+    terminal_font_char_size = font->character_size;
 
     uint16_t unicode[512];
     char* offset = psf_setup_font(unicode);
@@ -45,7 +45,7 @@ void terminal_initialize(void)
 
     screen_initialize(multiboot_info);
 
-    offset += unicode['A'] * terminal_char_width;
+    offset += unicode['A'] * terminal_font_char_size;
     screen_putbitmap_bw(0, 0, offset, 1, 16, screen_rgb_name(COLOUR_WHITE), screen_rgb_name(COLOUR_BLACK)); 
 }
 
@@ -59,8 +59,8 @@ static void terminal_putentryat(char c, enum Colour fg, enum Colour bg, size_t x
 {
     const size_t index = y * VGA_WIDTH + x;
     terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));
-    //offset += unicode[c] * terminal_char_width;
-    //screen_putbitmap_bw(x * terminal_char_width, y * terminal_char_width, offset, 1, 16, fg, bg;
+    //offset += unicode[c] * terminal_font_char_size;
+    //screen_putbitmap_bw(x * terminal_char_width, y * terminal_font_char_size, offset, 1, 16, fg, bg;
 }
 
 static void terminal_scroll()

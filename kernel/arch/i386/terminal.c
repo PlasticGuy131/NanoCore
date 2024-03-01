@@ -46,14 +46,16 @@ void terminal_initialize(void)
 
     Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
 
-    char* screen = (char*)multiboot_info->framebuffer_addr;
+    screen_initialize(multiboot_info);
     for (int x = 1; x < 11; x++)
     {
         for (int y = 1; y < 11; y++)
         {
-            screen_putpixel(x, y, screen_colour_rgb(255, 255, 255), multiboot_info);
+            screen_putpixel(x, y, screen_colour_rgb(255, 255, 255));
         }
     }
+    char data[8] = {255};
+    screen_putbitmap_bw(15, 1, 8, 8, screen_colour_rgb(255, 255, 255), screen_colour_rgb(0, 0, 0));
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

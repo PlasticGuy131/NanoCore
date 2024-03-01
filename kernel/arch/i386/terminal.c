@@ -110,7 +110,7 @@ static void terminal_vga_scroll()
 
 static void terminal_rgb_scroll()
 {
-    for (size_t y = 0; y < terminal_height * terminal_font_char_size - 1; y++)
+    for (size_t y = 0; y < (terminal_height-1) * terminal_font_char_size; y++)
     {
         for (size_t x = 0; x < terminal_width * terminal_char_width; x++)
         {

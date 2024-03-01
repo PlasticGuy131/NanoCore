@@ -100,7 +100,7 @@ void screen_copypixel(int x_from, int y_from, int x_to, int y_to)
     uint8_t green = screen[from+1];
     uint8_t blue = screen[from+2];
 
-    screen[to+0] = red;
-    screen[to+1] = green;
-    screen[to+2] = blue;
+    screen[to+0] = 255;
+    screen[to+1] = 255;
+    screen[to+2] = 255;
 }

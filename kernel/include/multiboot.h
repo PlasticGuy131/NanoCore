@@ -89,4 +89,6 @@ typedef struct
     };
 } Multiboot_Info;
 
+static const MULTIBOOT_MAGIC = 0x2BADB002;
+
 #endif

@@ -8,8 +8,6 @@
 #include "screen.c"
 #include "vga.c"
 
-extern uint32_t multiboot_info_start;
-
 size_t terminal_row;
 size_t terminal_column;
 size_t terminal_width;
@@ -53,8 +51,12 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
 
 void terminal_initialize(void)
 {
+    if(multiboot_magic != MULTIBOOT_MAGIC)
+    {
+        terminal_writestring("ERROR: NOT LOADED WITH MULTIBOOT, PANIC!");
+        return;
+    }
     Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
-    //TO DO: Check multiboot magic
 
     terminal_row = 0;
     terminal_column = 0;

@@ -24,10 +24,8 @@ enum Colour
     COLOUR_WHITE = 15
 };
 
-extern size_t terminal_row;
-extern size_t terminal_column;
-extern uint8_t terminal_colour;
-extern uint16_t* terminal_buffer;
+extern uint32_t multiboot_magic;
+extern uint32_t multiboot_info_start;
 
 void terminal_initialize(void);
 void terminal_set_colour(enum Colour fg, enum Colour bg);

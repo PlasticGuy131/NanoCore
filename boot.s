@@ -2,7 +2,7 @@
 .set ALIGN,     1<<0
 .set MEMINFO,   1<<1
 .set VIDEOINFO, 1<<2
-.set FLAGS,     ALIGN | MEMINFO | VIDEOINFO
+.set FLAGS,     ALIGN | MEMINFO //| VIDEOINFO
 .set MAGIC,     0x1BADB002
 .set CHECKSUM,  -(MAGIC + FLAGS)
 .set VIDEOMODE,  0
@@ -15,16 +15,20 @@
 .long MAGIC
 .long FLAGS
 .long CHECKSUM
-.long 0, 0, 0, 0, 0
+/*.long 0, 0, 0, 0, 0
 .long VIDEOMODE
 .long VWIDTH
 .long VHEIGHT
-.long VDEPTH
+.long VDEPTH*/
 
 / * Multiboot does not define a stack, and so this allocates a small one of 16 KiB * /
 .section .bss
 .globl multiboot_info_start
 multiboot_info_start:
+    .long 0
+
+.globl multiboot_magic
+multiboot_magic:
     .long 0
 
 .align 16
@@ -46,6 +50,7 @@ _start:
 
     / * Cruicial processor state should be initialised here before the full kernel starts. This means * /
     / * floats, GDT, paging and some c++ features will not work untill they are implemented here. * /
+    movl %eax, multiboot_magic
     movl %ebx, multiboot_info_start
 
     / * Enter the high-level kernel * /

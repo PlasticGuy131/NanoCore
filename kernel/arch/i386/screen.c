@@ -51,7 +51,7 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
             }
         }
         where += screen_pitch;
-        where -= screen_pixel_width * width_bytes * 9;
+        where -= screen_pixel_width * width_bytes * 8;
     }
 }
 

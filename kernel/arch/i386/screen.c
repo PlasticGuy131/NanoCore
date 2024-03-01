@@ -42,7 +42,7 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
             uint8_t mask = 1 << 7;
             for (int i = 0; i < 8; i++)
             {
-                uint8_t value = mask & start[x+width*y];
+                uint8_t value = mask & start[x+width_bytes*y];
                 screen[where+0] = value ? fg.r : bg.r;
                 screen[where+1] = value ? fg.g : bg.g;
                 screen[where+2] = value ? fg.b : bg.b;

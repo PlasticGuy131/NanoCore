@@ -114,7 +114,7 @@ static void terminal_rgb_scroll()
     {
         for (size_t x = 0; x < terminal_width * terminal_char_width; x++)
         {
-            screen_copypixel(x, y+1, x, y);
+            screen_copypixel(x, y+terminal_font_char_size, x, y);
         }
     }
 

@@ -32,13 +32,12 @@ void screen_putpixel(int x, int y, struct Colour colour)
     screen[where+2] = colour.b;
 }
 
-void screen_putbitmap_bw(int left, int top, uint8_t* start, int width, int height, struct Colour fg, struct Colour bg)
+void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int height_pixels, struct Colour fg, struct Colour bg)
 {
     unsigned where = screen_coords(left, top);
-    width = ((width + 7) & ~7) / 8;
-    for (int y = 0; y < height; y++)
+    for (int y = 0; y < height_pixels; y++)
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < width_bytes; x++)
         {
             uint8_t mask = 1 << 7;
             for (int i = 0; i < 8; i++)
@@ -53,7 +52,7 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width, int heigh
             start++;
         }
         where += screen_pitch;
-        where -= screen_pixel_width * width * 8;
+        where -= screen_pixel_width * width_bytes;
     }
 }
 

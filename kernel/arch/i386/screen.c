@@ -46,7 +46,7 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
                 screen[where+0] = value ? fg.r : bg.r;
                 screen[where+1] = value ? fg.g : bg.g;
                 screen[where+2] = value ? fg.b : bg.b;
-                mask >> 1;
+                mask = mask >> 1;
                 where += screen_pixel_width;
             }
             start++;

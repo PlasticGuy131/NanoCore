@@ -113,7 +113,7 @@ static void terminal_rgb_scroll()
     {
         for (size_t x = 0; x < terminal_width; x++)
         {
-            xpixel = terminal_xpixel(x);
+            int xpixel = terminal_xpixel(x);
             screen_copypixel(xpixel, terminal_ypixel(y + 1), xpixel, terminal_ypixel(y + 1));
         }
     }

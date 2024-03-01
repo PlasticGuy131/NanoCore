@@ -3,11 +3,20 @@
 #include <multiboot.h>
 #include <terminal.h>
 
-struct RBG{
+struct RBG {
     uint8_t r;
     uint8_t g;
     uint8_t b;
 };
+
+struct RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
+{
+    struct RBG colour;
+    colour.r = r;
+    colour.g = g;
+    colour.b = b;
+    return colour;
+}
 
 static const struct RGB colours[16] = {
     screen_rgb(0x00, 0x00, 0x00),
@@ -52,7 +61,7 @@ void screen_putpixel(int x, int y, struct Colour colour)
     screen[where+2] = colour.b;
 }
 
-void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int height_pixels, struct Colour fg, struct Colour bg)
+void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int height_pixels, struct RGB fg, struct RGB bg)
 {
     unsigned where = screen_coords(left, top);
     for (int y = 0; y < height_pixels; y++)
@@ -73,15 +82,6 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
         where += screen_pitch;
         where -= screen_pixel_width * width_bytes * 8;
     }
-}
-
-struct RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
-{
-    struct RBG colour;
-    colour.r = r;
-    colour.g = g;
-    colour.b = b;
-    return colour;
 }
 
 struct RBG screen_rgb_name(enum Colour colour)

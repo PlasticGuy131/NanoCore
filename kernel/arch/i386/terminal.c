@@ -24,24 +24,6 @@ static const size_t terminal_char_width = 9;
 uint16_t unicode[512];
 char* font_offset;
 
-void terminal_initialize(void)
-{
-    Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
-    //TO DO: Check multiboot magic
-
-    terminal_row = 0;
-    terminal_column = 0;
-
-    terminal_vga_initialize(multiboot_info);
-
-    PSF_Header* font = psf_get_header();
-    terminal_font_char_size = font->character_size;
-
-    font_offset = psf_setup_font(unicode);
-
-    screen_initialize(multiboot_info);
-}
-
 static void terminal_vga_initialize(Multiboot_Info* multiboot_info)
 {
     uint8_t terminal_colour = vga_entry_colour(COLOUR_LIGHT_GRAY, COLOUR_BLACK);
@@ -66,6 +48,19 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
 
     terminal_height = multiboot_info->framebuffer_height / terminal_font_char_size;
     terminal_width = multiboot_info->framebuffer_width / terminal_char_width;
+}
+
+
+void terminal_initialize(void)
+{
+    Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
+    //TO DO: Check multiboot magic
+
+    terminal_row = 0;
+    terminal_column = 0;
+
+    terminal_vga_initialize(multiboot_info);
+    terminal_rgb_initialize(multiboot_info);
 }
 
 void terminal_set_colour(enum Colour fg, enum Colour bg)

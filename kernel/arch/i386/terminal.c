@@ -8,12 +8,23 @@
 #include "screen.c"
 #include "vga.c"
 
+enum Display_Type
+{
+    DISPLAY_SERIAL_ONLY = 0,
+    DISPLAY_RGB = 1,
+    DISPLAY_VGA = 2;
+};
+
+enum Display_Type display_type;
 size_t terminal_row;
 size_t terminal_column;
 size_t terminal_width;
 size_t terminal_height;
 enum Colour terminal_fg_colour;
 enum Colour terminal_bg_colour;
+
+void (*terminal_putcharat)(char, enum Colour, enum Colour, size_t, size_t);
+void (*terminal_scroll)();
 
 uint16_t* terminal_buffer;
 
@@ -53,16 +64,36 @@ void terminal_initialize(void)
 {
     if(multiboot_magic != MULTIBOOT_MAGIC)
     {
-        terminal_writestring("ERROR: NOT LOADED WITH MULTIBOOT, PANIC!");
+        terminal_writestring("ERROR: NOT LOADED WITH MULTIBOOT, PANIC!\n");
         return;
     }
+
     Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
+    display_type = multiboot_info->framebuffer_type;
 
     terminal_row = 0;
     terminal_column = 0;
 
-    terminal_vga_initialize(multiboot_info);
-    terminal_rgb_initialize(multiboot_info);
+    if (display_type == DISPLAY_RGB)
+    {
+        terminal_rgb_initialize(multiboot_info);
+        terminal_writestring("INFO: Terminal initialized in RGB mode.\n");
+        terminal_putcharat = &terminal_rgb_putcharat;
+        terminal_scroll = &terminal_rgb_scroll;
+    }
+    else if (display_type == DISPLAY_VGA)
+    {
+        terminal_vga_initialize(multiboot_info);
+        terminal_writestring("INFO: Terminal initialized in VGA mode.\n");
+        terminal_putcharat = &terminal_vga_putentryat;
+        terminal_scroll = &terminal_vga_scroll;
+    }
+    else
+    {
+        terminal_writestring("WARNING: Terminal graphics type not supported, all output will be serial.\n");
+        terminal_putcharat = NULL;
+        terminal_scroll = NULL;
+    }
 }
 
 void terminal_set_colour(enum Colour fg, enum Colour bg)
@@ -81,14 +112,18 @@ static inline int terminal_ypixel(size_t y)
     return y * terminal_font_char_size;
 }
 
-static void terminal_putentryat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
+static void terminal_vga_putentryat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
-    /*const size_t index = y * VGA_WIDTH + x;
-    terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));*/
+    const size_t index = y * VGA_WIDTH + x;
+    terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));
+}
+
+static void terminal_rgb_putcharat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
+{
     char* offset = font_offset;
     offset += unicode[c] * terminal_font_char_size;
     screen_putbitmap_bw(terminal_xpixel(x), terminal_ypixel(y), offset, 1, terminal_font_char_size, screen_rgb_name(fg), screen_rgb_name(bg));
-}
+}   
 
 static void terminal_vga_scroll()
 {
@@ -126,12 +161,6 @@ static void terminal_rgb_scroll()
     }
 }
 
-static void terminal_scroll()
-{
-    terminal_rgb_scroll();
-    terminal_row = terminal_height - 1;
-}
-
 void terminal_putchar(char c)
 {
     switch (c)
@@ -141,7 +170,7 @@ void terminal_putchar(char c)
             if (++terminal_row >= terminal_height) { terminal_scroll(); }
             break;
         default:
-            terminal_putentryat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
+            terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             if(++terminal_column >= terminal_width)
             {
                 terminal_column = 0;

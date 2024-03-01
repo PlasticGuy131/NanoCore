@@ -33,6 +33,16 @@ static const size_t terminal_char_width = 9;
 uint16_t unicode[512];
 char* font_offset;
 
+static inline int terminal_xpixel(size_t x)
+{
+    return x * terminal_char_width;
+}
+
+static inline int terminal_ypixel(size_t y)
+{
+    return y * terminal_font_char_size;
+}
+
 static void terminal_vga_putentryat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
     const size_t index = y * VGA_WIDTH + x;
@@ -146,16 +156,6 @@ void terminal_initialize(void)
         terminal_putcharat = NULL;
         terminal_scroll = NULL;
     }
-}
-
-static inline int terminal_xpixel(size_t x)
-{
-    return x * terminal_char_width;
-}
-
-static inline int terminal_ypixel(size_t y)
-{
-    return y * terminal_font_char_size;
 }
 
 void terminal_putchar(char c)

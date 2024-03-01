@@ -3,13 +3,13 @@
 #include <multiboot.h>
 #include <terminal.h>
 
-struct RBG {
+typedef struct {
     uint8_t r;
     uint8_t g;
     uint8_t b;
-};
+} RBG;
 
-struct RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
+RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
 {
     struct RBG colour;
     colour.r = r;
@@ -18,7 +18,7 @@ struct RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
     return colour;
 }
 
-static const struct RGB colours[16] = {
+static const RGB colours[16] = {
     screen_rgb(0x00, 0x00, 0x00),
     screen_rgb(0x43, 0x43, 0x6A),
     screen_rgb(0x8A, 0xB0, 0x60),
@@ -53,7 +53,7 @@ void screen_initialize(Multiboot_Info* multiboot_info)
     screen_pitch = multiboot_info->framebuffer_pitch;
 }
 
-void screen_putpixel(int x, int y, struct Colour colour)
+void screen_putpixel(int x, int y, struct RBG colour)
 {
     unsigned where = screen_coords(x, y);
     screen[where+0] = colour.r;
@@ -61,7 +61,7 @@ void screen_putpixel(int x, int y, struct Colour colour)
     screen[where+2] = colour.b;
 }
 
-void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int height_pixels, struct RGB fg, struct RGB bg)
+void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int height_pixels, RGB fg, RGB bg)
 {
     unsigned where = screen_coords(left, top);
     for (int y = 0; y < height_pixels; y++)
@@ -84,7 +84,7 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
     }
 }
 
-struct RBG screen_rgb_name(enum Colour colour)
+RBG screen_rgb_name(enum Colour colour)
 {
     return colours[colour];
 }

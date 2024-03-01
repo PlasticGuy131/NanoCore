@@ -20,7 +20,7 @@ uint16_t* terminal_buffer;
 size_t terminal_font_char_size;
 static const size_t terminal_char_width = 9;
 uint16_t unicode[512];
-char* font_offset = psf_setup_font(unicode);
+char* font_offset;
 
 void terminal_initialize(void)
 {
@@ -39,6 +39,8 @@ void terminal_initialize(void)
 
     PSF_Header* font = psf_get_header();
     terminal_font_char_size = font->character_size;
+
+    font_offset = psf_setup_font(unicode);
 
     Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
 

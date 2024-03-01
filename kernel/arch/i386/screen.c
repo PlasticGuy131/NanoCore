@@ -15,13 +15,22 @@ char* screen;
 int screen_pixel_width;
 int screen_pitch;
 
+struct RGB screen_rgb(uint8_t r, uint8_t g, uint8_t b)
+{
+    struct RGB colour;
+    colour.r = r;
+    colour.g = g;
+    colour.b = b;
+    return colour;
+}
+
 void screen_initialize(Multiboot_Info* multiboot_info)
 {
     screen = (char*)multiboot_info->framebuffer_addr;
     screen_pixel_width = multiboot_info->framebuffer_bpp / 8;
     screen_pitch = multiboot_info->framebuffer_pitch;
 
-    colours[0] = screen_rgb(0x00, 0x00, 0x00);
+    /*colours[0] = screen_rgb(0x00, 0x00, 0x00);
     colours[1] = screen_rgb(0x43, 0x43, 0x6A);
     colours[2] = screen_rgb(0x8A, 0xB0, 0x60);
     colours[3] = screen_rgb(0x68, 0xC2, 0xD3);
@@ -36,7 +45,8 @@ void screen_initialize(Multiboot_Info* multiboot_info)
     colours[12] = screen_rgb(0xED, 0xC8, 0xC4);
     colours[13] = screen_rgb(0xCF, 0x8A, 0xCB);
     colours[14] = screen_rgb(0xA7, 0x7B, 0x5B);
-    colours[15] = screen_rgb(0xFF, 0xFF, 0xFF);
+    colours[15] = screen_rgb(0xFF, 0xFF, 0xFF);*/
+    screen_rgb(0x1, 0x2, 0x3);
 }
 
 static inline unsigned screen_coords(int x, int y)
@@ -73,15 +83,6 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
         where += screen_pitch;
         where -= screen_pixel_width * width_bytes * 8;
     }
-}
-
-struct RGB screen_rgb(uint8_t r, uint8_t g, uint8_t b)
-{
-    struct RGB colour;
-    colour.r = r;
-    colour.g = g;
-    colour.b = b;
-    return colour;
 }
 
 struct RGB screen_rgb_name(enum Colour colour)

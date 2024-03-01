@@ -54,7 +54,7 @@ void terminal_initialize(void)
             screen_putpixel(x, y, screen_colour_rgb(255, 255, 255));
         }
     }
-    char data[8] = {0xAA};
+    char data[8] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
     screen_putbitmap_bw(15, 1, data, 1, 8, screen_colour_rgb(255, 255, 255), screen_colour_rgb(0, 0, 0));
 }
 

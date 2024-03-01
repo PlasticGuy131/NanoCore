@@ -53,17 +53,17 @@ static inline unsigned screen_coords(int x, int y)
     return x * screen_pixel_width + y * screen_pitch;
 }
 
-void screen_putpixel(int x, int y, struct RGB colour)
-{
-    unsigned where = screen_coords(x, y);
-    screen_putpixel_direct(where, colour);
-}
-
 static void screen_putpixel_direct(unsigned where, struct RGB colour)
 {
     screen[where+0] = colour.r;
     screen[where+1] = colour.g;
     screen[where+2] = colour.b;
+}
+
+void screen_putpixel(int x, int y, struct RGB colour)
+{
+    unsigned where = screen_coords(x, y);
+    screen_putpixel_direct(where, colour);
 }
 
 void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int height_pixels, struct RGB fg, struct RGB bg)

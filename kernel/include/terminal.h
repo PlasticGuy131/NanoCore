@@ -4,6 +4,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
+extern uint32_t multiboot_magic;
+extern uint32_t multiboot_info_start;
+
 enum Colour
 {
     COLOUR_BLACK = 0,
@@ -24,8 +27,8 @@ enum Colour
     COLOUR_WHITE = 15
 };
 
-extern uint32_t multiboot_magic;
-extern uint32_t multiboot_info_start;
+extern enum Colour terminal_fg_colour;
+extern enum Colour terminal_bg_colour;
 
 void terminal_initialize(void);
 void terminal_set_colour(enum Colour fg, enum Colour bg);

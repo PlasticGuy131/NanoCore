@@ -96,12 +96,6 @@ void terminal_initialize(void)
     }
 }
 
-void terminal_set_colour(enum Colour fg, enum Colour bg)
-{
-    terminal_fg_colour = fg;
-    terminal_bg_colour = bg;
-}
-
 static inline int terminal_xpixel(size_t x)
 {
     return x * terminal_char_width;

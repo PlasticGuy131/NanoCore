@@ -9,7 +9,7 @@ struct RGB {
     uint8_t b;
 };
 
-struct RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
+struct RGB screen_rgb(uint8_t r, uint8_t g, uint8_t b)
 {
     struct RBG colour;
     colour.r = r;

@@ -57,10 +57,10 @@ void terminal_set_colour(enum Colour fg, enum Colour bg)
 
 static void terminal_putentryat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
-    const size_t index = y * VGA_WIDTH + x;
-    terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));
-    //offset += unicode[c] * terminal_font_char_size;
-    //screen_putbitmap_bw(x * terminal_char_width, y * terminal_font_char_size, offset, 1, 16, fg, bg;
+    /*const size_t index = y * VGA_WIDTH + x;
+    terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));*/
+    offset += unicode[c] * terminal_font_char_size;
+    screen_putbitmap_bw(x * terminal_char_width, y * terminal_font_char_size, offset, 1, terminal_font_char_size, fg, bg);
 }
 
 static void terminal_scroll()

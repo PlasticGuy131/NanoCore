@@ -4,24 +4,24 @@
 #include <stddef.h>
 #include <stdint.h>
 
-enum colour
+enum Colour
 {
-    COLOUR_BLACK,
-    COLOUR_BLUE,
-    COLOUR_GREEN,
-    COLOUR_CYAN,
-    COLOUR_RED,
-    COLOUR_MAGENTA,
-    COLOUR_BROWN,
-    COLOUR_LIGHT_GRAY,
-    COLOUR_DARK_GRAY,
-    COLOUR_LIGHT_BLUE,
-    COLOUR_LIGHT_GREEN,
-    COLOUR_LIGHT_CYAN,
-    COLOUR_LIGHT_RED,
-    COLOUR_LIGHT_MAGENTA,
-    COLOUR_LIGHT_BROWN,
-    COLOUR_WHITE
+    COLOUR_BLACK = 0,
+    COLOUR_BLUE = 1,
+    COLOUR_GREEN = 2,
+    COLOUR_CYAN = 3,
+    COLOUR_RED = 4,
+    COLOUR_MAGENTA = 5,
+    COLOUR_BROWN = 6,
+    COLOUR_LIGHT_GRAY = 7,
+    COLOUR_DARK_GRAY = 8,
+    COLOUR_LIGHT_BLUE = 9,
+    COLOUR_LIGHT_GREEN = 10,
+    COLOUR_LIGHT_CYAN = 11,
+    COLOUR_LIGHT_RED = 12,
+    COLOUR_LIGHT_MAGENTA = 13,
+    COLOUR_LIGHT_BROWN = 14,
+    COLOUR_WHITE = 15
 };
 
 extern size_t terminal_row;
@@ -30,7 +30,7 @@ extern uint8_t terminal_colour;
 extern uint16_t* terminal_buffer;
 
 void terminal_initialize(void);
-uint8_t terminal_create_colour(enum colour fg, enum colour bg);
+uint8_t terminal_create_colour(enum Colour fg, enum Colour bg);
 void terminal_setcolour(uint8_t colour);
 void terminal_putchar(char c);
 void terminal_writestring(const char *data);

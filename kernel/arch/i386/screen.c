@@ -1,11 +1,31 @@
 #include <stdint.h>
 
 #include <multiboot.h>
+#include <terminal.h>
 
-struct Colour{
+struct RBG{
     uint8_t r;
     uint8_t g;
     uint8_t b;
+};
+
+static const struct RGB colours[16] = {
+    screen_rgb(0x00, 0x00, 0x00),
+    screen_rgb(0x43, 0x43, 0x6A),
+    screen_rgb(0x8A, 0xB0, 0x60),
+    screen_rgb(0x68, 0xC2, 0xD3),
+    screen_rgb(0xB4, 0x52, 0x52),
+    screen_rgb(0x6A, 0x53, 0x6E),
+    screen_rgb(0x80, 0x49, 0x3A),
+    screen_rgb(0xB8, 0xB5, 0xB9),
+    screen_rgb(0x64, 0x63, 0x65),
+    screen_rgb(0x4B, 0x80, 0xCA),
+    screen_rgb(0xC2, 0xD3, 0x68),
+    screen_rgb(0xA2, 0xDC, 0xC7),
+    screen_rgb(0xED, 0xC8, 0xC4),
+    screen_rgb(0xCF, 0x8A, 0xCB),
+    screen_rgb(0xA7, 0x7B, 0x5B),
+    screen_rgb(0xFF, 0xFF, 0xFF),
 };
 
 char* screen;
@@ -55,11 +75,16 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
     }
 }
 
-struct Colour screen_colour_rgb(uint8_t r, uint8_t g, uint8_t b)
+struct RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
 {
-    struct Colour colour;
+    struct RBG colour;
     colour.r = r;
     colour.g = g;
     colour.b = b;
     return colour;
+}
+
+struct RBG screen_rgb_name(enum Colour colour)
+{
+    return colours[colour];
 }

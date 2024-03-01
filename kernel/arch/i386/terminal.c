@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <terminal.h>
 #include <multiboot.h>
+#include <terminal.h>
 
 #include "psf.c"
 #include "screen.c"
@@ -51,11 +51,11 @@ void terminal_initialize(void)
     {
         for (int y = 1; y < 11; y++)
         {
-            screen_putpixel(x, y, screen_colour_rgb(255, 255, 255));
+            screen_putpixel(x, y, screen_rgb(255, 255, 255));
         }
     }
     char data[8] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
-    screen_putbitmap_bw(15, 1, data, 1, 8, screen_colour_rgb(255, 255, 255), screen_colour_rgb(0, 0, 0));
+    screen_putbitmap_bw(15, 1, data, 1, 8, screen_rgb_name(COLOUR_RED), screen_rgb(COLOUR_BLUE));
 }
 
 uint8_t terminal_create_colour(enum colour fg, enum colour bg) { return vga_entry_colour(fg, bg); }

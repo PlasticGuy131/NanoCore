@@ -88,3 +88,11 @@ struct RGB screen_rgb_name(enum Colour colour)
 {
     return colours[colour];
 }
+
+void screen_copypixel(int x_from, int y_from, int x_to, int y_to)
+{
+    unsigned from = screen_coords(x_from, y_from);
+    unsigned to = screen_coords(x_to, y_to);
+    uint32_t* screen32 = (uint32_t*)screen;
+    screen32[to] = screen32[from];
+}

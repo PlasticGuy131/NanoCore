@@ -11,7 +11,7 @@ typedef struct {
 
 RBG screen_rgb(uint8_t r, uint8_t g, uint8_t b)
 {
-    struct RBG colour;
+    RBG colour;
     colour.r = r;
     colour.g = g;
     colour.b = b;

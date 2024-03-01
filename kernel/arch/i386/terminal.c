@@ -69,13 +69,23 @@ void terminal_set_colour(enum Colour fg, enum Colour bg)
     terminal_bg_colour = bg;
 }
 
+static inline int terminal_xpixel(size_t x)
+{
+    return x * terminal_char_width;
+}
+
+static inline int terminal_ypixel(size_t y)
+{
+    return y * terminal_font_char_size;
+}
+
 static void terminal_putentryat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
     /*const size_t index = y * VGA_WIDTH + x;
     terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));*/
     char* offset = font_offset;
     offset += unicode[c] * terminal_font_char_size;
-    screen_putbitmap_bw(x * terminal_char_width, y * terminal_font_char_size, offset, 1, terminal_font_char_size, screen_rgb_name(fg), screen_rgb_name(bg));
+    screen_putbitmap_bw(terminal_xpixel(x), terminal_ypixel(y), offset, 1, terminal_font_char_size, screen_rgb_name(fg), screen_rgb_name(bg));
 }
 
 static void terminal_vga_scroll()
@@ -103,7 +113,8 @@ static void terminal_rgb_scroll()
     {
         for (size_t x = 0; x < terminal_width; x++)
         {
-            screen_copypixel(x, y + 1, x, y);
+            xpixel = terminal_xpixel(x);
+            screen_copypixel(xpixel, terminal_ypixel(y + 1), xpixel, terminal_ypixel(y + 1));
         }
     }
 

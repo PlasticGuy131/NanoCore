@@ -95,7 +95,7 @@ static void terminal_rgb_scroll()
 static void terminal_vga_initialize(Multiboot_Info* multiboot_info)
 {
     uint8_t terminal_colour = vga_entry_colour(COLOUR_LIGHT_GRAY, COLOUR_BLACK);
-    terminal_buffer = (uint16_t *)multiboot_info->framebuffer_addr;
+    terminal_buffer = (uint16_t*)multiboot_info->framebuffer_addr;
     for (size_t y = 0; y < VGA_HEIGHT; y++)
     {
         for (size_t x = 0; x < VGA_WIDTH; x++)

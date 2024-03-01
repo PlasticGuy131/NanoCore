@@ -24,11 +24,6 @@ void kernel_intro_splash()
     terminal_writestring("-");
     terminal_writestring(ARCH);
     terminal_writestring("\nWelcome.\n");
-    for (int i = 0; i < 100; i++)
-    {
-        terminal_writeint(i);
-        terminal_writestring("\n");
-    }
 }
 
 void kernel_main(void)

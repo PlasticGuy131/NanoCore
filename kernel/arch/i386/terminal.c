@@ -55,7 +55,7 @@ void terminal_initialize(void)
         }
     }
     char data[8] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
-    screen_putbitmap_bw(15, 1, data, 1, 8, screen_rgb_name(COLOUR_RED), screen_rgb(COLOUR_BLUE));
+    screen_putbitmap_bw(15, 1, data, 1, 8, screen_rgb_name(COLOUR_RED), screen_rgb_name(COLOUR_BLUE));
 }
 
 uint8_t terminal_create_colour(enum Colour fg, enum Colour bg) { return vga_entry_colour(fg, bg); }

@@ -24,7 +24,7 @@ void terminal_initialize(void)
 {
     terminal_row = 0;
     terminal_column = 0;
-    terminal_colour = vga_entry_colour(COLOUR_LIGHT_GRAY, COLOUR_BLACK);
+    uint8_t terminal_colour = vga_entry_colour(COLOUR_LIGHT_GRAY, COLOUR_BLACK);
     terminal_buffer = (uint16_t *)0xB8000;
     for (size_t y = 0; y < VGA_HEIGHT; y++)
     {

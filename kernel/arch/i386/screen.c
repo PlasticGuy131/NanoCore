@@ -9,7 +9,7 @@ struct RGB {
     uint8_t b;
 };
 
-static const struct RGB colours[16];
+struct RGB colours[16];
 
 char* screen;
 int screen_pixel_width;
@@ -44,7 +44,7 @@ static inline unsigned screen_coords(int x, int y)
     return x * screen_pixel_width + y * screen_pitch;
 }
 
-void screen_putpixel(int x, int y, struct RBG colour)
+void screen_putpixel(int x, int y, struct RGB colour)
 {
     unsigned where = screen_coords(x, y);
     screen[where+0] = colour.r;
@@ -84,7 +84,7 @@ struct RGB screen_rgb(uint8_t r, uint8_t g, uint8_t b)
     return colour;
 }
 
-struct RBG screen_rgb_name(enum Colour colour)
+struct RGB screen_rgb_name(enum Colour colour)
 {
     return colours[colour];
 }

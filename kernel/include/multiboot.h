@@ -89,6 +89,6 @@ typedef struct
     };
 } Multiboot_Info;
 
-static const MULTIBOOT_MAGIC = 0x2BADB002;
+static const uint32_t MULTIBOOT_MAGIC = 0x2BADB002;
 
 #endif

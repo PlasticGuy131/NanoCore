@@ -12,8 +12,13 @@ extern uint32_t multiboot_info_start;
 
 size_t terminal_row;
 size_t terminal_column;
-uint8_t terminal_colour;
+enum Colour terminal_fg_colour;
+enum Colour terminal_bg_colour;
+
 uint16_t* terminal_buffer;
+
+size_t terminal_font_char_size;
+static const size_t terminal_char_width = 9;
 
 void terminal_initialize(void)
 {
@@ -31,6 +36,7 @@ void terminal_initialize(void)
     }
 
     PSF_Header* font = psf_get_header();
+    terminal_char_width = font->character_size;
 
     uint16_t unicode[512];
     char* offset = psf_setup_font(unicode);
@@ -39,27 +45,22 @@ void terminal_initialize(void)
 
     screen_initialize(multiboot_info);
 
-    offset += unicode['A'] * font->character_size;
-    for (size_t i = 0; i < font->character_size; i++)
-    {
-        char line = *offset;
-        screen_putbitmap_bw(0, 0, offset, 1, 16, screen_rgb_name(COLOUR_WHITE), screen_rgb_name(COLOUR_BLACK));
-        offset++;
-    }   
+    offset += unicode['A'] * terminal_char_width;
+    screen_putbitmap_bw(0, 0, offset, 1, 16, screen_rgb_name(COLOUR_WHITE), screen_rgb_name(COLOUR_BLACK)); 
 }
 
-uint8_t terminal_create_colour(enum Colour fg, enum Colour bg) { return vga_entry_colour(fg, bg); }
-
-void terminal_setcolour(uint8_t colour)
+void terminal_setcolour(enum Colour fg, enum Colour bg)
 {
-    terminal_colour = colour;
+    terminal_fg_colour = fg;
+    terminal_bg_colour = bg;
 }
 
-static void terminal_putentryat(char c, uint8_t colour, size_t x, size_t y)
+static void terminal_putentryat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
     const size_t index = y * VGA_WIDTH + x;
-    terminal_buffer[index] = vga_entry(c, colour);
-
+    terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));
+    //offset += unicode[c] * terminal_char_width;
+    //screen_putbitmap_bw(x * terminal_char_width, y * terminal_char_width, offset, 1, 16, fg, bg;
 }
 
 static void terminal_scroll()
@@ -93,7 +94,7 @@ void terminal_putchar(char c)
             if (++terminal_row >= VGA_HEIGHT) { terminal_scroll(); }
             break;
         default:
-            terminal_putentryat(c, terminal_colour, terminal_column, terminal_row);
+            terminal_putentryat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             if(++terminal_column >= VGA_WIDTH)
             {
                 terminal_column = 0;

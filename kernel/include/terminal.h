@@ -30,8 +30,7 @@ extern uint8_t terminal_colour;
 extern uint16_t* terminal_buffer;
 
 void terminal_initialize(void);
-uint8_t terminal_create_colour(enum Colour fg, enum Colour bg);
-void terminal_setcolour(uint8_t colour);
+void terminal_set_colour(enum Colour fg, enum Colour bg);
 void terminal_putchar(char c);
 void terminal_writestring(const char *data);
 void terminal_writeint(int n);

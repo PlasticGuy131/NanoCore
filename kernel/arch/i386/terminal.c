@@ -49,7 +49,7 @@ void terminal_initialize(void)
     screen_putbitmap_bw(0, 0, offset, 1, 16, screen_rgb_name(COLOUR_WHITE), screen_rgb_name(COLOUR_BLACK)); 
 }
 
-void terminal_setcolour(enum Colour fg, enum Colour bg)
+void terminal_set_colour(enum Colour fg, enum Colour bg)
 {
     terminal_fg_colour = fg;
     terminal_bg_colour = bg;

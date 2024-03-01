@@ -35,27 +35,17 @@ void terminal_initialize(void)
     uint16_t unicode[512];
     char* offset = psf_setup_font(unicode);
 
+    Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
+
+    screen_initialize(multiboot_info);
+
     offset += unicode['A'] * font->character_size;
     for (size_t i = 0; i < font->character_size; i++)
     {
         char line = *offset;
-        terminal_writebyte(line);
-        terminal_writestring("\n");
+        screen_putbitmap_bw(0, 0, offset, 1, 16, screen_rgb_name(COLOUR_WHITE), screen_rgb_name(COLOUR_BLACK));
         offset++;
-    }
-
-    Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
-
-    screen_initialize(multiboot_info);
-    for (int x = 1; x < 11; x++)
-    {
-        for (int y = 1; y < 11; y++)
-        {
-            screen_putpixel(x, y, screen_rgb(255, 255, 255));
-        }
-    }
-    char data[8] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
-    screen_putbitmap_bw(15, 1, data, 1, 8, screen_rgb_name(COLOUR_RED), screen_rgb_name(COLOUR_BLUE));
+    }   
 }
 
 uint8_t terminal_create_colour(enum Colour fg, enum Colour bg) { return vga_entry_colour(fg, bg); }
@@ -68,7 +58,8 @@ void terminal_setcolour(uint8_t colour)
 static void terminal_putentryat(char c, uint8_t colour, size_t x, size_t y)
 {
     const size_t index = y * VGA_WIDTH + x;
-    terminal_buffer[index] = vga_entry(c, colour);
+    terminal_buffer[index] = vga_entry(c, colour);*/
+
 }
 
 static void terminal_scroll()

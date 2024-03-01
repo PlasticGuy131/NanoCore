@@ -79,7 +79,7 @@ static void terminal_scroll()
     for (size_t x = 0; x < VGA_WIDTH; x++)
     {
         const size_t index = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
-        terminal_buffer[index] = vga_entry(' ', terminal_colour);
+        terminal_buffer[index] = vga_entry(' ',  vga_entry_colour(terminal_fg_colour, terminal_bg_colour));
     }
 
     terminal_row = VGA_HEIGHT - 1;

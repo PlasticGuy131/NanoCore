@@ -56,6 +56,11 @@ static inline unsigned screen_coords(int x, int y)
 void screen_putpixel(int x, int y, struct RGB colour)
 {
     unsigned where = screen_coords(x, y);
+    screen_putpixel_direct(where, colour);
+}
+
+static void screen_putpixel_direct(unsigned where, struct RGB colour)
+{
     screen[where+0] = colour.r;
     screen[where+1] = colour.g;
     screen[where+2] = colour.b;
@@ -72,9 +77,7 @@ void screen_putbitmap_bw(int left, int top, uint8_t* start, int width_bytes, int
             for (int i = 0; i < 8; i++)
             {
                 uint8_t value = mask & start[x+width_bytes*y];
-                screen[where+0] = value ? fg.r : bg.r;
-                screen[where+1] = value ? fg.g : bg.g;
-                screen[where+2] = value ? fg.b : bg.b;
+                screen_putpixel_direct(where, value ? fg : bg);
                 mask = mask >> 1;
                 where += screen_pixel_width;
             }
@@ -93,6 +96,11 @@ void screen_copypixel(int x_from, int y_from, int x_to, int y_to)
 {
     unsigned from = screen_coords(x_from, y_from);
     unsigned to = screen_coords(x_to, y_to);
-    uint32_t* screen32 = (uint32_t*)screen;
-    screen32[to] = screen32[from];
+    uint8_t red = screen[from];
+    uint8_t green = screen[from+1];
+    uint8_t blue = screen[from+2];
+
+    screen[to+0] = red;
+    screen[to+1] = green;
+    screen[to+2] = blue;
 }

@@ -88,7 +88,7 @@ static void terminal_rgb_scroll()
 
     for (size_t x = 0; x < terminal_width; x++)
     {
-        terminal_putentryat(' ', terminal_fg_colour, terminal_bg_colour, x, terminal_height - 1);
+        terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, x, terminal_height - 1);
     }
 }
 

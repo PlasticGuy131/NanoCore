@@ -96,11 +96,7 @@ void screen_copypixel(int x_from, int y_from, int x_to, int y_to)
 {
     unsigned from = screen_coords(x_from, y_from);
     unsigned to = screen_coords(x_to, y_to);
-    uint8_t red = screen[from];
-    uint8_t green = screen[from+1];
-    uint8_t blue = screen[from+2];
-
-    screen[to+0] = red;
-    screen[to+1] = green;
-    screen[to+2] = blue;
+    uint32_t* screen32 = (uint32_t*)screen;
+    uint32_t colour = screen32[from];
+    screen32[to] = colour;
 }

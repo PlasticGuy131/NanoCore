@@ -103,7 +103,8 @@ static void terminal_vga_scroll()
 
     for (size_t x = 0; x < terminal_width; x++)
     {
-        terminal_putentryat(' ', terminal_fg_colour, terminal_bg_colour, x, terminal_height - 1);
+        const size_t index = (terminal_height - 1) * terminal_width + x;
+        terminal_buffer[index] = vga_entry(' ',  vga_entry_colour(terminal_fg_colour, terminal_bg_colour));
     }
 }
 
@@ -114,14 +115,13 @@ static void terminal_rgb_scroll()
         for (size_t x = 0; x < terminal_width; x++)
         {
             int xpixel = terminal_xpixel(x);
-            screen_copypixel(xpixel, terminal_ypixel(y + 1), xpixel, terminal_ypixel(y + 1));
+            screen_copypixel(xpixel, terminal_ypixel(y + 1), xpixel, terminal_ypixel(y));
         }
     }
 
     for (size_t x = 0; x < terminal_width; x++)
     {
-        const size_t index = (terminal_height - 1) * terminal_width + x;
-        terminal_buffer[index] = vga_entry(' ',  vga_entry_colour(terminal_fg_colour, terminal_bg_colour));
+        terminal_putentryat(' ', terminal_fg_colour, terminal_bg_colour, x, terminal_height - 1);
     }
 }
 

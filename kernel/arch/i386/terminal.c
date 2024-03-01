@@ -95,8 +95,6 @@ static void terminal_vga_scroll()
     {
         terminal_putentryat(' ', terminal_fg_colour, terminal_bg_colour, x, terminal_height - 1);
     }
-
-    terminal_row = terminal_height - 1;
 }
 
 static void terminal_rgb_scroll()
@@ -118,7 +116,8 @@ static void terminal_rgb_scroll()
 
 static void terminal_scroll()
 {
-    terminal_vga_scroll();
+    terminal_rgb_scroll();
+    terminal_row = terminal_height - 1;
 }
 
 void terminal_putchar(char c)

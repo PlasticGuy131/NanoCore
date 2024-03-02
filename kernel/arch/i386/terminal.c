@@ -74,6 +74,8 @@ static void terminal_vga_scroll()
         const size_t index = (terminal_height - 1) * terminal_width + x;
         terminal_buffer[index] = vga_entry(' ',  vga_entry_colour(terminal_fg_colour, terminal_bg_colour));
     }
+
+    terminal_row = terminal_height - 1;
 }
 
 static void terminal_rgb_scroll()
@@ -90,6 +92,8 @@ static void terminal_rgb_scroll()
     {
         terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, x, terminal_height - 1);
     }
+
+    terminal_row = terminal_height - 1;
 }
 
 static void terminal_vga_initialize(Multiboot_Info* multiboot_info)

@@ -144,13 +144,16 @@ void terminal_initialize(void)
     terminal_row = 0;
     terminal_column = 0;
 
+    terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
     if (display_type == DISPLAY_RGB)
     {
         terminal_rgb_initialize(multiboot_info);
+        terminal_writestring("INFO: Terminal Initialized with VGA text\n");
     }
     else if (display_type == DISPLAY_VGA)
     {
         terminal_vga_initialize(multiboot_info);
+        terminal_writestring("INFO: Terminal Initialized with RGB framebuffer\n");
     }
     else
     {

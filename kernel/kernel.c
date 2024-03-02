@@ -10,6 +10,11 @@
 
 void kernel_intro_splash()
 {
+    for (int i = 0; i < 100; i++)
+    {
+        terminal_writeint(i);
+        terminal_writestring("\n");
+    }
     terminal_set_colour(COLOUR_RED, COLOUR_BLACK);
     terminal_writestring("NANO/CORE/NANO/CORE/\n");
     terminal_set_colour(COLOUR_GREEN, COLOUR_BLACK);
@@ -24,11 +29,6 @@ void kernel_intro_splash()
     terminal_writestring("-");
     terminal_writestring(ARCH);
     terminal_writestring("\nWelcome.\n");
-    for (int i = 0; i < 100; i++)
-    {
-        terminal_writeint(i);
-        terminal_writestring("\n");
-    }
 }
 
 void kernel_main(void)

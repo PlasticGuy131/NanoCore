@@ -143,16 +143,13 @@ void terminal_initialize(void)
     if (display_type == DISPLAY_RGB)
     {
         terminal_rgb_initialize(multiboot_info);
-        terminal_writestring("INFO: Terminal initialized in RGB mode.\n");
     }
     else if (display_type == DISPLAY_VGA)
     {
         terminal_vga_initialize(multiboot_info);
-        terminal_writestring("INFO: Terminal initialized in VGA mode.\n");
     }
     else
     {
-        terminal_writestring("WARNING: Terminal graphics type not supported, all output will be serial.\n");
         terminal_putcharat = NULL;
         terminal_scroll = NULL;
     }

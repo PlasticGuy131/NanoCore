@@ -1,8 +1,11 @@
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
-#include <terminal.h>
 #include <port.h>
+#include <serial.h>
+#include <terminal.h>
+
 
 #define VERSION "RGB Scroll testing"
 #ifndef ARCH
@@ -29,8 +32,14 @@ void kernel_intro_splash()
 
 void kernel_main(void)
 {
+    bool serial_failure = serial_initialize();
     terminal_initialize();
 
+    if (serial_failure)
+    {
+        terminal_writestring("Warning: Serial initialization failure")
+    }
+
     kernel_intro_splash();
-    terminal_writeint(port_get_com1());
+    serial_write('A');
 }

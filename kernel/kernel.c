@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include <terminal.h>
+#include <port.h>
 
 #define VERSION "RGB Scroll testing"
 #ifndef ARCH

@@ -31,4 +31,5 @@ void kernel_main(void)
     terminal_initialize();
 
     kernel_intro_splash();
+    terminal_writeint(port_get_com1());
 }

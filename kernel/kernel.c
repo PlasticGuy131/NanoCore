@@ -37,7 +37,7 @@ void kernel_main(void)
 
     if (serial_failure)
     {
-        terminal_writestring("Warning: Serial initialization failure")
+        terminal_writestring("Warning: Serial initialization failure");
     }
 
     kernel_intro_splash();

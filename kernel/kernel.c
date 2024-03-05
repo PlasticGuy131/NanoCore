@@ -42,4 +42,5 @@ void kernel_main(void)
 
     kernel_intro_splash();
     serial_write('A');
+    terminal_writestring("hmmm...\n");
 }

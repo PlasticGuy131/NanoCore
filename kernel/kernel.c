@@ -7,7 +7,7 @@
 #include <terminal.h>
 
 
-#define VERSION "RGB Scroll testing"
+#define VERSION "LIBC String Testing"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -43,6 +43,18 @@ void kernel_main(void)
     }
 
     kernel_intro_splash();
-    serial_write('A');
-    terminal_writestring("hmmm...\n");
+    char test1[13];
+    memcpy(test1, "MEMCPY TEST\n", 13);
+    terminal_writestring(test1);
+    char test2[13];
+    memcpy(test2, test1, 13);
+    terminal_writestring("MEMCMP TEST (0 / 1)\n");
+    terminal_writeint(memcmp(test1, test2, 13));
+    memcpy(test2, "aaaaaaaaaaaa", 13);
+    terminal_writestring(" ");
+    terminal_writeint(memcmp(test1, test2, 13));
+    uint16_t* val;
+    memset(val, 1, 2);
+    terminal_writestring("\nMEMSET TEST\n");
+    terminal_writeint(*val);
 }

@@ -15,7 +15,7 @@ void* memmove(void* dstptr, const void* srcptr, size_t size)
     }
     else if (src > dst)
     {
-        for (size_t i = size-1; i > -1; i--)
+        for (size_t i = size-1; i >= 0; i--)
         {
             dst[i] = src[i];
         }

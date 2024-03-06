@@ -22,6 +22,16 @@ void terminal_writestring(const char* data)
 
 void terminal_writeint(int n)
 {
+    if (n < 0)
+    {
+        terminal_writestring("-");
+        n = -n;
+    }
+    terminal_writeuint(n);
+}
+
+void terminal_writeuint(unsigned n)
+{
     size_t len = 1;
     uint32_t header = 1;
     while (n / header >= 10)

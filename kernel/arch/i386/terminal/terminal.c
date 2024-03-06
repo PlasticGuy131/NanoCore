@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include <multiboot.h>
+#include <serial.h>
 #include <terminal.h>
 
 #include "psf.c"
@@ -166,6 +167,7 @@ void terminal_initialize(void)
 
 void terminal_putchar(char c)
 {
+    serial_write(c);
     switch (c)
     {
         case '\n':

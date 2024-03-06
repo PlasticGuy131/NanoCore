@@ -167,14 +167,16 @@ void terminal_initialize(void)
 
 void terminal_putchar(char c)
 {
-    serial_write(c);
     switch (c)
     {
         case '\n':
+            serial_write('\r');
+            serial_write('\n');
             terminal_column = 0;
             if (++terminal_row >= terminal_height) { terminal_scroll(); }
             break;
         default:
+            serial_write(c);
             terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             if(++terminal_column >= terminal_width)
             {

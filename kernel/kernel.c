@@ -37,7 +37,9 @@ void kernel_main(void)
 
     if (serial_failure)
     {
+        termainal_set_colour(COLOUR_LIGHT_BROWN, COLOUR_BLACK);
         terminal_writestring("Warning: Serial initialization failure");
+        termainal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
     }
 
     kernel_intro_splash();

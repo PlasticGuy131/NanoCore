@@ -13,6 +13,7 @@ int serial_initialize()
     outb(port + 3, 0x80); // Enable DLAB
     outb(port + 0, 0x03); // Divisor -> 3 (38400 baud) (lo byte)
     outb(port + 1, 0x00); //                           (hi byte)
+    outb(port + 3, 0x03); // 8 bits, no parity, one stop bit
     outb(port + 2, 0xC7); // Enable FIFO
     outb(port + 4, 0x0B); // IRQs enabled, RTS/DSR set
     outb(port + 4, 0x1E); // Set loopback mode

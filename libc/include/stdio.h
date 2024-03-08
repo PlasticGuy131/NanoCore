@@ -6,11 +6,11 @@
 #include <stdarg.h>
 
 int printf(const char* restrict format, ...);
-int sprintf(const char* restrict format, ...);
-int snprintf(const char* restrict format, ...);
+int sprintf(char* s, const char* restrict format, ...);
+int snprintf(char* s, const char* restrict format, size_t n, ...);
 int vprintf(const char* restrict format, va_list arg);
-int vsprintf(const char* restrict format, va_list arg);
-int vsnprintf(const char* restrict format, va_list arg);
+int vsprintf(char* s, const char* restrict format, va_list arg);
+int vsnprintf(char* s, const char* restrict format, size_t n, va_list arg);
 int putchar(int ic);
 int puts(const char* string);
 

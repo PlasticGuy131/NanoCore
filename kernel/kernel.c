@@ -66,8 +66,14 @@ void kernel_main(void)
     printf("HEX: %X\n", 1194684);
     printf("POINTER: %p\n", b);
     int n;
-    printf("NONE: %nFOO", &n);
-    printf("NONE: %d", n);
+    printf("NONE: %nFOO\n", &n);
+    printf("NONE: %d\n", n);
 
-    puts("PUTS");
+    char buf[20];
+    sprintf(char, "sprintf: %s", "GO!");
+    puts(buf);
+
+    snprintf(char, "snprintf: %s", "GO!", 9);
+    buf[9] = '\0';
+    puts(buf);
 }

@@ -11,14 +11,18 @@ enum Case
     UPPER = 0
 };
 
-static int sputchar(int ic, char* buf, size_t offset)
+char* buf;
+int offset;
+
+static int sputchar(int ic)
 {
     char c = (char)ic;
     buf[offset] = c;
+    offset++;
     return ic;
 }
 
-static int print_uint(unsigned i, int (*put)(int), int written)
+static int print_uint(unsigned i, int (*put)(int), int written, unsigned max)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -28,7 +32,7 @@ static int print_uint(unsigned i, int (*put)(int), int written)
         len++;
     }
 
-    if (written + len > INT_MAX)
+    if (written + len > max)
     {
         //TODO: Set errno to EOVERFOW.
         return -1;
@@ -44,7 +48,7 @@ static int print_uint(unsigned i, int (*put)(int), int written)
     return len;
 }
 
-static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase)
+static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase, unsigned max)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -54,7 +58,7 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase)
         len++;
     }
 
-    if (written + len > INT_MAX)
+    if (written + len > max)
     {
         //TODO: Set errno to EOVERFOW.
         return -1;
@@ -72,14 +76,15 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase)
     return len;
 }
 
-static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
+static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, va_list arg)
 {
+    //TODO: Float support
     //TODO: Flags and such
     size_t written = 0;
 
     while (*format != '\0')
     {
-        if (written > INT_MAX)
+        if (written > max)
         {
             //TODO: Set errno to EOVERFOW.
             return -1;
@@ -100,7 +105,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
             size_t len;
             case '%':
                 format++;
-                if (written == INT_MAX)
+                if (written == max)
                 {
                     //TODO: Set errno to EOVERFOW.
                     return -1;
@@ -110,7 +115,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                 break;
             case 'c':
                 format++;
-                if (written == INT_MAX)
+                if (written == max)
                 {
                     //TODO: Set errno to EOVERFOW.
                     return -1;
@@ -123,7 +128,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                 format++;
                 const char* s = va_arg(arg, const char*);
                 len = strlen(s);
-                if (written + len > INT_MAX)
+                if (written + len > max)
                 {
                      //TODO: Set errno to EOVERFOW.
                     return -1;
@@ -141,7 +146,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                 if (i < 0)
                 {
                     i = -i;
-                    if (written == INT_MAX)
+                    if (written == max)
                     {
                         //TODO: Set errno to EOVERFOW.
                         return -1;
@@ -167,7 +172,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                 if (o < 0)
                 {
                     o = -o;
-                    if (written == INT_MAX)
+                    if (written == max)
                     {
                         //TODO: Set errno to EOVERFOW.
                         return -1;
@@ -183,7 +188,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                     len++;
                 }
 
-                if (written + len > INT_MAX)
+                if (written + len > max)
                 {
                     //TODO: Set errno to EOVERFOW.
                     return -1;
@@ -215,7 +220,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
             case 'p':
                 format++;
                 unsigned p = va_arg(arg, unsigned);
-                if (written + 2 > INT_MAX)
+                if (written + 2 > max)
                 {
                     //TODO: Set errno to EOVERFOW.
                     return -1;
@@ -223,7 +228,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
 
                 if(put((int)'0') == EOF) { return -1; }
                 if(put((int)'x') == EOF) { return -1; }
-                l = print_hex(x, put, written, UPPER);
+                l = print_hex(p, put, written, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -236,11 +241,48 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
     return written;
 }
 
+int vprintf(const char* restrict format, va_list arg)
+{
+    return vaprintf(format, &putchar, INT_MAX, arg);
+}
+
+int vsprintf(char* s, const char* restrict format, va_list arg)
+{
+    buf = s;
+    offset = 0;
+    return vaprintf(format, &sputchar, INT_MAX, arg);
+}
+
+int vsnprintf(char* s, const char* restrict format, size_t n, va_list arg)
+{
+    buf = s;
+    offset = 0;
+    return vaprintf(format, &sputchar, n, arg);
+}
+
 int printf(const char* restrict format, ...)
 {
     va_list arg;
     va_start(arg, format);
-    int written = vaprintf(format, &putchar, arg);
+    int written = vprintf(format, arg);
+    va_end(arg);
+    return written;
+}
+
+int sprintf(char* s, const char* restrict format, ...)
+{
+    va_list arg;
+    va_start(arg, format);
+    int written = vsprintf(s, format, arg);
+    va_end(arg);
+    return written;
+}
+
+int snprintf(char* s, const char* restrict format, size_t n, ...)
+{
+    va_list arg;
+    va_start(arg, n);
+    int written = vsnprintf(s, format, n, arg);
     va_end(arg);
     return written;
 }

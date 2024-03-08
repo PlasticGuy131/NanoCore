@@ -70,10 +70,10 @@ void kernel_main(void)
     printf("NONE: %d\n", n);
 
     char buf[20];
-    sprintf(char, "sprintf: %s", "GO!");
+    sprintf(buf, "sprintf: %s", "GO!");
     puts(buf);
 
-    snprintf(char, "snprintf: %s", "GO!", 9);
+    snprintf(buf, "snprintf: %s", "GO!", 9);
     buf[9] = '\0';
     puts(buf);
 }

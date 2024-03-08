@@ -58,6 +58,8 @@ void kernel_main(void)
     printf("INT2: %i\n", -3);
     printf("UINT1: %u\n", 7);
     printf("UINT2: %u\n", -3);
+    printf("OCTAL: %o\n", 88);
+    
 
     puts("PUTS");
 }

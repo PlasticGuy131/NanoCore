@@ -61,6 +61,7 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
         format++;
         switch (*format)
         {
+            int l;
             case '%':
                 format++;
                 if (written == INT_MAX)
@@ -112,13 +113,56 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
                     if(put((int)'-') == EOF) { return -1; }
                     written++;
                 }
-                if (print_uint(i, put, written) == -1) { return -1; }
+                l = print_uint(i, put, written);
+                if (l == -1) { return -1; }
+                written += l;
                 break;
             case 'u':
                 format++;
                 int ui = va_arg(arg, int);
-                if (print_uint(ui, put, written) == -1) { return -1; }
+
+                l = print_uint(i, put, written);
+                if (l == -1) { return -1; }
+                written += l;
                 break;
+            case 'o':
+                format++;
+                int o = va_arg(arg, int);
+                if (o < 0)
+                {
+                    o = -o;
+                    if (written == INT_MAX)
+                    {
+                        //TODO: Set errno to EOVERFOW.
+                        return -1;
+                    }
+                    if(put((int)'-') == EOF) { return -1; }
+                    written++;
+                }
+                size_t len = 1;
+                uint32_t header = 1;
+                while (i / header >= 8)
+                {
+                    header *= 8;
+                    len++;
+                }
+
+                if (written + len > INT_MAX)
+                {
+                    //TODO: Set errno to EOVERFOW.
+                    return -1;
+                }
+
+                for (size_t j = 0; j < len; j++)
+                {
+                    char ch = (char)(o / header);
+                    if(put(ch + '0') == EOF) { return -1; }
+                    i %= header;
+                    header /= 8;
+                }
+                written += len;
+                break;
+            
         }
     }
     return written;

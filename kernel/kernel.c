@@ -8,8 +8,9 @@
 #include <serial.h>
 #include <terminal.h>
 
+#include "kernel.h"
 
-#define VERSION "LIBC STDIO Testing"
+#define VERSION "Multiboot refactor"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -37,7 +38,14 @@ static void kernel_intro_splash()
 void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
-    terminal_initialize();
+    if(multiboot_magic != MULTIBOOT_MAGIC)
+    {
+        terminal_writestring("ERROR: NOT LOADED WITH MULTIBOOT, PANIC!\n");
+        return;
+    }
+
+    Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
+    terminal_initialize(multiboot_info);
 
     if (serial_failure)
     {

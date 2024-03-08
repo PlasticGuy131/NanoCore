@@ -4,9 +4,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-extern uint32_t multiboot_magic;
-extern uint32_t multiboot_info_start;
-
 enum Colour
 {
     COLOUR_BLACK = 0,

@@ -10,6 +10,10 @@
 .set VHEIGHT,    768
 .set VDEPTH,     32
 
+/ * FPU FLAGS * /
+.set CR0_EM,     1<<2
+.set CR0_TS,     1<<3
+
 / * Create multiboot header * /
 .align 4
 .long MAGIC
@@ -29,6 +33,14 @@ multiboot_info_start:
 
 .globl multiboot_magic
 multiboot_magic:
+    .long 0
+
+.globl multiboot_magic
+multiboot_magic:
+    .long 0
+
+.globl fpu_test
+fpu_test:
     .long 0
 
 .align 16
@@ -52,6 +64,12 @@ _start:
     / * floats, GDT, paging and some c++ features will not work untill they are implemented here. * /
     movl %eax, multiboot_magic
     movl %ebx, multiboot_info_start
+
+    /* mov %cr0, %eax
+    and (-1) - (CR0_EM + CR0_TS), %eax
+    mov %eax, %cr0
+    FNINIT
+    FNSTSW fpu_test*/
 
     / * Enter the high-level kernel * /
     call kernel_main

@@ -131,15 +131,8 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     terminal_scroll = &terminal_rgb_scroll;
 }
 
-void terminal_initialize(void)
+void terminal_initialize(Multiboot_Info multiboot_info)
 {
-    if(multiboot_magic != MULTIBOOT_MAGIC)
-    {
-        terminal_writestring("ERROR: NOT LOADED WITH MULTIBOOT, PANIC!\n");
-        return;
-    }
-
-    Multiboot_Info* multiboot_info = (Multiboot_Info*)multiboot_info_start;
     display_type = multiboot_info->framebuffer_type;
 
     terminal_row = 0;

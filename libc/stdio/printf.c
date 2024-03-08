@@ -7,11 +7,11 @@
 static int sputchar(int ic, char* buf, size_t offset)
 {
     char c = (char)ic;
-    buff[offset] = c;
+    buf[offset] = c;
     return ic;
 }
 
-static char* aprintf(const char* restrict format, int (*put)(int), va_list arg)
+static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
 {
     size_t written = 0;
 
@@ -34,6 +34,7 @@ static char* aprintf(const char* restrict format, int (*put)(int), va_list arg)
         format++;
         switch (*format)
         {
+            int c;
             case '%':
                 format++;
                 if (written == INT_MAX)
@@ -41,7 +42,7 @@ static char* aprintf(const char* restrict format, int (*put)(int), va_list arg)
                     //TODO: Set errno to EOVERFOW.
                     return -1;
                 }
-                int c = (int)'%';
+                c = (int)'%';
                 if(put(c) == EOF) { return -1; }
                 written++;
                 break;
@@ -52,7 +53,7 @@ static char* aprintf(const char* restrict format, int (*put)(int), va_list arg)
                     //TODO: Set errno to EOVERFOW.
                     return -1;
                 }
-                int c = va_arg(arg, int);
+                c = va_arg(arg, int);
                 if(put(c) == EOF) { return -1; }
                 written++;
                 break;

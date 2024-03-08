@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <multiboot.h>
 #include <port.h>
 #include <serial.h>
 #include <terminal.h>

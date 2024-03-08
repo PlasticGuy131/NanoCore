@@ -54,6 +54,8 @@ void kernel_main(void)
     printf("NONE\n");
     printf("CHAR: %c\n", 'A');
     printf("STR: %s\n", "STR");
+    printf("INT1: %d\n", 7);
+    printf("INT2: %i\n", -3);
 
     puts("PUTS");
 }

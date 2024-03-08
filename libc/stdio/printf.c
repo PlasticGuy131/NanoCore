@@ -112,8 +112,13 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
                     if(put((int)'-') == EOF) { return -1; }
                     written++;
                 }
-                if (print_uint(i) == -1) { return -1; }
-                
+                if (print_uint(i, put, written) == -1) { return -1; }
+                break;
+            case 'u':
+                format++;
+                int i = va_arg(arg, int);
+                if (print_uint(i, put, written) == -1) { return -1; }
+                break;
         }
     }
     return written;

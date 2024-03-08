@@ -68,7 +68,7 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
                 }
                 for (size_t i = 0; i < len; i++)
                 {
-                    if(put(c) == EOF) { return -1; }
+                    if(put(s[i]) == EOF) { return -1; }
                 }
                 written += len;
                 break;

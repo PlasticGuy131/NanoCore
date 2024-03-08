@@ -56,6 +56,8 @@ void kernel_main(void)
     printf("STR: %s\n", "STR");
     printf("INT1: %d\n", 7);
     printf("INT2: %i\n", -3);
+    printf("UINT1: %u\n", 7);
+    printf("UINT2: %u\n", -3);
 
     puts("PUTS");
 }

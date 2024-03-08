@@ -116,8 +116,8 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
                 break;
             case 'u':
                 format++;
-                int i = va_arg(arg, int);
-                if (print_uint(i, put, written) == -1) { return -1; }
+                int ui = va_arg(arg, int);
+                if (print_uint(ui, put, written) == -1) { return -1; }
                 break;
         }
     }

@@ -35,10 +35,6 @@ multiboot_info_start:
 multiboot_magic:
     .long 0
 
-.globl multiboot_magic
-multiboot_magic:
-    .long 0
-
 .globl fpu_test
 fpu_test:
     .long 0

@@ -64,7 +64,7 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase)
     {
         char c = (char)(i / header);
         if (c < 10) { c += '0'; }
-        else { c += 'A' + hcase * 32; }
+        else { c += 'A' - 10 + hcase * 32; }
         if(put(c) == EOF) { return -1; }
         i %= header;
         header /= 16;
@@ -74,6 +74,7 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase)
 
 static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
 {
+    //TODO: Flags and such
     size_t written = 0;
 
     while (*format != '\0')
@@ -175,8 +176,8 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                     written++;
                 }
                 len = 1;
-                uint32_t header = 1;
-                while (i / header >= 8)
+                unsigned header = 1;
+                while (o / header >= 8)
                 {
                     header *= 8;
                     len++;
@@ -208,6 +209,21 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                 format++;
                 unsigned X = va_arg(arg, unsigned);
                 l = print_hex(X, put, written, UPPER);
+                if (l == -1) { return -1; }
+                written += l;
+                break;
+            case 'p':
+                format++;
+                unsigned p = va_arg(arg, unsigned);
+                if (written + 2 > INT_MAX)
+                {
+                    //TODO: Set errno to EOVERFOW.
+                    return -1;
+                }
+
+                if(put((int)'0') == EOF) { return -1; }
+                if(put((int)'x') == EOF) { return -1; }
+                l = print_hex(x, put, written, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

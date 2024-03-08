@@ -131,7 +131,7 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     terminal_scroll = &terminal_rgb_scroll;
 }
 
-void terminal_initialize(Multiboot_Info multiboot_info)
+void terminal_initialize(Multiboot_Info* multiboot_info)
 {
     display_type = multiboot_info->framebuffer_type;
 

@@ -44,7 +44,7 @@ static int print_uint(unsigned i, int (*put)(int), int written)
     return len;
 }
 
-static int print_hex(unsigned i, int (*put)(int), int written, enum HexCase hcase)
+static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -72,7 +72,7 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum HexCase hcas
     return len;
 }
 
-static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
+static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
 {
     size_t written = 0;
 
@@ -220,7 +220,7 @@ int printf(const char* restrict format, ...)
 {
     va_list arg;
     va_start(arg, format);
-    int written = aprintf(format, &putchar, arg);
+    int written = vaprintf(format, &putchar, arg);
     va_end(arg);
     return written;
 }

@@ -34,7 +34,7 @@ static void kernel_intro_splash()
     terminal_writestring("\nWelcome.\n");
 }
 
-static void kernel_main(void)
+void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
     terminal_initialize();

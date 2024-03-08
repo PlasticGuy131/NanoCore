@@ -73,7 +73,7 @@ void kernel_main(void)
     sprintf(buf, "sprintf: %s", "GO!");
     puts(buf);
 
-    snprintf(buf, "snprintf: %s", "GO!", 9);
+    snprintf(buf, "snprintf: %s", 9, "GO!");
     buf[9] = '\0';
     puts(buf);
 }

@@ -51,6 +51,9 @@ void kernel_main(void)
     putchar((int)'A');
     putchar((int)'\n');
 
+    int a = 10;
+    int* b = &a;
+
     printf("NONE\n");
     printf("CHAR: %c\n", 'A');
     printf("STR: %s\n", "STR");
@@ -61,6 +64,10 @@ void kernel_main(void)
     printf("OCTAL: %o\n", 88);
     printf("hex: %x\n", 1194684);
     printf("HEX: %X\n", 1194684);
+    printf("POINTER: %p\n", b);
+    int n;
+    printf("NONE: %nFOO", &n);
+    printf("NONE: %d", n);
 
     puts("PUTS");
 }

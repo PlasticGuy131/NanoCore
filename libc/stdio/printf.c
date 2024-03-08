@@ -193,7 +193,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                 {
                     char ch = (char)(o / header);
                     if(put(ch + '0') == EOF) { return -1; }
-                    i %= header;
+                    o %= header;
                     header /= 8;
                 }
                 written += len;
@@ -227,6 +227,10 @@ static int vaprintf(const char* restrict format, int (*put)(int), va_list arg)
                 if (l == -1) { return -1; }
                 written += l;
                 break;
+            case 'n':
+                format++;
+                int* n = va_arg(arg, int*);
+                *n = written;
         }
     }
     return written;

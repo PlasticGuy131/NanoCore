@@ -15,7 +15,7 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
 {
     size_t written = 0;
 
-    while (*format != '/0')
+    while (*format != '\0')
     {
         if (written > INT_MAX)
         {

@@ -154,7 +154,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     if(put((int)'-') == EOF) { return -1; }
                     written++;
                 }
-                l = print_uint(i, put, written);
+                l = print_uint(i, put, written, max);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -162,7 +162,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 int u = va_arg(arg, int);
 
-                l = print_uint(u, put, written);
+                l = print_uint(u, put, written, max);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -206,14 +206,14 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'x':
                 format++;
                 unsigned x = va_arg(arg, unsigned);
-                l = print_hex(x, put, written, LOWER);
+                l = print_hex(x, put, written, LOWER, max);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
             case 'X':
                 format++;
                 unsigned X = va_arg(arg, unsigned);
-                l = print_hex(X, put, written, UPPER);
+                l = print_hex(X, put, written, UPPER, max);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -228,7 +228,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                 if(put((int)'0') == EOF) { return -1; }
                 if(put((int)'x') == EOF) { return -1; }
-                l = print_hex(p, put, written, UPPER);
+                l = print_hex(p, put, written, UPPER, max);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

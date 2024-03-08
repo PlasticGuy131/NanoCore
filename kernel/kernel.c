@@ -59,7 +59,8 @@ void kernel_main(void)
     printf("UINT1: %u\n", 7);
     printf("UINT2: %u\n", -3);
     printf("OCTAL: %o\n", 88);
-    
+    printf("hex: %x\n", 1194684);
+    printf("HEX: %X\n", 1194684);
 
     puts("PUTS");
 }

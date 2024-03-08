@@ -5,6 +5,12 @@
 
 #include "stdio.h"
 
+enum Case
+{
+    LOWER = 1;
+    UPPER = 0;
+};
+
 static int sputchar(int ic, char* buf, size_t offset)
 {
     char c = (char)ic;
@@ -12,10 +18,10 @@ static int sputchar(int ic, char* buf, size_t offset)
     return ic;
 }
 
-static int print_uint(uint32_t i, int (*put)(int), int written)
+static int print_uint(unsigned i, int (*put)(int), int written)
 {
     size_t len = 1;
-    uint32_t header = 1;
+    unsigned header = 1;
     while (i / header >= 10)
     {
         header *= 10;
@@ -34,6 +40,34 @@ static int print_uint(uint32_t i, int (*put)(int), int written)
         if(put(c + '0') == EOF) { return -1; }
         i %= header;
         header /= 10;
+    }
+    return len;
+}
+
+static int print_hex(unsigned i, int (*put)(int), int written, enum Case case)
+{
+    size_t len = 1;
+    unsigned header = 1;
+    while (i / header >= 16)
+    {
+        header *= 16;
+        len++;
+    }
+
+    if (written + len > INT_MAX)
+    {
+        //TODO: Set errno to EOVERFOW.
+        return -1;
+    }
+
+    for (size_t j = 0; j < len; j++)
+    {
+        char c = (char)(i / header);
+        if (c < 10) { c += '0'; }
+        else { c += 'A' + case * 32; }
+        if(put(c) == EOF) { return -1; }
+        i %= header;
+        header /= 16;
     }
     return len;
 }
@@ -119,9 +153,9 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
                 break;
             case 'u':
                 format++;
-                int ui = va_arg(arg, int);
+                int u = va_arg(arg, int);
 
-                l = print_uint(i, put, written);
+                l = print_uint(u, put, written);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -162,7 +196,20 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
                 }
                 written += len;
                 break;
-            
+            case 'x':
+                format++;
+                unsigned x = va_arg(arg, unsigned);
+                l = print_hex(x, put, written, LOWER);
+                if (l == -1) { return -1; }
+                written += l;
+                break;
+            case 'X':
+                format++;
+                unsigned X = va_arg(arg, unsigned);
+                l = print_hex(X, put, written, UPPER);
+                if (l == -1) { return -1; }
+                written += l;
+                break;
         }
     }
     return written;

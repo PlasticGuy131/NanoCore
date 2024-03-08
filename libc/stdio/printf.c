@@ -5,7 +5,7 @@
 
 #include "stdio.h"
 
-enum Case
+enum HexCase
 {
     LOWER = 1,
     UPPER = 0
@@ -44,7 +44,7 @@ static int print_uint(unsigned i, int (*put)(int), int written)
     return len;
 }
 
-static int print_hex(unsigned i, int (*put)(int), int written, enum Case case)
+static int print_hex(unsigned i, int (*put)(int), int written, enum HexCase case)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -96,6 +96,7 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
         switch (*format)
         {
             int l;
+            size_t len;
             case '%':
                 format++;
                 if (written == INT_MAX)
@@ -120,7 +121,7 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
             case 's':
                 format++;
                 const char* s = va_arg(arg, const char*);
-                size_t len = strlen(s);
+                len = strlen(s);
                 if (written + len > INT_MAX)
                 {
                      //TODO: Set errno to EOVERFOW.
@@ -173,7 +174,7 @@ static int aprintf(const char* restrict format, int (*put)(int), va_list arg)
                     if(put((int)'-') == EOF) { return -1; }
                     written++;
                 }
-                size_t len = 1;
+                len = 1;
                 uint32_t header = 1;
                 while (i / header >= 8)
                 {

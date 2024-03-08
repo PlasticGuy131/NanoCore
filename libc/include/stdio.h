@@ -4,6 +4,7 @@
 #define EOF (-1)
 
 #include <stdarg.h>
+#include <stddef.h>
 
 int printf(const char* restrict format, ...);
 int sprintf(char* s, const char* restrict format, ...);

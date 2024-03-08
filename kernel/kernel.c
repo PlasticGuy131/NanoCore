@@ -13,7 +13,9 @@
 #define ARCH WARNING: Unknown Architecture
 #endif
 
-void kernel_intro_splash()
+void kernel_putchar(char c) { terminal_putchar(c); }
+
+static void kernel_intro_splash()
 {
     terminal_set_colour(COLOUR_RED, COLOUR_BLACK);
     terminal_writestring("NANO/CORE/NANO/CORE/\n");
@@ -31,7 +33,7 @@ void kernel_intro_splash()
     terminal_writestring("\nWelcome.\n");
 }
 
-void kernel_main(void)
+static void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
     terminal_initialize();

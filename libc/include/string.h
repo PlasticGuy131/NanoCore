@@ -1,5 +1,5 @@
-#ifndef STRING_H_INCLUDED
-#define STRING_H_INCLUDED 1
+#ifndef _STRING_H
+#define _STRING_H 1
 
 #include <stddef.h>
 

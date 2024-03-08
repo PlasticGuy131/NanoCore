@@ -12,7 +12,7 @@ static int sputchar(int ic, char* buf, size_t offset)
     return ic;
 }
 
-static int print_uint(uint32_t i, int (*put)(int), int written);
+static int print_uint(uint32_t i, int (*put)(int), int written)
 {
     size_t len = 1;
     uint32_t header = 1;

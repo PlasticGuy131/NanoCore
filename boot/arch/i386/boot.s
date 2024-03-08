@@ -61,11 +61,11 @@ _start:
     movl %eax, multiboot_magic
     movl %ebx, multiboot_info_start
 
-    /* mov %cr0, %eax
+    mov %cr0, %eax
     and (-1) - (CR0_EM + CR0_TS), %eax
     mov %eax, %cr0
     FNINIT
-    FNSTSW fpu_test*/
+    FNSTSW fpu_test
 
     / * Enter the high-level kernel * /
     call kernel_main

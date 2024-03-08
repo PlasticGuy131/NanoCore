@@ -1,10 +1,9 @@
 #include <limits.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-
-#include "stdio.h"
 
 enum Case
 {

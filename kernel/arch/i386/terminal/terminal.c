@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdio.h>
 #include <stdint.h>
 
 #include <multiboot.h>
@@ -142,17 +143,17 @@ void terminal_initialize(Multiboot_Info* multiboot_info)
     if (display_type == DISPLAY_RGB)
     {
         terminal_rgb_initialize(multiboot_info);
-        terminal_writestring("INFO: Terminal initialized with RGB framebuffer\n");
+        printf("INFO: Terminal initialized with RGB framebuffer\n");
         
     }
     else if (display_type == DISPLAY_VGA)
     {
         terminal_vga_initialize(multiboot_info);
-        terminal_writestring("INFO: Terminal initialized with VGA text\n");
+        printf("INFO: Terminal initialized with VGA text\n");
     }
     else
     {
-        terminal_writestring("WARNING: Terminal display type not supported: serial output only\n");
+        printf("WARNING: Terminal display type not supported: serial output only\n");
         terminal_putcharat = NULL;
         terminal_scroll = NULL;
     }

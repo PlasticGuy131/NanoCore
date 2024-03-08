@@ -32,9 +32,5 @@ extern enum Colour terminal_bg_colour;
 void terminal_initialize(Multiboot_Info* multiboot_info);
 void terminal_set_colour(enum Colour fg, enum Colour bg);
 void terminal_putchar(char c);
-void terminal_writestring(const char *data);
-void terminal_writeint(int n);
-void terminal_writeuint(unsigned n);
-void terminal_writebyte(unsigned char b);
 
 #endif

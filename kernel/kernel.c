@@ -48,32 +48,6 @@ void kernel_main(void)
 
     kernel_intro_splash();
 
-    putchar((int)'A');
-    putchar((int)'\n');
-
-    int a = 10;
-    int* b = &a;
-
-    printf("NONE\n");
-    printf("CHAR: %c\n", 'A');
-    printf("STR: %s\n", "STR");
-    printf("INT1: %d\n", 7);
-    printf("INT2: %i\n", -3);
-    printf("UINT1: %u\n", 7);
-    printf("UINT2: %u\n", -3);
-    printf("OCTAL: %o\n", 88);
-    printf("hex: %x\n", 1194684);
-    printf("HEX: %X\n", 1194684);
-    printf("POINTER: %p\n", b);
-    int n;
-    printf("NONE: %nFOO\n", &n);
-    printf("NONE: %d\n", n);
-
-    char buf[20];
-    sprintf(buf, "sprintf: %s", "GO!");
-    puts(buf);
-
-    snprintf(buf, "snprintf: %s", 9, "GO!");
-    buf[9] = '\0';
-    puts(buf);
+    int v = 27;
+    printf("v can be written as: %d, %x, %o", v, v, v);
 }

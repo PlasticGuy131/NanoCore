@@ -7,8 +7,8 @@
 
 enum Case
 {
-    LOWER = 1;
-    UPPER = 0;
+    LOWER = 1,
+    UPPER = 0
 };
 
 static int sputchar(int ic, char* buf, size_t offset)

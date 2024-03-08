@@ -5,7 +5,7 @@
 
 #include "stdio.h"
 
-enum HexCase
+enum Case
 {
     LOWER = 1,
     UPPER = 0
@@ -44,7 +44,7 @@ static int print_uint(unsigned i, int (*put)(int), int written)
     return len;
 }
 
-static int print_hex(unsigned i, int (*put)(int), int written, enum HexCase case)
+static int print_hex(unsigned i, int (*put)(int), int written, enum HexCase hcase)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -64,7 +64,7 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum HexCase case
     {
         char c = (char)(i / header);
         if (c < 10) { c += '0'; }
-        else { c += 'A' + case * 32; }
+        else { c += 'A' + hcase * 32; }
         if(put(c) == EOF) { return -1; }
         i %= header;
         header /= 16;

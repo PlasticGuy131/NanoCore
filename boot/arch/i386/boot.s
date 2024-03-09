@@ -65,7 +65,8 @@ _start:
     and (-1) - (CR0_EM + CR0_TS), %eax
     mov %eax, %cr0
     FNINIT
-    FNSTSW fpu_test
+    FNSTSW %eax
+    movl %eax, fpu_test
 
     / * Enter the high-level kernel * /
     call kernel_main

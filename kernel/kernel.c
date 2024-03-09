@@ -64,4 +64,9 @@ void kernel_main(void)
     }
 
     kernel_intro_splash();
+    printf("RED -> %d\n", COLOUR_RED);
+
+    float x = 5;
+    x /= 2;
+    printf("FLOAT TEST: %x\n", x);
 }

@@ -62,10 +62,13 @@ _start:
     movl %ebx, multiboot_info_start
 
     mov %cr0, %eax
-    and (-1) - (CR0_EM + CR0_TS), %eax
+    mov 0, %ebx
+    or  CR0_EM | CRO, %ebx
+    and (-1) - (CR0_EM | CR0_TS), %eax
     mov %eax, %cr0
     FNINIT
     FNSTSW %ax
+    mov  %ebx, %eax
     movl %eax, fpu_test
 
     / * Enter the high-level kernel * /

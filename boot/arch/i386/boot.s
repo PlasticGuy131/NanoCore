@@ -4,7 +4,7 @@
 .set VIDEOINFO, 1<<2
 .set MFLAGS,     ALIGN | MEMINFO | VIDEOINFO
 .set MAGIC,     0x1BADB002
-.set CHECKSUM,  -(MAGIC + FLAGS)
+.set CHECKSUM,  -(MAGIC + MFLAGS)
 .set VIDEOMODE,  0
 .set VWIDTH,     1024
 .set VHEIGHT,    768

@@ -2,7 +2,7 @@
 .set ALIGN,     1<<0
 .set MEMINFO,   1<<1
 .set VIDEOINFO, 1<<2
-.set FLAGS,     ALIGN | MEMINFO | VIDEOINFO
+.set MFLAGS,     ALIGN | MEMINFO | VIDEOINFO
 .set MAGIC,     0x1BADB002
 .set CHECKSUM,  -(MAGIC + FLAGS)
 .set VIDEOMODE,  0
@@ -13,11 +13,12 @@
 / * FPU FLAGS * /
 .set CR0_EM,     1<<2
 .set CR0_TS,     1<<3
+.set FFLAGS,     CR0_EM | CR0_TS
 
 / * Create multiboot header * /
 .align 4
 .long MAGIC
-.long FLAGS
+.long MFLAGS
 .long CHECKSUM
 .long 0, 0, 0, 0, 0
 .long VIDEOMODE
@@ -63,7 +64,7 @@ _start:
 
     mov %cr0, %eax
     mov 0, %ebx
-    or  CR0_EM | CRO, %ebx
+    or  FFLAGS, %ebx
     and (-1) - (CR0_EM | CR0_TS), %eax
     mov %eax, %cr0
     FNINIT

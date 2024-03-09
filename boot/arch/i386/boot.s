@@ -65,11 +65,11 @@ _start:
     mov %cr0, %eax
     mov 0, %ebx
     or  FFLAGS, %ebx
-    and (-1) - (CR0_EM | CR0_TS), %eax
+    neg %ebx
+    and %ebx, %eax
     mov %eax, %cr0
     FNINIT
     FNSTSW %ax
-    mov  %ebx, %eax
     movl %eax, fpu_test
 
     / * Enter the high-level kernel * /

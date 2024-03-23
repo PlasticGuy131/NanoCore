@@ -70,7 +70,7 @@ _start:
     neg %ebx
     and %ebx, %eax
     mov %eax, %cr0
-    FNINIT
+    //FNINIT
     FNSTSW fpu_test
 
     / * Enter the high-level kernel * /

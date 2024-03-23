@@ -69,6 +69,7 @@ _start:
     or  FFLAGS, %ebx
     neg %ebx
     and %ebx, %eax
+    or  1, %eax
     mov %eax, %cr0
     //FNINIT
     FNSTSW fpu_test

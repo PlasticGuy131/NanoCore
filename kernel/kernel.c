@@ -74,6 +74,6 @@ void kernel_main(void)
     }
     else
     {
-        printf("Nay\n")''
+        printf("Nay\n");
     }
 }

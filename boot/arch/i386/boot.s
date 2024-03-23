@@ -38,7 +38,7 @@ multiboot_magic:
 
 .globl fpu_test
 fpu_test:
-    .long 0xAE
+    .long 0
 
 .align 16
 stack_bottom:
@@ -62,6 +62,8 @@ _start:
     movl %eax, multiboot_magic
     movl %ebx, multiboot_info_start
 
+    mov 0x55AE, %eax
+    mov fpu_test, %eax
     mov %cr0, %eax
     mov 0, %ebx
     or  FFLAGS, %ebx

@@ -68,5 +68,12 @@ void kernel_main(void)
 
     float x = 5;
     x /= 2;
-    printf("FLOAT TEST: %x\n", x);
+    if (x == 2.5)
+    {
+        printf("Yay\n");
+    }
+    else
+    {
+        printf("Nay\n")''
+    }
 }

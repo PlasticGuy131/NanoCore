@@ -38,7 +38,7 @@ multiboot_magic:
 
 .globl fpu_test
 fpu_test:
-    .long 0
+    .long 0xAE
 
 .align 16
 stack_bottom:

@@ -11,7 +11,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "Multiboot refactor"
+#define VERSION "printf test"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -66,14 +66,11 @@ void kernel_main(void)
     kernel_intro_splash();
     printf("RED -> %d\n", COLOUR_RED);
 
-    float x = 5;
-    x /= 2;
-    if (x == 2.5)
-    {
-        printf("Yay\n");
-    }
-    else
-    {
-        printf("Nay\n");
-    }
+    printf("testing prinf..");
+    float f = 5;
+    printf("FLOAT: %f\n", f);
+    f /= 2;
+    printf("FLOAT: %f\n", f);
+    f = 10023.657001;
+    printf("FLOAT: %f\n", f);
 }

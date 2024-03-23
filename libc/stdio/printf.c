@@ -1,5 +1,6 @@
 #include <limits.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -74,6 +75,49 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase, 
         header /= 16;
     }
     return len;
+}
+
+static int print_float(float f, int (*put)(int), int written, unsigned max)
+{
+    if (f < 0)
+    {
+        if (written == max)
+        {
+            //TODO: Set errno to EOVERFOW.
+            return -1;
+        }
+        if(put((int)'-') == EOF) { return -1; }
+        written++;
+        f *= -1;
+    }
+    int i = f;
+    written += print_uint(i, put, written, max);
+    f -= i;
+
+    if (written == max)
+    {
+        //TODO: Set errno to EOVERFOW.
+        return -1;
+    }
+    if(put((int)'.') == EOF) { return -1; }
+    written++;
+
+    bool zero = false;
+    while (f != 0.0 && !zero)
+    {
+        zero = true;
+        f *= 10;
+        int c = f;
+        if (written == max)
+        {
+            //TODO: Set errno to EOVERFOW.
+            return -1;
+        }
+        if(put(c + '0') == EOF) { return -1; }
+        written++;
+        f -= c;
+    }
+    return written;
 }
 
 static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, va_list arg)
@@ -229,6 +273,14 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if(put((int)'0') == EOF) { return -1; }
                 if(put((int)'x') == EOF) { return -1; }
                 l = print_hex(p, put, written, UPPER, max);
+                if (l == -1) { return -1; }
+                written += l;
+                break;
+            case 'f':
+                format++;
+                float f = va_arg(arg, float);
+
+                l = print_float(f, put, written, max);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

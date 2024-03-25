@@ -85,13 +85,10 @@ static int print_float(float f, int (*put)(int), int written, unsigned max, unsi
         new_f *= 10;
     }
 
-    if ((new_f - (int) new_f) >= 0.5)
+    if ((new_f - (int) new_f) >= 0.5) { new_f++; }
+    for (size_t i = 0; i < dp; i++)
     {
-        new_f++;
-        for (size_t i = 0; i < dp; i++)
-        {
-            new_f /= 10;
-        }
+        new_f /= 10;
     }
 
     f = new_f;

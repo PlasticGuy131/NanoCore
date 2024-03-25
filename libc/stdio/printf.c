@@ -79,14 +79,33 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase, 
 
 static int print_float(float f, int (*put)(int), int written, unsigned max, unsigned dp)
 {
+    float new_f = f;
+    for (size_t i = 0; i < dp; i++)
+    {
+        new_f *= 10;
+    }
+
+    if ((new_f - (int) new_f) >= 0.5)
+    {
+        new_f++;
+        for (size_t i = 0; i < dp; i++)
+        {
+            new_f /= 10;
+        }
+    }
+
+    f = new_f;
     if (f < 0)
     {
         if (written == max)
         {
-            //TODO: Set errno to EOVERFOW.
+            // TODO: Set errno to EOVERFOW.
             return -1;
         }
-        if(put((int)'-') == EOF) { return -1; }
+        if (put((int)'-') == EOF)
+        {
+            return -1;
+        }
         written++;
         f *= -1;
     }
@@ -113,8 +132,6 @@ static int print_float(float f, int (*put)(int), int written, unsigned max, unsi
             return -1;
         }
         f -= c;
-
-        //TODO: Rounding not truncation
 
         if(put(c + '0') == EOF) { return -1; }
         written++;

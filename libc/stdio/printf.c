@@ -79,19 +79,6 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase, 
 
 static int print_float(float f, int (*put)(int), int written, unsigned max, unsigned dp)
 {
-    float new_f = f;
-    for (size_t i = 0; i < dp; i++)
-    {
-        new_f *= 10;
-    }
-
-    if ((new_f - (int) new_f) >= 0.5) { new_f++; }
-    for (size_t i = 0; i < dp; i++)
-    {
-        new_f /= 10;
-    }
-
-    f = new_f;
     if (f < 0)
     {
         if (written == max)

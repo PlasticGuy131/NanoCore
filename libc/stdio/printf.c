@@ -282,7 +282,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 float f = (float) va_arg(arg, double);
 
-                l = print_float(f, put, written, max);
+                l = print_float(f, put, written, max, 6);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

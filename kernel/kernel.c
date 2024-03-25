@@ -66,13 +66,11 @@ void kernel_main(void)
     kernel_intro_splash();
     printf("RED -> %d\n", COLOUR_RED);
 
-    float f = 5;
-    f /= 2;
     printf("testing prinf..");
-    /*float f = 5;
+    float f = 5;
     printf("FLOAT: %f\n", f);
     f /= 2;
     printf("FLOAT: %f\n", f);
     f = 10023.657001;
-    printf("FLOAT: %f\n", f);*/
+    printf("FLOAT: %f\n", f);
 }

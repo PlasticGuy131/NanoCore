@@ -140,7 +140,7 @@ void terminal_initialize(Multiboot_Info* multiboot_info)
     terminal_column = 0;
 
     terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
-    printf("Initializing terminal...");
+    //printf("Initializing terminal...\n");
     if (display_type == DISPLAY_RGB)
     {
         terminal_rgb_initialize(multiboot_info);

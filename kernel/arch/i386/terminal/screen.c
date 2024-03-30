@@ -56,9 +56,9 @@ static inline unsigned screen_coords(int x, int y)
 
 static void screen_putpixel_direct(unsigned where, struct RGB colour)
 {
-    screen[where+0] = colour.r;
+    screen[where+0] = colour.b
     screen[where+1] = colour.g;
-    screen[where+2] = colour.b;
+    screen[where+2] = colour.r;
 }
 
 void screen_putpixel(int x, int y, struct RGB colour)

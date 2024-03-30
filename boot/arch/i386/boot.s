@@ -28,11 +28,11 @@
 
 / * Multiboot does not define a stack, and so this allocates a small one of 16 KiB * /
 .section .bss
-.globl multiboot_info_start
+.globl _multiboot_info_start
 multiboot_info_start:
     .long 0
 
-.globl multiboot_magic
+.globl _multiboot_magic
 multiboot_magic:
     .long 0
 

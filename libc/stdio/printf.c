@@ -86,16 +86,36 @@ static int print_float(float f, int (*put)(int), int written, unsigned max, unsi
             // TODO: Set errno to EOVERFOW.
             return -1;
         }
-        if (put((int)'-') == EOF)
-        {
-            return -1;
-        }
+        if (put((int)'-') == EOF) { return -1; }
         written++;
         f *= -1;
     }
     unsigned i = (unsigned) f;
-    written += print_uint(i, put, written, max);
     f -= i;
+
+    bool rounded = false;
+    bool round = true;
+    float test_f = f;
+    for (size_t j = 0; j < dp+1; j++)
+    {
+        test_f *= 10.0;
+        unsigned test_c = test_f;
+        test_f -= test_c;
+        unsigned limit = (j == dp) ? 5 : 9;
+        if (test_c < limit)
+        {
+            round = false;
+            break;
+        }
+    }
+
+    if (round)
+    {
+        i++;
+        rounded = true;
+    }
+
+    written += print_uint(i, put, written, max);
 
     if (written == max)
     {
@@ -108,14 +128,43 @@ static int print_float(float f, int (*put)(int), int written, unsigned max, unsi
     while (dp > 0)
     {
         dp--;
-        f *= 10;
-        unsigned c = f;
         if (written == max)
         {
             //TODO: Set errno to EOVERFOW.
             return -1;
         }
+
+        if (rounded)
+        {
+            if(put('0') == EOF) { return -1; }
+            written++;
+            continue;
+        }
+
+        f *= 10;
+        unsigned c = f;
         f -= c;
+
+        bool round = true;
+        float test_f = f;
+        for (size_t i = 0; i < dp+1; i++)
+        {
+            test_f *= 10.0;
+            unsigned test_c = test_f;
+            test_f -= test_c;
+            unsigned limit = (i == dp) ? 5 : 9;
+            if (test_c < limit)
+            {
+                round = false;
+                break;
+            }
+        }
+
+        if (round)
+        {
+            c++;
+            rounded = true;
+        }
 
         if(put(c + '0') == EOF) { return -1; }
         written++;

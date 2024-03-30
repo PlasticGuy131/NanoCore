@@ -73,4 +73,6 @@ void kernel_main(void)
     printf("FLOAT: %f\n", f);
     f = 10023.657001;
     printf("FLOAT: %f\n", f);
+    f = 0.999999909;
+    printf("FLOAT: %f\n", f);
 }

@@ -1,4 +1,4 @@
-extern char _binary_font_psf_start;
+extern char _binary_font_psf_start[];
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -21,7 +21,7 @@ PSF_Header* psf_get_header()
     return (PSF_Header*)&_binary_font_psf_start;
 }
 
-char* psf_setup_font(uint16_t* unicode)
+unsigned char* psf_setup_font(uint16_t* unicode)
 {
     PSF_Header* font = (PSF_Header*)&_binary_font_psf_start;
     uint16_t* s = (uint16_t*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(uint16_t)));
@@ -29,7 +29,7 @@ char* psf_setup_font(uint16_t* unicode)
     if (!(font->font_mode & PSF1_MODE_HAS_TAB))
     {
         unicode = NULL;
-        return (char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
+        return (unsigned char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
     }
 
     size_t len = (font->font_mode & PSF1_MODE_512) ? 512 : 256;
@@ -56,5 +56,5 @@ char* psf_setup_font(uint16_t* unicode)
         }
         s++;
     }
-    return (char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
+    return (unsigned char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
 }

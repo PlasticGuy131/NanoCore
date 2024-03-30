@@ -33,7 +33,7 @@ uint16_t* terminal_buffer;
 size_t terminal_font_char_size;
 static const size_t terminal_char_width = 9;
 uint16_t unicode[512];
-char* font_offset;
+unsigned char* font_offset;
 
 static inline int terminal_xpixel(size_t x)
 {

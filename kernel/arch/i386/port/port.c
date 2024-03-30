@@ -29,6 +29,6 @@ inline uint32_t inl(uint16_t port)
 
 uint32_t port_get_com1()
 {
-    //uint32_t* bda = (uint32_t*)BDA_START;
-    return BDA_START;
+    uint32_t* bda = (uint32_t*)BDA_START;
+    return *bda;
 }

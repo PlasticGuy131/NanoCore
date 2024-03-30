@@ -15,6 +15,22 @@ enum Case
 char* buf;
 int offset;
 
+static int get_exp(double* d)
+{
+    int exp = 0;
+    while (*(d) >= 10.0)
+    {
+        *(d) /= 10.0;
+        exp++;
+    }
+    while (*(d) < 1.0)
+    {
+        *(d) *= 10.0;
+        exp--;
+    }
+    return exp;
+}
+
 static int sputchar(int ic)
 {
     char c = (char)ic;
@@ -176,17 +192,7 @@ static size_t print_float(double f, int (*put)(int), size_t written, unsigned ma
 
 static size_t print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, enum Case ecase)
 {
-    int exp = 0;
-    while (f >= 10.0)
-    {
-        f /= 10.0;
-        exp++;
-    }
-    while (f < 1.0)
-    {
-        f *= 10.0;
-        exp--;
-    }
+    int exp = get_exp(&f);
 
     int l = print_float(f, put, written, max, dp);
     if (l == -1) { return -1; }
@@ -377,6 +383,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                 l = print_exp(e, put, written, max, 6, LOWER);
                 if (l == -1) { return -1; }
+                written += l;
                 break;
             case 'E':
                 format++;
@@ -384,6 +391,39 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                 l = print_exp(E, put, written, max, 6, UPPER);
                 if (l == -1) { return -1; }
+                written += l;
+                break;
+            case 'h':
+                format++;
+                double h = va_arg(arg, double);
+
+                double test_h = h;
+                int exp_h = get_exp(&test_h);
+                if (exp_h < -4 || exp_h >= 6)
+                {
+                    l = print_exp(h, put, written, max, 6, LOWER);                    
+                }
+                else
+                {
+                    l = print_float(h, put, written, max, 6);
+                }
+                written += l;
+                break;
+            case 'H':
+                format++;
+                double H = va_arg(arg, double);
+
+                double test_H = H;
+                int exp_H = get_exp(&test_H);
+                if (exp_H < -4 || exp_H >= 6)
+                {
+                    l = print_exp(H, put, written, max, 6, UPPER);                    
+                }
+                else
+                {
+                    l = print_float(H, put, written, max, 6);
+                }
+                written += l;
                 break;
             case 'n':
                 format++;

@@ -59,8 +59,8 @@ _start:
 
     / * Cruicial processor state should be initialised here before the full kernel starts. This means * /
     / * floats, GDT, paging and some c++ features will not work untill they are implemented here. * /
-    movl %eax, multiboot_magic
-    movl %ebx, multiboot_info_start
+    movl %eax, _multiboot_magic
+    movl %ebx, _multiboot_info_start
 
     mov 0x55AE, %eax
     mov fpu_test, %eax

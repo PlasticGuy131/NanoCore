@@ -23,7 +23,7 @@ static int sputchar(int ic)
     return ic;
 }
 
-static int print_uint(unsigned i, int (*put)(int), int written, unsigned max)
+static int print_uint(unsigned i, int (*put)(int), size_t written, unsigned max)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -49,7 +49,7 @@ static int print_uint(unsigned i, int (*put)(int), int written, unsigned max)
     return len;
 }
 
-static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase, unsigned max)
+static int print_hex(unsigned i, int (*put)(int), size_t written, enum Case hcase, unsigned max)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -77,7 +77,7 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase, 
     return len;
 }
 
-static int print_float(double f, int (*put)(int), int written, unsigned max, unsigned dp)
+static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp)
 {
     if (f < 0)
     {

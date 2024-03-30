@@ -53,8 +53,8 @@ static void terminal_vga_putentryat(char c, enum Colour fg, enum Colour bg, size
 
 static void terminal_rgb_putcharat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
-    char* offset = font_offset;
-    offset += unicode[c] * terminal_font_char_size;
+    unsigned char* offset = font_offset;
+    offset += unicode[(size_t)c] * terminal_font_char_size;
     screen_putbitmap_bw(terminal_xpixel(x), terminal_ypixel(y), offset, 1, terminal_font_char_size, screen_rgb_name(fg), screen_rgb_name(bg));
 }
 
@@ -101,7 +101,7 @@ static void terminal_rgb_scroll()
 static void terminal_vga_initialize(Multiboot_Info* multiboot_info)
 {
     uint8_t terminal_colour = vga_entry_colour(COLOUR_LIGHT_GRAY, COLOUR_BLACK);
-    terminal_buffer = (uint16_t*)multiboot_info->framebuffer_addr;
+    terminal_buffer = (uint16_t*)(uintptr_t)multiboot_info->framebuffer_addr;
     for (size_t y = 0; y < VGA_HEIGHT; y++)
     {
         for (size_t x = 0; x < VGA_WIDTH; x++)

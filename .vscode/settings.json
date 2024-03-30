@@ -3,6 +3,9 @@
         "stdbool.h": "c",
         "xstring": "cpp",
         "limits": "c",
-        "utility": "c"
+        "utility": "c",
+        "initializer_list": "c",
+        "type_traits": "c",
+        "xutility": "c"
     }
 }

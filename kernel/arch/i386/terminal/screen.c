@@ -26,7 +26,7 @@ struct RGB screen_rgb(uint8_t r, uint8_t g, uint8_t b)
 
 void screen_initialize(Multiboot_Info* multiboot_info)
 {
-    screen = (char*)multiboot_info->framebuffer_addr;
+    screen = (char*)(uintptr_t)multiboot_info->framebuffer_addr;
     screen_pixel_width = multiboot_info->framebuffer_bpp / 8;
     screen_pitch = multiboot_info->framebuffer_pitch;
 

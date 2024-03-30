@@ -24,12 +24,12 @@ PSF_Header* psf_get_header()
 unsigned char* psf_setup_font(uint16_t* unicode)
 {
     PSF_Header* font = (PSF_Header*)&_binary_font_psf_start;
-    uint16_t* s = (uint16_t*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(uint16_t)));
+    uint16_t* s = (uint16_t*)(&_binary_font_psf_start[0] + (sizeof(PSF_Header) / sizeof(uint16_t)));
 
     if (!(font->font_mode & PSF1_MODE_HAS_TAB))
     {
         unicode = NULL;
-        return (unsigned char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
+        return (unsigned char*)(&_binary_font_psf_start[0] + (sizeof(PSF_Header) / sizeof(char)));
     }
 
     size_t len = (font->font_mode & PSF1_MODE_512) ? 512 : 256;
@@ -56,5 +56,5 @@ unsigned char* psf_setup_font(uint16_t* unicode)
         }
         s++;
     }
-    return (unsigned char*)(&_binary_font_psf_start + (sizeof(PSF_Header) / sizeof(char)));
+    return (unsigned char*)(&_binary_font_psf_start[0] + (sizeof(PSF_Header) / sizeof(char)));
 }

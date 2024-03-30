@@ -11,7 +11,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "fix warnings"
+#define VERSION "printf tests"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -66,10 +66,10 @@ void kernel_main(void)
     kernel_intro_splash();
     printf("RED -> %d\n", COLOUR_RED);
 
-    printf("testing printf..");
+    printf("testing printf...\n");
     double f = 5;
     printf("FLOAT: %h\n", f);
-    f /= 0.000008;
+    f = 0.000008;
     printf("FLOAT: %h\n", f);
     f = 1002345678.657001;
     printf("FLOAT: %H\n", f);

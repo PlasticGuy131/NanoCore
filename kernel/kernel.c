@@ -68,11 +68,11 @@ void kernel_main(void)
 
     printf("testing printf..");
     double f = 5;
-    printf("FLOAT: %f\n", f);
+    printf("FLOAT: %e\n", f);
     f /= 2;
-    printf("FLOAT: %f\n", f);
+    printf("FLOAT: %e\n", f);
     f = 10023.657001;
-    printf("FLOAT: %f\n", f);
+    printf("FLOAT: %E\n", f);
     f = 0.999999909;
-    printf("FLOAT: %f\n", f);
+    printf("FLOAT: %E\n", f);
 }

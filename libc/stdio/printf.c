@@ -115,7 +115,7 @@ static size_t print_float(double f, int (*put)(int), size_t written, unsigned ma
         rounded = true;
     }
 
-    size_t l = print_uint(i, put, written, max);
+    int l = print_uint(i, put, written, max);
     if (l == -1) { return -1; }
     written += l;
 
@@ -188,7 +188,8 @@ static size_t print_exp(double f, int (*put)(int), size_t written, unsigned max,
         exp--;
     }
 
-    size_t l = print_float(f, put, written, max, dp);
+    int l = print_float(f, put, written, max, dp);
+    if (l == -1) { return -1; }
     written += l;
 
     if (written == max)
@@ -198,7 +199,7 @@ static size_t print_exp(double f, int (*put)(int), size_t written, unsigned max,
     }
     if(put((ecase == UPPER) ? 'e' : 'E') == EOF) { return -1; }
 
-    if (e < 0)
+    if (exp < 0)
     {
         if (written == max)
         {
@@ -214,12 +215,12 @@ static size_t print_exp(double f, int (*put)(int), size_t written, unsigned max,
         return -1;
     }
 
-    if (e < 10)
+    if (exp < 10)
     {
         if(put('0') == EOF) { return -1; }
     }
-    int l = print_uint((unsigned) e, put, written, max);
-    if (l == -1;) { return -1; }
+    l = print_uint((unsigned) exp, put, written, max);
+    if (l == -1) { return -1; }
     written += 3;
     return written;
 }
@@ -399,7 +400,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 double E = va_arg(arg, double);
 
-                l = print_exp(e, put, written, max, 6, UPPER);
+                l = print_exp(E, put, written, max, 6, UPPER);
                 if (l == -1) { return -1; }
                 break;
             case 'n':

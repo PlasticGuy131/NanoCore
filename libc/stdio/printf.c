@@ -192,36 +192,18 @@ static size_t print_exp(double f, int (*put)(int), size_t written, unsigned max,
     if (l == -1) { return -1; }
     written += l;
 
-    if (written == max)
+    if (written + 4 > max)
     {
         //TODO: Set errno to EOVERFOW.
         return -1;
     }
-    if(put((ecase == UPPER) ? 'e' : 'E') == EOF) { return -1; }
-
-    if (exp < 0)
-    {
-        if (written == max)
-        {
-            //TODO: Set errno to EOVERFOW.
-            return -1;
-        }
-        if(put('-') == EOF) { return -1; }
-    }
-
-    if (written + 2 > max)
-    {
-        //TODO: Set errno to EOVERFOW.
-        return -1;
-    }
-
-    if (exp < 10)
-    {
-        if(put('0') == EOF) { return -1; }
-    }
+    if(put((ecase == UPPER) ? 'E' : 'e') == EOF) { return -1; }
+    if(put((exp < 0) ? '+' : '-') == EOF) { return -1; }
+    if (exp < 0) { exp *= -1; }
+    if (exp < 10) { if(put('0') == EOF) { return -1; } }
     l = print_uint((unsigned) exp, put, written, max);
     if (l == -1) { return -1; }
-    written += 3;
+    written += 4;
     return written;
 }
 

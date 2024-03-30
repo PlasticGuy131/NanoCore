@@ -77,7 +77,7 @@ static int print_hex(unsigned i, int (*put)(int), int written, enum Case hcase, 
     return len;
 }
 
-static int print_float(float f, int (*put)(int), int written, unsigned max, unsigned dp)
+static int print_float(double f, int (*put)(int), int written, unsigned max, unsigned dp)
 {
     if (f < 0)
     {
@@ -95,7 +95,7 @@ static int print_float(float f, int (*put)(int), int written, unsigned max, unsi
 
     bool rounded = false;
     bool round = true;
-    float test_f = f;
+    double test_f = f;
     for (size_t j = 0; j < dp+1; j++)
     {
         test_f *= 10.0;
@@ -146,7 +146,7 @@ static int print_float(float f, int (*put)(int), int written, unsigned max, unsi
         f -= c;
 
         bool round = true;
-        float test_f = f;
+        double test_f = f;
         for (size_t i = 0; i < dp+1; i++)
         {
             test_f *= 10.0;
@@ -174,7 +174,6 @@ static int print_float(float f, int (*put)(int), int written, unsigned max, unsi
 
 static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, va_list arg)
 {
-    //TODO: Float support
     //TODO: Flags and such
     size_t written = 0;
 
@@ -330,7 +329,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'f':
                 format++;
-                float f = (float) va_arg(arg, double);
+                double f = va_arg(arg, double);
 
                 l = print_float(f, put, written, max, 6);
                 if (l == -1) { return -1; }

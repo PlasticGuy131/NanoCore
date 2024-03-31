@@ -213,6 +213,17 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
     return written;
 }
 
+static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigned max, enum Case acase)
+{
+    if (put((acase == UPPER) ? 'P' : 'p') == EOF) { return -1; }
+    if (put((exp >= 0) ? '+' : '-') == EOF) { return -1; }
+    if (exp < 0) { exp *= -1; }
+    int l = print_uint(exp, put, written, max);
+    if (l == -1) { return -1; }
+    written += l;
+    return written;
+}
+
 static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool round, unsigned dp, enum Case acase)
 {
     if (f < 0)
@@ -247,10 +258,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         }
         written += 3;
         if (put((f >= 1.5) ? '2' : '1') == EOF) { return -1; }
-        if (put((acase == UPPER) ? 'P' : 'p') == EOF) { return -1; }
-        if (put((exp >= 0) ? '+' : '-') == EOF) { return -1; }
-        if (exp < 0) { exp *= -1; }
-        int l = print_uint(exp, put, written, max);
+        int l = print_float_hex_exp(exp, put, written, max, acase);
         if (l == -1) { return -1; }
         written += l;
         return written;
@@ -282,6 +290,10 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         f -= n;
         f *= 16;
     }
+
+    int l = print_float_hex_exp(exp, put, written, max, acase);
+    if (l == -1) { return -1; }
+    written += l;
     return written;
 }
 
@@ -502,6 +514,14 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 double a = va_arg(arg, double);
 
                 l = print_float_hex(a, put, written, max, false, 0, LOWER);
+                if (l == -1) { return -1; }
+                written += l;
+                break;
+            case 'A':
+                format++;
+                double a = va_arg(arg, double);
+
+                l = print_float_hex(a, put, written, max, false, 0, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

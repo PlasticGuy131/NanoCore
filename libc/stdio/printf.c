@@ -247,7 +247,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         }
         written += 3;
         if (put((f >= 1.5) ? '2' : '1') == EOF) { return -1; }
-        if (put((hcase == UPPER) ? 'P' : 'p') == EOF) { return -1; }
+        if (put((acase == UPPER) ? 'P' : 'p') == EOF) { return -1; }
         if (put((exp >= 0) ? '+' : '-') == EOF) { return -1; }
         if (exp < 0) { exp *= -1; }
         int l = print_uint(exp, put, written, max);

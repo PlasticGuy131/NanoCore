@@ -519,9 +519,9 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'A':
                 format++;
-                double a = va_arg(arg, double);
+                double A = va_arg(arg, double);
 
-                l = print_float_hex(a, put, written, max, false, 0, UPPER);
+                l = print_float_hex(A, put, written, max, false, 0, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

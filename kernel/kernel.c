@@ -67,8 +67,13 @@ void kernel_main(void)
     printf("RED -> %d\n", COLOUR_RED);
 
     printf("testing printf...\n");
-    float f = 3.14;
-    printf("FLOAT: %a\n", f);
-    f = 256;
-    printf("FLOAT: %A\n", f);
+    float f = 5;
+    printf("FLOAT: %g\n", f);
+    printf("FLOAT: %f\n", f);
+    f = 5.1;
+    printf("FLOAT: %G\n", f);
+    printf("FLOAT: %f\n", f);
+    f = 100000000;
+    printf("FLOAT: %g\n", f);
+    printf("FLOAT: %f\n", f);
 }

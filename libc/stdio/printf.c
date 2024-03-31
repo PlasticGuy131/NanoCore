@@ -93,7 +93,7 @@ static int print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, 
     return len;
 }
 
-static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp)
+static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate)
 {
     if (f < 0)
     {
@@ -135,6 +135,8 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if (l == -1) { return -1; }
     written += l;
 
+    if (f == 0 && truncate) { return written; }
+
     if (written == max)
     {
         //TODO: Set errno to EOVERFOW.
@@ -143,7 +145,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if(put((int)'.') == EOF) { return -1; }
     written++;
 
-    while (dp > 0)
+    while (dp > 0 && (!trucate || f != 0))
     {
         dp--;
         if (written == max)
@@ -194,7 +196,7 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
 {
     int exp = get_exp(&f, 10);
 
-    int l = print_float(f, put, written, max, dp);
+    int l = print_float(f, put, written, max, dp, true);
     if (l == -1) { return -1; }
     written += l;
 
@@ -464,7 +466,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 double f = va_arg(arg, double);
 
-                l = print_float(f, put, written, max, 6);
+                l = print_float(f, put, written, max, 6, false);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -484,7 +486,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (l == -1) { return -1; }
                 written += l;
                 break;
-            case 'h':
+            case 'g':
                 format++;
                 double h = va_arg(arg, double);
 
@@ -496,11 +498,11 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 }
                 else
                 {
-                    l = print_float(h, put, written, max, 6);
+                    l = print_float(h, put, written, max, 6, true);
                 }
                 written += l;
                 break;
-            case 'H':
+            case 'G':
                 format++;
                 double H = va_arg(arg, double);
 
@@ -512,7 +514,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 }
                 else
                 {
-                    l = print_float(H, put, written, max, 6);
+                    l = print_float(H, put, written, max, 6, true);
                 }
                 written += l;
                 break;

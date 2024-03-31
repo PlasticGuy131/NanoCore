@@ -15,17 +15,17 @@ enum Case
 char* buf;
 int offset;
 
-static int get_exp(double* d)
+static int get_exp(double* d, unsigned base)
 {
     int exp = 0;
-    while (*(d) >= 10.0)
+    while (*(d) >= base)
     {
-        *(d) /= 10.0;
+        *(d) /= base;
         exp++;
     }
     while (*(d) < 1.0)
     {
-        *(d) *= 10.0;
+        *(d) *= base;
         exp--;
     }
     return exp;
@@ -39,7 +39,7 @@ static int sputchar(int ic)
     return ic;
 }
 
-static size_t print_uint(unsigned i, int (*put)(int), size_t written, unsigned max)
+static int print_uint(unsigned i, int (*put)(int), size_t written, unsigned max)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -65,7 +65,7 @@ static size_t print_uint(unsigned i, int (*put)(int), size_t written, unsigned m
     return len;
 }
 
-static size_t print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, enum Case hcase)
+static int print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, enum Case hcase)
 {
     size_t len = 1;
     unsigned header = 1;
@@ -93,7 +93,7 @@ static size_t print_hex(unsigned i, int (*put)(int), size_t written, unsigned ma
     return len;
 }
 
-static size_t print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp)
+static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp)
 {
     if (f < 0)
     {
@@ -102,7 +102,7 @@ static size_t print_float(double f, int (*put)(int), size_t written, unsigned ma
             // TODO: Set errno to EOVERFOW.
             return -1;
         }
-        if (put((int)'-') == EOF) { return -1; }
+        if (put('-') == EOF) { return -1; }
         written++;
         f *= -1;
     }
@@ -190,9 +190,9 @@ static size_t print_float(double f, int (*put)(int), size_t written, unsigned ma
     return written;
 }
 
-static size_t print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, enum Case ecase)
+static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, enum Case ecase)
 {
-    int exp = get_exp(&f);
+    int exp = get_exp(&f, 10);
 
     int l = print_float(f, put, written, max, dp);
     if (l == -1) { return -1; }
@@ -210,6 +210,78 @@ static size_t print_exp(double f, int (*put)(int), size_t written, unsigned max,
     l = print_uint((unsigned) exp, put, written, max);
     if (l == -1) { return -1; }
     written += 4;
+    return written;
+}
+
+static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool round, unsigned dp, enum Case acase)
+{
+    if (f < 0)
+    {
+        if (written == max)
+        {
+            // TODO: Set errno to EOVERFOW.
+            return -1;
+        }
+        if (put('-') == EOF) { return -1; }
+        written++;
+        f *= -1;
+    }
+
+    int exp = get_exp(&f, 2);
+
+    if (written + 2 > max)
+    {
+        // TODO: Set errno to EOVERFOW.
+        return -1;
+    }
+    written += 2;
+    if (put('0') == EOF) { return -1; }
+    if (put((hcase == UPPER) ? 'X' : 'x') == EOF) { return -1; }
+
+    if (round && dp == 0)
+    {
+        if (written + 3 > max)
+        {
+            // TODO: Set errno to EOVERFOW.
+            return -1;
+        }
+        written += 3;
+        if (put((f >= 1.5) ? '2' : '1') == EOF) { return -1; }
+        if (put((hcase == UPPER) ? 'P' : 'p') == EOF) { return -1; }
+        if (put((exp >= 0) ? '+' : '-') == EOF) { return -1; }
+        if (exp < 0) { exp *= -1; }
+        int l = print_uint(exp, put, written, max);
+        if (l == -1;) { return -1; }
+        written += l;
+        return written;
+    }
+
+    if (written + 2 > max)
+    {
+        // TODO: Set errno to EOVERFOW.
+        return -1;
+    }
+    written += 2;
+    if (put('1') == EOF) { return -1; }
+    if (put('.') == EOF) { return -1; }
+
+    f--;
+    f *= 16;
+    while ((!round && f != 0) || (round && dp > 0))
+    {
+        if (written == max)
+        {
+            // TODO: Set errno to EOVERFOW.
+            return -1;
+        }
+
+        dp--;
+        unsigned n = f;
+        if (put((n < 10) ? n + '0' : n - 10 + 'A' + acase * 32) == EOF) { return -1; }
+        written++;
+        f -= n;
+        f *= 16;
+    }
     return written;
 }
 
@@ -246,7 +318,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     //TODO: Set errno to EOVERFOW.
                     return -1;
                 }
-                if(put((int)'%') == EOF) { return -1; }
+                if(put('%') == EOF) { return -1; }
                 written++;
                 break;
             case 'c':
@@ -287,7 +359,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         //TODO: Set errno to EOVERFOW.
                         return -1;
                     }
-                    if(put((int)'-') == EOF) { return -1; }
+                    if(put('-') == EOF) { return -1; }
                     written++;
                 }
                 l = print_uint(i, put, written, max);
@@ -313,7 +385,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         //TODO: Set errno to EOVERFOW.
                         return -1;
                     }
-                    if(put((int)'-') == EOF) { return -1; }
+                    if(put('-') == EOF) { return -1; }
                     written++;
                 }
                 len = 1;
@@ -362,8 +434,8 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     return -1;
                 }
 
-                if(put((int)'0') == EOF) { return -1; }
-                if(put((int)'x') == EOF) { return -1; }
+                if(put('0') == EOF) { return -1; }
+                if(put('x') == EOF) { return -1; }
                 l = print_hex(p, put, written, max, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
@@ -398,7 +470,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 double h = va_arg(arg, double);
 
                 double test_h = h;
-                int exp_h = get_exp(&test_h);
+                int exp_h = get_exp(&test_h, 10);
                 if (exp_h < -4 || exp_h >= 6)
                 {
                     l = print_exp(h, put, written, max, 6, LOWER);                    
@@ -414,7 +486,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 double H = va_arg(arg, double);
 
                 double test_H = H;
-                int exp_H = get_exp(&test_H);
+                int exp_H = get_exp(&test_H, 10);
                 if (exp_H < -4 || exp_H >= 6)
                 {
                     l = print_exp(H, put, written, max, 6, UPPER);                    
@@ -423,6 +495,14 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 {
                     l = print_float(H, put, written, max, 6);
                 }
+                written += l;
+                break;
+            case 'a':
+                format++;
+                double a = va_arg(arg, double);
+
+                l = print_float_hex(a, put, written, max, false, 0, LOWER);
+                if (l == -1) { return -1; }
                 written += l;
                 break;
             case 'n':

@@ -236,7 +236,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     }
     written += 2;
     if (put('0') == EOF) { return -1; }
-    if (put((hcase == UPPER) ? 'X' : 'x') == EOF) { return -1; }
+    if (put((acase == UPPER) ? 'X' : 'x') == EOF) { return -1; }
 
     if (round && dp == 0)
     {
@@ -251,7 +251,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         if (put((exp >= 0) ? '+' : '-') == EOF) { return -1; }
         if (exp < 0) { exp *= -1; }
         int l = print_uint(exp, put, written, max);
-        if (l == -1;) { return -1; }
+        if (l == -1) { return -1; }
         written += l;
         return written;
     }

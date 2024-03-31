@@ -69,4 +69,6 @@ void kernel_main(void)
     printf("testing printf...\n");
     float f = 3.14;
     printf("FLOAT: %a\n", f);
+    f = 256;
+    printf("FLOAT: %A\n", f);
 }

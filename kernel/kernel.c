@@ -55,7 +55,7 @@ void kernel_main(void)
         terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
     }
 
-    printf("Initializing floats...\n");
+    printf("Initializing FPU...\n");
     if (float_initialize())
     {
         terminal_set_colour(COLOUR_RED, COLOUR_BLACK);

@@ -264,14 +264,21 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         return written;
     }
 
-    if (written + 2 > max)
+    if (written == max)
     {
         // TODO: Set errno to EOVERFOW.
         return -1;
     }
-    written += 2;
+    written ++;
     if (put('1') == EOF) { return -1; }
-    if (put('.') == EOF) { return -1; }
+
+    if (written == max)
+    {
+        // TODO: Set errno to EOVERFOW.
+        return -1;
+    }
+    written ++;
+    if (round || f != 1) { if (put('.') == EOF) { return -1; } }
 
     f--;
     f *= 16;

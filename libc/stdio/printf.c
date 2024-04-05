@@ -153,7 +153,6 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     while (dp > 0 && !(truncate && f < lim))
     {
-        printf("%i\n", (int)(f < lim));
         dp--;
         if (written == max)
         {

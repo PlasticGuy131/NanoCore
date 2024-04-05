@@ -144,19 +144,10 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     }
     if(put((int)'.') == EOF) { return -1; }
     written++;
-
-    double lim = 1;
-    for (size_t j = 0; j < dp; j++)
+    
+    bool cont = true;
+    while (dp > 0 && !(truncate && !cont))
     {
-        lim /= 10;
-    }
-
-    put('\n');
-    while (dp > 0 && !(truncate && f < lim))
-    {
-        put(f < lim ? '0' : '1');
-        put('\n');
-        
         dp--;
         if (written == max)
         {
@@ -182,6 +173,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
             test_f *= 10.0;
             unsigned test_c = test_f;
             test_f -= test_c;
+            cont = cont && (test_c == 0);
             unsigned limit = (i == dp) ? 5 : 9;
             if (test_c < limit)
             {

@@ -151,7 +151,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         lim /= 10;
     }
 
-    while (dp > 0 && !(truncate && f < lim))
+    while (dp > 0 && !(truncate && f == 0.0))
     {
         dp--;
         if (written == max)

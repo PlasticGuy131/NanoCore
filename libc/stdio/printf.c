@@ -147,7 +147,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if(put((int)'.') == EOF) { return -1; }
     written++;
     
-    bool cont = true;
+    cont = true;
     while (dp > 0 && !(truncate && !cont))
     {
         dp--;

@@ -6,11 +6,11 @@
 #include <stdint.h>
 #include <string.h>
 
-static const PRINTF_FLAG_ALT = 1;
-static const PRINTF_FLAG_ZERO = 2;
-static const PRINTF_FLAG_LEFT = 4;
-static const PRINTF_FLAG_SPACE = 8;
-static const PRINTF_FLAG_SIGN = 16;
+static const unsigned char PRINTF_FLAG_ALT = 1;
+static const unsigned char PRINTF_FLAG_ZERO = 2;
+static const unsigned char PRINTF_FLAG_LEFT = 4;
+static const unsigned char PRINTF_FLAG_SPACE = 8;
+static const unsigned char PRINTF_FLAG_SIGN = 16;
 
 enum Case
 {

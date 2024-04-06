@@ -63,8 +63,8 @@ void kernel_main(void)
         terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
     }
 
+    printf("\n");
     kernel_intro_splash();
-    printf("RED -> %d\n", COLOUR_RED);
 
     printf("testing printf...\n");
     double f = 5.0000001;

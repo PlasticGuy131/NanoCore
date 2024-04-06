@@ -119,11 +119,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         unsigned test_c = test_f;
         test_f -= test_c;
 
-        put('\n');
-        put(test_c + '0');
-        put('\n');
-
-        if (test_c != 0)
+        if (test_c != 0 && j < dp)
         {
             stop = false;
         }

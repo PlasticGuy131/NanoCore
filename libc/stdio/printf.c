@@ -111,7 +111,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     bool rounded = false;
     bool round = true;
-    bool cont = false;
+    bool cont = true;
     double test_f = f;
     for (size_t j = 0; j < dp+1; j++)
     {

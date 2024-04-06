@@ -116,7 +116,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     for (size_t j = 0; j < dp+1; j++)
     {
         test_f *= 10.0;
-        unsigned test_c = test_f;
+        unsigned test_c = (unsigned) test_f;
         test_f -= test_c;
         put('\n');
         put(test_c + '0');
@@ -130,7 +130,6 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         if (test_c < limit)
         {
             round = false;
-            break;
         }
     }
 

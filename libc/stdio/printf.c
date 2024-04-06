@@ -205,11 +205,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     return written;
 }
 
-static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, enum Case ecase)
+static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Case ecase)
 {
     int exp = get_exp(&f, 10);
 
-    int l = print_float(f, put, written, max, dp, true);
+    int l = print_float(f, put, written, max, dp, truncate);
     if (l == -1) { return -1; }
     written += l;
 
@@ -441,9 +441,11 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 {
                     if (written == max)
                     {
-                        if(put('0') == EOF) { return -1; }
-                        written++;
+                        //TODO: Set errno to EOVERFOW.
+                        return -1;
                     }
+                    if(put('0') == EOF) { return -1; }
+                    written++;
                 }
 
                 if (o < 0)
@@ -483,6 +485,18 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'x':
                 format++;
                 unsigned x = va_arg(arg, unsigned);
+                if (flags & PRINTF_FLAG_ALT)
+                {
+                    if (written + 2 > max)
+                    {
+                        //TODO: Set errno to EOVERFOW.
+                        return -1;
+                    }
+
+                    if(put('0') == EOF) { return -1; }
+                    if(put('x') == EOF) { return -1; }
+                }
+
                 l = print_hex(x, put, written, max, LOWER);
                 if (l == -1) { return -1; }
                 written += l;
@@ -490,6 +504,18 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'X':
                 format++;
                 unsigned X = va_arg(arg, unsigned);
+                if (flags & PRINTF_FLAG_ALT)
+                {
+                    if (written + 2 > max)
+                    {
+                        //TODO: Set errno to EOVERFOW.
+                        return -1;
+                    }
+
+                    if(put('0') == EOF) { return -1; }
+                    if(put('X') == EOF) { return -1; }
+                }
+
                 l = print_hex(X, put, written, max, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
@@ -522,7 +548,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 double e = va_arg(arg, double);
 
-                l = print_exp(e, put, written, max, 6, LOWER);
+                l = print_exp(e, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), LOWER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -530,7 +556,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 double E = va_arg(arg, double);
 
-                l = print_exp(E, put, written, max, 6, UPPER);
+                l = print_exp(E, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), UPPER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -542,7 +568,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 int exp_g = get_exp(&test_g, 10);
                 if (exp_g < -4 || exp_g >= 6)
                 {
-                    l = print_exp(g, put, written, max, 5, LOWER);                    
+                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), LOWER);                    
                 }
                 else
                 {
@@ -558,7 +584,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 int exp_G = get_exp(&test_G, 10);
                 if (exp_G < -4 || exp_G >= 6)
                 {
-                    l = print_exp(G, put, written, max, 5, UPPER);                    
+                    l = print_exp(G, put, written, max, 5, true, UPPER);                    
                 }
                 else
                 {

@@ -111,14 +111,14 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     bool rounded = false;
     bool round = true;
-    bool cont = true;
+    bool stop = true;
     double test_f = f;
     for (size_t j = 0; j < dp+1; j++)
     {
         test_f *= 10.0;
         unsigned test_c = test_f;
         test_f -= test_c;
-        cont = cont && (test_c == 0);
+        stop = stop && (test_c == 0);
         unsigned limit = (j == dp) ? 5 : 9;
         if (test_c < limit)
         {
@@ -137,7 +137,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if (l == -1) { return -1; }
     written += l;
 
-    if (truncate && !cont) { return written; }
+    if (truncate && stop) { return written; }
 
     if (written == max)
     {
@@ -147,7 +147,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if(put((int)'.') == EOF) { return -1; }
     written++;
     
-    cont = true;
+    bool cont = true;
     while (dp > 0 && !(truncate && !cont))
     {
         dp--;

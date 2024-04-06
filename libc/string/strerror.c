@@ -10,6 +10,6 @@ char* strerror(int errnum)
         case EOVERFLOW:
             return "Value too large for defined data type";
         default:
-            return "Unknown error"
+            return "Unknown error";
     }
 }

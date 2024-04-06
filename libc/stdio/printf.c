@@ -233,13 +233,14 @@ static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigne
     if (put((acase == UPPER) ? 'P' : 'p') == EOF) { return -1; }
     if (put((exp >= 0) ? '+' : '-') == EOF) { return -1; }
     if (exp < 0) { exp *= -1; }
+    if (exp < 10) { if (put('0') == EOF) { return -1; } }
     int l = print_uint(exp, put, written, max);
     if (l == -1) { return -1; }
     written += l;
     return written;
 }
 
-static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool round, unsigned dp, enum Case acase)
+static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool trunc, unsigned dp, bool point, enum Case acase)
 {
     if (f < 0)
     {
@@ -264,7 +265,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     if (put('0') == EOF) { return -1; }
     if (put((acase == UPPER) ? 'X' : 'x') == EOF) { return -1; }
 
-    if (round && dp == 0)
+    if (trunc && dp == 0)
     {
         if (written + 3 > max)
         {
@@ -293,11 +294,11 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         return -1;
     }
     written ++;
-    if (round || f != 1) { if (put('.') == EOF) { return -1; } }
+    if (trunc || (f != 1 && !point)) { if (put('.') == EOF) { return -1; } }
 
     f--;
     f *= 16;
-    while ((!round && f != 0) || (round && dp > 0))
+    while ((!trunc && f != 0) || (trunc && dp > 0))
     {
         if (written == max)
         {
@@ -596,7 +597,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 double a = va_arg(arg, double);
 
-                l = print_float_hex(a, put, written, max, false, 0, LOWER);
+                l = print_float_hex(a, put, written, max, false, 0, flags & PRINTF_FLAG_ALT, LOWER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -604,7 +605,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 double A = va_arg(arg, double);
 
-                l = print_float_hex(A, put, written, max, false, 0, UPPER);
+                l = print_float_hex(A, put, written, max, false, 0, flags & PRINTF_FLAG_ALT, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

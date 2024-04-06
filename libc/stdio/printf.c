@@ -584,7 +584,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 int exp_G = get_exp(&test_G, 10);
                 if (exp_G < -4 || exp_G >= 6)
                 {
-                    l = print_exp(G, put, written, max, 5, true, UPPER);                    
+                    l = print_exp(G, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), UPPER);                    
                 }
                 else
                 {

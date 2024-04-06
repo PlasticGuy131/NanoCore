@@ -83,6 +83,8 @@ void kernel_main(void)
     printf("\n");
     f = 5.00001;
     printf("FLOAT g: %g\n", f);
+    printf("FLOAT f: %f\n", f);
     f = 50.00001;
     printf("FLOAT g: %g\n", f);
+    printf("FLOAT f: %f\n", f);
 }

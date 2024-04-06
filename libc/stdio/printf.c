@@ -242,6 +242,9 @@ static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigne
 
 static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool trunc, unsigned dp, bool point, enum Case acase)
 {
+    put('\n');
+    put(point + '0');
+    put('\n');
     if (f < 0)
     {
         if (written == max)

@@ -12,6 +12,7 @@ int snprintf(char* s, const char* restrict format, size_t n, ...);
 int vprintf(const char* restrict format, va_list arg);
 int vsprintf(char* s, const char* restrict format, va_list arg);
 int vsnprintf(char* s, const char* restrict format, size_t n, va_list arg);
+void perror(const char* s);
 int putchar(int ic);
 int puts(const char* string);
 

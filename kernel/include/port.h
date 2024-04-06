@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-static const uint32_t BDA_START = 0x0400;
+#define BDA_START 0x0400;
 
 void outb(uint16_t port, uint8_t val);
 void outw(uint16_t port, uint16_t val);

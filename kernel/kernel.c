@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -11,7 +12,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "printf tests"
+#define VERSION "errno"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -66,8 +67,7 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    printf("testing printf...\n");
-    float f = 2.0;
-    printf("FLOAT: %a\n", f);
-    printf("FLOAT: %#a\n", f);
+    printf("Testing errno...");
+    errno = EOVERFLOW;
+    perror("TEST");
 }

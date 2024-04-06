@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <limits.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -57,7 +58,7 @@ static int print_uint(unsigned i, int (*put)(int), size_t written, unsigned max)
 
     if (written + len > max)
     {
-        //TODO: Set errno to EOVERFOW.
+        errno = EOVERFLOW;
         return -1;
     }
 
@@ -83,7 +84,7 @@ static int print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, 
 
     if (written + len > max)
     {
-        //TODO: Set errno to EOVERFOW.
+        errno = EOVERFLOW;
         return -1;
     }
 
@@ -105,7 +106,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     {
         if (written == max)
         {
-            // TODO: Set errno to EOVERFOW.
+            errno = EOVERFLOW;
             return -1;
         }
         if (put('-') == EOF) { return -1; }
@@ -150,7 +151,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (written == max)
     {
-        //TODO: Set errno to EOVERFOW.
+        errno = EOVERFLOW;
         return -1;
     }
     if(put((int)'.') == EOF) { return -1; }
@@ -162,7 +163,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         dp--;
         if (written == max)
         {
-            //TODO: Set errno to EOVERFOW.
+            errno = EOVERFLOW;
             return -1;
         }
 
@@ -215,7 +216,7 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
 
     if (written + 4 > max)
     {
-        //TODO: Set errno to EOVERFOW.
+        errno = EOVERFLOW;
         return -1;
     }
     if(put((ecase == UPPER) ? 'E' : 'e') == EOF) { return -1; }
@@ -246,7 +247,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     {
         if (written == max)
         {
-            // TODO: Set errno to EOVERFOW.
+            errno = EOVERFLOW;
             return -1;
         }
         if (put('-') == EOF) { return -1; }
@@ -258,7 +259,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
 
     if (written + 2 > max)
     {
-        // TODO: Set errno to EOVERFOW.
+        errno = EOVERFLOW;
         return -1;
     }
     written += 2;
@@ -269,7 +270,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     {
         if (written + 3 > max)
         {
-            // TODO: Set errno to EOVERFOW.
+            errno = EOVERFLOW;
             return -1;
         }
         written += 3;
@@ -282,7 +283,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
 
     if (written == max)
     {
-        // TODO: Set errno to EOVERFOW.
+        errno = EOVERFLOW;
         return -1;
     }
     written ++;
@@ -290,7 +291,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
 
     if (written == max)
     {
-        // TODO: Set errno to EOVERFOW.
+        errno = EOVERFLOW;
         return -1;
     }
     written ++;
@@ -302,7 +303,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     {
         if (written == max)
         {
-            // TODO: Set errno to EOVERFOW.
+            errno = EOVERFLOW;
             return -1;
         }
 
@@ -329,7 +330,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
     {
         if (written > max)
         {
-            //TODO: Set errno to EOVERFOW.
+            errno = EOVERFLOW;
             return -1;
         }
 
@@ -375,7 +376,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 if (written == max)
                 {
-                    //TODO: Set errno to EOVERFOW.
+                    errno = EOVERFLOW;
                     return -1;
                 }
                 if(put('%') == EOF) { return -1; }
@@ -385,7 +386,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 if (written == max)
                 {
-                    //TODO: Set errno to EOVERFOW.
+                    errno = EOVERFLOW;
                     return -1;
                 }
                 int c = va_arg(arg, int);
@@ -398,7 +399,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 len = strlen(s);
                 if (written + len > max)
                 {
-                     //TODO: Set errno to EOVERFOW.
+                    errno = EOVERFLOW;
                     return -1;
                 }
                 for (size_t i = 0; i < len; i++)
@@ -416,7 +417,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     i = -i;
                     if (written == max)
                     {
-                        //TODO: Set errno to EOVERFOW.
+                        errno = EOVERFLOW;
                         return -1;
                     }
                     if(put('-') == EOF) { return -1; }
@@ -442,7 +443,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 {
                     if (written == max)
                     {
-                        //TODO: Set errno to EOVERFOW.
+                        errno = EOVERFLOW;
                         return -1;
                     }
                     if(put('0') == EOF) { return -1; }
@@ -454,7 +455,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     o = -o;
                     if (written == max)
                     {
-                        //TODO: Set errno to EOVERFOW.
+                        errno = EOVERFLOW;
                         return -1;
                     }
                     if(put('-') == EOF) { return -1; }
@@ -470,7 +471,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                 if (written + len > max)
                 {
-                    //TODO: Set errno to EOVERFOW.
+                    errno = EOVERFLOW;
                     return -1;
                 }
 
@@ -490,7 +491,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 {
                     if (written + 2 > max)
                     {
-                        //TODO: Set errno to EOVERFOW.
+                        errno = EOVERFLOW;
                         return -1;
                     }
 
@@ -509,7 +510,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 {
                     if (written + 2 > max)
                     {
-                        //TODO: Set errno to EOVERFOW.
+                        errno = EOVERFLOW;
                         return -1;
                     }
 
@@ -526,7 +527,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 unsigned p = va_arg(arg, unsigned);
                 if (written + 2 > max)
                 {
-                    //TODO: Set errno to EOVERFOW.
+                    errno = EOVERFLOW;
                     return -1;
                 }
 

@@ -6,6 +6,7 @@
         "utility": "c",
         "initializer_list": "c",
         "type_traits": "c",
-        "xutility": "c"
+        "xutility": "c",
+        "stddef.h": "c"
     }
 }

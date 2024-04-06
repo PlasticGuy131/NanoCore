@@ -67,24 +67,6 @@ void kernel_main(void)
     kernel_intro_splash();
 
     printf("testing printf...\n");
-    int o = 17;
-    printf("OCTAL: %o\n", o);
-    printf("OCTAL: %#o\n", o);
-    printf("\n");
-    printf("HEX: %#x\n", 12);
-    printf("HEX: %X\n", 12);
-    printf("\n");
-    double f = 500000000;
-    printf("FLOAT g: %g\n", f);
-    printf("FLOAT e: %e\n", f);
-    printf("\n");
-    printf("FLOAT G: %#G\n", f);
-    printf("FLOAT E: %#E\n", f);
-    printf("\n");
-    f = 5.00001;
-    printf("FLOAT g: %g\n", f);
-    printf("FLOAT f: %f\n", f);
-    f = 50.00001;
-    printf("FLOAT g: %g\n", f);
-    printf("FLOAT f: %f\n", f);
+    float f = 2.0;
+    printf("FLOAT: %a", f);
 }

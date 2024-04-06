@@ -115,12 +115,12 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     double test_f = f;
     for (size_t j = 0; j < dp+1; j++)
     {
-        put('\n');
-        put(test_c + '0');
-        put('\n');
         test_f *= 10.0;
         unsigned test_c = test_f;
         test_f -= test_c;
+        put('\n');
+        put(test_c + '0');
+        put('\n');
         //stop = stop && (test_c == 0);
         if (test_c != 0)
         {

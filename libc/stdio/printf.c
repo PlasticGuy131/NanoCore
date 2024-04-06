@@ -141,6 +141,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if (l == -1) { return -1; }
     written += l;
 
+    put(stop ? 'A' : 'B');
     //if (truncate && stop) { return written; }
 
     if (written == max)

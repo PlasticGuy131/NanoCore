@@ -67,13 +67,13 @@ void kernel_main(void)
     kernel_intro_splash();
 
     printf("testing printf...\n");
-    double f = 5.0000001;
-    printf("FLOAT: %g\n", f);
-    printf("FLOAT: %f\n", f);
-    f = 5.1;
-    printf("FLOAT: %G\n", f);
-    printf("FLOAT: %f\n", f);
-    f = 100000000;
-    printf("FLOAT: %g\n", f);
-    printf("FLOAT: %f\n", f);
+    int o = 17;
+    printf("OCTAL: %o\n", o);
+    printf("OCTAL: %#o\n", o);
+    double f = 5.000001;
+    printf("FLOAT G: %g\n", f);
+    printf("FLOAT F: %f\n", f);
+    printf("\n");
+    printf("FLOAT G: %#g\n", f);
+    printf("FLOAT F: %#f\n", f);
 }

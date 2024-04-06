@@ -6,6 +6,12 @@
 #include <stdint.h>
 #include <string.h>
 
+static const PRINTF_FLAG_ALT = 1;
+static const PRINTF_FLAG_ZERO = 2;
+static const PRINTF_FLAG_LEFT = 4;
+static const PRINTF_FLAG_SPACE = 8;
+static const PRINTF_FLAG_SIGN = 16;
+
 enum Case
 {
     LOWER = 1,
@@ -139,7 +145,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     int l = print_uint(i, put, written, max);
     if (l == -1) { return -1; }
     written += l;
-    
+
     if (truncate && stop) { return written; }
 
     if (written == max)
@@ -335,6 +341,31 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         }
 
         format++;
+        char flags = 0;
+        switch (*format)
+        {
+            case '#':
+                flags |= PRINTF_FLAG_ALT;
+                format++;
+                break;
+            case '0':
+                flags |= PRINTF_FLAG_ZERO;
+                format++;
+                break;
+            case '-':
+                flags |= PRINTF_FLAG_LEFT;
+                format++;
+                break;
+            case ' ':
+                flags |= PRINTF_FLAG_SPACE;
+                format++;
+                break;
+            case '+':
+                flags |= PRINTF_FLAG_SIGN;
+                format++;
+                break;
+        }
+
         switch (*format)
         {
             int l;
@@ -405,6 +436,16 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'o':
                 format++;
                 int o = va_arg(arg, int);
+
+                if (o != 0 && (flags & PRINTF_FLAG_ALT))
+                {
+                    if (written == max)
+                    {
+                        if(put('0') == EOF) { return -1; }
+                        written++;
+                    }
+                }
+
                 if (o < 0)
                 {
                     o = -o;
@@ -495,33 +536,33 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'g':
                 format++;
-                double h = va_arg(arg, double);
+                double g = va_arg(arg, double);
 
-                double test_h = h;
-                int exp_h = get_exp(&test_h, 10);
-                if (exp_h < -4 || exp_h >= 6)
+                double test_g = g;
+                int exp_g = get_exp(&test_g, 10);
+                if (exp_g < -4 || exp_g >= 6)
                 {
-                    l = print_exp(h, put, written, max, 6, LOWER);                    
+                    l = print_exp(g, put, written, max, 5, LOWER);                    
                 }
                 else
                 {
-                    l = print_float(h, put, written, max, 6, true);
+                    l = print_float(g, put, written, max, 5 - exp_g, !(flags & PRINTF_FLAG_ALT));
                 }
                 written += l;
                 break;
             case 'G':
                 format++;
-                double H = va_arg(arg, double);
+                double G = va_arg(arg, double);
 
-                double test_H = H;
-                int exp_H = get_exp(&test_H, 10);
-                if (exp_H < -4 || exp_H >= 6)
+                double test_G = G;
+                int exp_G = get_exp(&test_G, 10);
+                if (exp_G < -4 || exp_G >= 6)
                 {
-                    l = print_exp(H, put, written, max, 6, UPPER);                    
+                    l = print_exp(G, put, written, max, 5, UPPER);                    
                 }
                 else
                 {
-                    l = print_float(H, put, written, max, 6, true);
+                    l = print_float(G, put, written, max, 5 - exp_G, !(flags & PRINTF_FLAG_ALT));
                 }
                 written += l;
                 break;

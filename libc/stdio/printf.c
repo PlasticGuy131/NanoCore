@@ -118,7 +118,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         test_f *= 10.0;
         unsigned test_c = test_f;
         test_f -= test_c;
-        stop = stop && (test_c == 0);
+        //stop = stop && (test_c == 0);
+        if (test_c != 0)
+        {
+            stop = false;
+        }
         unsigned limit = (j == dp) ? 5 : 9;
         if (test_c < limit)
         {

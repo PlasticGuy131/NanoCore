@@ -55,15 +55,15 @@ static inline unsigned screen_coords(int x, int y)
 
 static void screen_putpixel_direct(unsigned where, struct RGB colour)
 {
-    screen[where + 0] = colour.b;
+    screen[where+0] = colour.b;
     screen[where+1] = colour.g;
     screen[where+2] = colour.r;
 }
 
-void screen_fill(int x, int y, int width, int height, struct RGB colour)
+void screen_fill(int x, int y, unsigned width_p, unsigned height_p, struct RGB colour)
 {
     unsigned where = screen_coords(x, y);
-    for (size_t j = 0; j < height; j++)
+    for (size_t j = 0; j < height * screen_pitch; j++)
     {
         unsigned where_exact = where;
         for (size_t i = 0; i < width; i++)

@@ -168,7 +168,7 @@ void terminal_clear()
     }
     else if (display_type == DISPLAY_RGB)
     {
-        screen_fill(0, 0, terminal_width, terminal_height, screen_rgb_name(terminal_bg_colour));
+        screen_fill(0, 0, terminal_width * 8, terminal_height * terminal_font_char_size, screen_rgb_name(terminal_bg_colour));
     }
     terminal_row = 0;
     terminal_column = 0;

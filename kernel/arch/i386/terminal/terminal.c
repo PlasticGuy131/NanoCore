@@ -159,6 +159,8 @@ void terminal_initialize(Multiboot_Info* multiboot_info)
     }
 }
 
+void terminal_clear() { for (size_t i = 0; i < terminal_height; i++) { terminal_putchar('\n'); } }
+
 void terminal_putchar(char c)
 {
     switch (c)

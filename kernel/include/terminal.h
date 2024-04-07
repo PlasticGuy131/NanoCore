@@ -30,6 +30,7 @@ extern enum Colour terminal_fg_colour;
 extern enum Colour terminal_bg_colour;
 
 void terminal_initialize(Multiboot_Info* multiboot_info);
+void terminal_clear();
 void terminal_set_colour(enum Colour fg, enum Colour bg);
 void terminal_putchar(char c);
 

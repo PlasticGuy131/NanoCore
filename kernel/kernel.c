@@ -12,7 +12,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "errno"
+#define VERSION "panic! at the kernel"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -37,12 +37,24 @@ static void kernel_intro_splash()
     printf("\nWelcome.\n");
 }
 
+void kernel_panic(const char* error_message)
+{
+    terminal_clear();
+    terminal_set_colour(COLOUR_RED, COLOUR_BLACK);
+    printf("ERRO/RERR/ORRE/RROR/\n");
+    printf("E/RROR/ERRO/RRER/ROR\n");
+    printf("ER/RORE/RROR/RERR/OR\n");
+    printf("ERR/ORER/RORR/ERRO/R\n");
+    terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
+    printf("KERNEL PANIC: %s\n", error_message);
+}
+
 void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
     if(_multiboot_magic != MULTIBOOT_MAGIC)
     {
-        printf("ERROR: NOT LOADED WITH MULTIBOOT, PANIC!\n");
+        kernel_panic("Not loaded with multiboot");
         return;
     }
 
@@ -67,7 +79,5 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    printf("Testing errno...");
-    errno = EOVERFLOW;
-    perror("TEST");
+    kernel_putchar("testing panic!");
 }

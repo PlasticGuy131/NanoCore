@@ -26,12 +26,19 @@ enum Colour
     COLOUR_WHITE = 15
 };
 
-extern enum Colour terminal_fg_colour;
-extern enum Colour terminal_bg_colour;
+void terminal_clear();
+
+void terminal_col_default();
+void terminal_col_warning();
+void terminal_col_error();
 
 void terminal_initialize(Multiboot_Info* multiboot_info);
-void terminal_clear();
+
 void terminal_set_colour(enum Colour fg, enum Colour bg);
+void terminal_set_default_colour(enum Colour fg, enum Colour bg);
+void terminal_set_warning_colour(enum Colour fg, enum Colour bg);
+void terminal_set_error_colour(enum Colour fg, enum Colour bg);
+
 void terminal_putchar(char c);
 
 #endif

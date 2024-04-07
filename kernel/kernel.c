@@ -40,12 +40,12 @@ static void kernel_intro_splash()
 void kernel_panic(const char* error_message)
 {
     terminal_clear();
-    terminal_set_colour(COLOUR_RED, COLOUR_BLACK);
+    terminal_col_error();
     printf("ERRO/RERR/ORRE/RROR/\n");
     printf("E/RROR/ERRO/RRER/ROR\n");
     printf("ER/RORE/RROR/RERR/OR\n");
     printf("ERR/ORER/RORR/ERRO/R\n");
-    terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
+    terminal_col_default();
     printf("KERNEL PANIC: %s\n", error_message);
 }
 
@@ -60,20 +60,23 @@ void kernel_main(void)
 
     Multiboot_Info* multiboot_info = (Multiboot_Info*)_multiboot_info_start;
     terminal_initialize(multiboot_info);
+    terminal_set_default_colour(COLOUR_WHITE, COLOUR_BLACK);
+    terminal_set_warning_colour(COLOUR_LIGHT_BROWN, COLOUR_BLACK);
+    terminal_set_error_colour(COLOUR_RED, COLOUR_BLACK);
 
     if (serial_failure)
     {
-        terminal_set_colour(COLOUR_LIGHT_BROWN, COLOUR_BLACK);
+        terminal_col_warning();
         printf("Warning: Serial initialization failure");
-        terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
+        terminal_col_default();
     }
 
     printf("Initializing FPU...\n");
     if (float_initialize())
     {
-        terminal_set_colour(COLOUR_RED, COLOUR_BLACK);
+        terminal_col_error();
         printf("ERROR: FLOAT INITIALIZATION FAILED\n");
-        terminal_set_colour(COLOUR_WHITE, COLOUR_BLACK);
+        terminal_col_default();
     }
 
     printf("\n");

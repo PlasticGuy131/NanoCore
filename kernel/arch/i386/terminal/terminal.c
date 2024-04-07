@@ -22,8 +22,18 @@ size_t terminal_row;
 size_t terminal_column;
 size_t terminal_width;
 size_t terminal_height;
+
 enum Colour terminal_fg_colour;
 enum Colour terminal_bg_colour;
+
+enum Colour terminal_default_fg_colour;
+enum Colour terminal_default_bg_colour;
+
+enum Colour terminal_warning_fg_colour;
+enum Colour terminal_warning_bg_colour;
+
+enum Colour terminal_error_fg_colour;
+enum Colour terminal_error_bg_colour;
 
 void (*terminal_putcharat)(char, enum Colour, enum Colour, size_t, size_t);
 void (*terminal_scroll)();

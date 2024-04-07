@@ -63,10 +63,10 @@ static void screen_putpixel_direct(unsigned where, struct RGB colour)
 void screen_fill(int x, int y, unsigned width_p, unsigned height_p, struct RGB colour)
 {
     unsigned where = screen_coords(x, y);
-    for (size_t j = 0; j < height * screen_pitch; j++)
+    for (size_t j = 0; j < height_p; j++)
     {
         unsigned where_exact = where;
-        for (size_t i = 0; i < width; i++)
+        for (size_t i = 0; i < width_p; i++)
         {
             screen_putpixel_direct(where_exact, colour);
             where_exact += screen_pixel_width;

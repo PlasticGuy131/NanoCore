@@ -159,7 +159,20 @@ void terminal_initialize(Multiboot_Info* multiboot_info)
     }
 }
 
-void terminal_clear() { for (size_t i = 0; i < terminal_height; i++) { terminal_putchar('\n'); } }
+void terminal_clear()
+{
+    if (display_type == DISPLAY_VGA)
+    {
+        for (size_t i = 0; i < terminal_height; i++) { terminal_putchar('\n'); }
+        
+    }
+    else if (display_type == DISPLAY_RGB)
+    {
+        screen_fill(0, 0, terminal_width, terminal_height, terminal_bg_colour);
+    }
+    terminal_row = 0;
+    terminal_column = 0;
+}
 
 void terminal_putchar(char c)
 {

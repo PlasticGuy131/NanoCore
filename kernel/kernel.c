@@ -79,5 +79,5 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    kernel_putchar("testing panic!");
+    kernel_panic("testing panic!");
 }

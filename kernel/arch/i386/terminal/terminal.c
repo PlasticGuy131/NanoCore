@@ -144,7 +144,7 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
 
 void terminal_initialize(Multiboot_Info* multiboot_info)
 {
-    if (!(multboot_info.flags & MULTIBOOT_FLAG_FRAMEBUFFER))
+    if (!(multiboot_info.flags & MULTIBOOT_FLAG_FRAMEBUFFER))
     {
         printf("WARNING: No framebuffer available: serial output only\n");
         terminal_putcharat = NULL;

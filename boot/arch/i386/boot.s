@@ -36,14 +36,15 @@ _multiboot_info_start:
 _multiboot_magic:
     .long 0
 
-.globl fpu_test
-fpu_test:
-    .long 0
-
 .align 16
 stack_bottom:
 .skip 16384
 stack_top:
+
+.section ro_data
+.globl fpu_test
+fpu_test:
+    .long 0x55AE
 
 / * _start is the entry points * /
 .section .text
@@ -62,14 +63,13 @@ _start:
     movl %eax, _multiboot_magic
     movl %ebx, _multiboot_info_start
 
-    movl 0x55AE, fpu_test
     mov %cr0, %eax
     mov 0, %ebx
     or  FFLAGS, %ebx
     neg %ebx
     and %ebx, %eax
     mov %eax, %cr0
-    FNINIT
+    //FNINIT
     //FNSTSW fpu_test
 
     / * Enter the high-level kernel * /

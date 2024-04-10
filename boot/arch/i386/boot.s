@@ -41,7 +41,7 @@ stack_bottom:
 .skip 16384
 stack_top:
 
-.section data
+.section .data
 .globl fpu_test
 fpu_test:
     .long 0

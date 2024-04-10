@@ -13,7 +13,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "panic! at the kernel"
+#define VERSION "Multiboot flag verification"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -80,6 +80,4 @@ void kernel_main(void)
 
     printf("\n");
     kernel_intro_splash();
-
-    kernel_panic("testing panic!");
 }

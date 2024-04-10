@@ -44,7 +44,7 @@ stack_top:
 .section .data
 .globl fpu_test
 fpu_test:
-    .long 0
+    .long 0x55AA
 
 / * _start is the entry points * /
 .section .text

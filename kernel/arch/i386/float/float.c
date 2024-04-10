@@ -1,7 +1,8 @@
 #include <stdint.h>
+#include <stdio.h>
 
 #include <float.h>
-#include <kernel.h>
+#include <terminal.h>
 
 extern uint32_t fpu_test;
 

@@ -76,7 +76,7 @@ void kernel_main(void)
     float_initialize();
 
     printf("Initializing memory...\n");
-    memory_initalise();
+    memory_initalize();
 
     printf("\n");
     kernel_intro_splash();

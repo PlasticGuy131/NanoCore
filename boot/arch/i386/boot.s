@@ -63,7 +63,7 @@ _start:
     movl %ebx, _multiboot_info_start
 
     mov 0x55AE, %eax
-    mov fpu_test, %eax
+    mov %eax, fpu_test
     mov %cr0, %eax
     mov 0, %ebx
     or  FFLAGS, %ebx

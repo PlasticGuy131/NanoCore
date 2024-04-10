@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#define MULTIBOOT_FLAG_MMAP (1 << 6)
+#define MULTIBOOT_FLAG_FRAMEBUFFER (1 << 12)
+
 enum Multiboot_Framebuffer_Type
 {
     TYPE_INDEXED = 0,

@@ -7,6 +7,7 @@
 
 #include <float.h>
 #include <kernel.h>
+#include <memory.h>
 #include <multiboot.h>
 #include <port.h>
 #include <serial.h>
@@ -72,12 +73,10 @@ void kernel_main(void)
     }
 
     printf("Initializing FPU...\n");
-    if (float_initialize())
-    {
-        terminal_col_error();
-        printf("ERROR: FLOAT INITIALIZATION FAILED\n");
-        terminal_col_default();
-    }
+    float_initialize();
+
+    printf("Initializing memory...\n");
+    memory_initalise();
 
     printf("\n");
     kernel_intro_splash();

@@ -4,7 +4,7 @@
 #include <multiboot.h>
 
 
-void memory_initalise(Multiboot_Info* multiboot_info)
+void memory_initalize(Multiboot_Info* multiboot_info)
 {
     if (!(multiboot_info->flags & MULTIBOOT_FLAG_MMAP))
     {

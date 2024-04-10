@@ -71,7 +71,7 @@ _start:
     and %ebx, %eax
     mov %eax, %cr0
     FNINIT
-    FNSTSW fpu_test
+    //FNSTSW fpu_test
 
     / * Enter the high-level kernel * /
     call kernel_main

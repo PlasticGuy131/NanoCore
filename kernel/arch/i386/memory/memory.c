@@ -28,7 +28,7 @@ void memory_initialize()
     struct block_header* header = (struct block_header*)heap_start;
     uint16_t heap_width = _heap_end - _heap_start;
     struct block_header initial_header;
-    initial_header.size = heap_width - sizeof(block_header);
+    initial_header.size = heap_width - sizeof(struct block_header);
     initial_header.prev = 0;
     initial_header.allocated = false;
     *header = initial_header;
@@ -60,17 +60,17 @@ void* memory_alloc(size_t size)
 
     if(remainder <= sizeof(block_header))
     {
-        uint8_t new_start = start + size + sizeof(block_header);
+        uint8_t new_start = start + size + sizeof(struct block_header);
         for (size_t i = 0; i < remainder; i++)
         {
             *new_start = MEMORY_PENDING;
         }
         return start;
     }
-    uint8_t new_start = start + size + sizeof(block_header);
+    uint8_t new_start = start + size + sizeof(struct block_header);
     struct block_header new_header;
-    new_header.size = remainder - sizeof(block_header);
-    new_header.prev = size + sizeof(block_header);
+    new_header.size = remainder - sizeof(struct block_header);
+    new_header.prev = size + sizeof(struct block_header);
     new_header.allocated = false;
     *(struct block_header*)new_start = new_header;
     return start;

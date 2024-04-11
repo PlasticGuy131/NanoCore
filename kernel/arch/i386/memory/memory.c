@@ -24,7 +24,7 @@ void memory_initialize(Multiboot_Info* multiboot_info)
     printf("MMAP length: %d\n", multiboot_info->mmap_length);
     printf("MMAP addr: %d\n", multiboot_info->mmap_addr);
     struct mmap* mmap = (struct mmap*)(multiboot_info->mmap_addr);
-    for (size_t i = 0; i < multiboot_info->mmap_length; i++)
+    for (size_t i = 0; i < 3; i++)
     {
         printf("SIZE: %d\n", mmap->size);
         printf("BASE ADDR: %d\n", mmap->base_addr);

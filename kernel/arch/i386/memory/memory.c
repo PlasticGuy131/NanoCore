@@ -58,16 +58,16 @@ void* memory_alloc(size_t size)
     header->size = size;
     header->allocated = true;
 
-    if(remainder <= sizeof(block_header))
+    if(remainder <= sizeof(struct block_header))
     {
-        uint8_t new_start = start + size + sizeof(struct block_header);
+        uint8_t* new_start = start + size + sizeof(struct block_header);
         for (size_t i = 0; i < remainder; i++)
         {
             *new_start = MEMORY_PENDING;
         }
         return start;
     }
-    uint8_t new_start = start + size + sizeof(struct block_header);
+    uint8_t* new_start = start + size + sizeof(struct block_header);
     struct block_header new_header;
     new_header.size = remainder - sizeof(struct block_header);
     new_header.prev = size + sizeof(struct block_header);

@@ -8,8 +8,6 @@
         "type_traits": "c",
         "xutility": "c",
         "stddef.h": "c",
-        "memory.h": "c",
         "xmemory": "c",
-        "kernel.h": "c"
     }
 }

@@ -50,6 +50,8 @@ void kernel_panic(const char* error_message)
     printf("KERNEL PANIC: %s\n", error_message);
 }
 
+void kernel_alloc(size_t size) { return memory_alloc(size); }
+
 void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
@@ -80,4 +82,7 @@ void kernel_main(void)
 
     printf("\n");
     kernel_intro_splash();
+
+    void* test = kernel_alloc(5);
+    printf("Allocated 5 bytes at: %p\n", test);
 }

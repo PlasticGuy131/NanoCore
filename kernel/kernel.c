@@ -97,5 +97,5 @@ void kernel_main(void)
         test++;
     }
 
-    kernel_alloc(test);
+    kernel_free(test);
 }

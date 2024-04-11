@@ -84,7 +84,7 @@ void memory_free(void* ptr)
     {
         void* next_ptr = ptr;
         next_ptr += header->size;
-        while (*next_ptr == MEMORY_PENDING)
+        while (*(uint8_t*)next_ptr == MEMORY_PENDING)
         {
             header->size++;
             next_ptr++;

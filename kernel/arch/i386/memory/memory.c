@@ -23,6 +23,7 @@ uint8_t* heap_start;
 
 void memory_initialize()
 {
+    printf("%i", sizeof(struct block_header));
     heap_start = (void*)(uintptr_t)_heap_start;
     struct block_header* header = (struct block_header*)heap_start;
     uint16_t heap_width = _heap_end - _heap_start;

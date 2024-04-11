@@ -90,12 +90,13 @@ void kernel_main(void)
     void* test2 = kernel_alloc(5);
     printf("Allocated another 3 bytes at: %p\n", test2);
 
+    kernel_free(test);
+    printf("Freed first 3 bytes.\n");
+
     for (size_t i = 0; i < 32; i++)
     {
         if (i < 10) { printf("0"); }
         printf("%i: %X\n", i, *(unsigned char*)test);
         test++;
     }
-
-    //kernel_free(test);
 }

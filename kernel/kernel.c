@@ -93,6 +93,9 @@ void kernel_main(void)
     kernel_free(test);
     printf("Freed first 3 bytes.\n");
 
+    test = kernel_alloc(3);
+    printf("Allocated 3 bytes at: %p\n", test);
+
     for (size_t i = 0; i < 32; i++)
     {
         if (i < 10) { printf("0"); }

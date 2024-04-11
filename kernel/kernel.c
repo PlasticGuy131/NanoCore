@@ -85,17 +85,17 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    void* test = kernel_alloc(5);
+    void* test = kernel_alloc(3);
     printf("Allocated 3 bytes at: %p\n", test);
-    void* test2 = kernel_alloc(5);
-    printf("Allocated another 3 bytes at: %p\n", test2);
+    //void* test2 = kernel_alloc(5);
+    //printf("Allocated another 3 bytes at: %p\n", test2);
 
     for (size_t i = 0; i < 32; i++)
     {
         if (i < 10) { printf("0"); }
-        printf("%i: %X\n", i, *(int*)test);
+        printf("%i: %X\n", i, *(unsigned char*)test);
         test++;
     }
 
-    kernel_free(test);
+    //kernel_free(test);
 }

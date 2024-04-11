@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 void* memory_alloc(size_t size);
+void memory_free(void* ptr);
 void memory_initialize();
 
 #endif

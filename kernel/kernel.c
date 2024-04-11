@@ -52,6 +52,8 @@ void kernel_panic(const char* error_message)
 
 void* kernel_alloc(size_t size) { return memory_alloc(size); }
 
+void kernel_free(void* ptr) { memory_free(ptr); }
+
 void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
@@ -84,5 +86,16 @@ void kernel_main(void)
     kernel_intro_splash();
 
     void* test = kernel_alloc(5);
-    printf("Allocated 5 bytes at: %p\n", test);
+    printf("Allocated 3 bytes at: %p\n", test);
+    void *test2 = kernel_alloc(5);
+    printf("Allocated another 3 bytes at: %p\n", test);
+    kernel_free(test);
+    printf("Freed first 3 bytes\n");
+
+    for (size_t i = 0; i < 32; i++)
+    {
+        if (i < 10) { printf("0"); }
+        printf("%i: %X\n", i, (int)test);
+        test++;
+    }
 }

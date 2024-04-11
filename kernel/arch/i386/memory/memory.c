@@ -14,7 +14,7 @@ struct block_header
 {
     uint16_t size;
     bool16 allocated;
-}
+};
 
 void memory_initialize()
 {
@@ -24,5 +24,6 @@ void memory_initialize()
     struct block_header initial_header;
     initial_header.size = heap_width;
     initial_header.allocated = false;
+    *header = initial_header;
     printf("Width: %p\n", heap_width);
 }

@@ -21,8 +21,8 @@ void memory_initialize(Multiboot_Info* multiboot_info)
         kernel_panic("No MMAPs available."); // Might not actually have to panic idk...
     }
 
-    printf("MMAP length: %d\n", multiboot_info->mmap_length);
-    printf("MMAP addr: %d\n", multiboot_info->mmap_addr);
+    printf("MMAP length: %x\n", multiboot_info->mmap_length);
+    printf("MMAP addr: %x\n", multiboot_info->mmap_addr);
     struct mmap* mmap = (struct mmap*)(multiboot_info->mmap_addr);
     for (size_t i = 0; i < 3; i++)
     {

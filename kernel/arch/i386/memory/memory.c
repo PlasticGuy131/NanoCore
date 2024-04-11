@@ -49,9 +49,9 @@ void* memory_alloc(size_t size)
             break;
         }
 
-        if (header->size == 0) { return 0; }
+        if (start + header->size >= _heap_end) { return 0; }
 
-        start += header->size;
+        start += header->size + sizeof(struct block_header);
     }
 
     uint16_t remainder = header->size - size;

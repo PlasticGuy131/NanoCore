@@ -13,7 +13,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "Multiboot flag verification"
+#define VERSION "Memory Manager"
 #ifndef ARCH
 #define ARCH WARNING: Unknown Architecture
 #endif
@@ -87,8 +87,8 @@ void kernel_main(void)
 
     void* test = kernel_alloc(3);
     printf("Allocated 3 bytes at: %p\n", test);
-    //void* test2 = kernel_alloc(5);
-    //printf("Allocated another 3 bytes at: %p\n", test2);
+    void* test2 = kernel_alloc(5);
+    printf("Allocated another 3 bytes at: %p\n", test2);
 
     for (size_t i = 0; i < 32; i++)
     {

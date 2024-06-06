@@ -15,7 +15,7 @@
 
 #define VERSION "Memory Manager"
 #ifndef ARCH
-#define ARCH WARNING: Unknown Architecture
+#define ARCH "WARNING: Unknown Architecture"
 #endif
 
 void kernel_putchar(char c) { terminal_putchar(c); }
@@ -100,6 +100,6 @@ void kernel_main(void)
     {
         if (i < 10) { printf("0"); }
         printf("%i: %X\n", i, *(unsigned char*)test);
-        test++;
+        test = (void*)((unsigned char*)test + 1);
     }
 }

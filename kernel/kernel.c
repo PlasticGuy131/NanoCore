@@ -90,8 +90,8 @@ void kernel_main(void)
     void* test2 = kernel_alloc(3);
     printf("Allocated another 3 bytes at: %p\n", test2);
 
-    //kernel_free(test);
-    //printf("Freed first 3 bytes.\n");
+    kernel_free(test);
+    printf("Freed first 3 bytes.\n");
 
     //test = kernel_alloc(3);
     //printf("Allocated 3 bytes at: %p\n", test);

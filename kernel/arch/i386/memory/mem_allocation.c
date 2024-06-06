@@ -59,7 +59,6 @@ void* memory_alloc(size_t size)
     header->size = size;
     header->allocated = true;
 
-    printf("Remainder: %i\n", remainder);
     if(remainder <= sizeof(struct block_header))
     {
         uint8_t* new_start = start + size + sizeof(struct block_header);

@@ -13,7 +13,7 @@ int float_initialize()
         terminal_col_error();
         printf("ERROR: FLOAT INITIALIZATION FAILED\n");
         terminal_col_default();
-        return -1;
+        return 1;
     }
     return 0;
 }

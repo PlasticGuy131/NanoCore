@@ -26,19 +26,39 @@ enum Colour
     COLOUR_WHITE = 15
 };
 
+/// @brief Clears the terminal
 void terminal_clear();
 
+/// @brief Sets the terminal to its default colour
 void terminal_col_default();
+/// @brief Sets the terminal to its warning colour
 void terminal_col_warning();
+/// @brief Sets the terminal to its error colour
 void terminal_col_error();
 
+/// @brief Initializes the terminal
+/// @param multiboot_info Multiboot Information Data Structure
 void terminal_initialize(Multiboot_Info* multiboot_info);
 
+/// @brief Sets the current terminal colour
+/// @param fg Foreground colour
+/// @param bg Background colour
 void terminal_set_colour(enum Colour fg, enum Colour bg);
+/// @brief Sets the default terminal colour
+/// @param fg Foreground colour
+/// @param bg Background colour
 void terminal_set_default_colour(enum Colour fg, enum Colour bg);
+/// @brief Sets the terminal warning colour
+/// @param fg Foreground colour
+/// @param bg Background colour
 void terminal_set_warning_colour(enum Colour fg, enum Colour bg);
+/// @brief Sets the terminal error colour
+/// @param fg Foreground colour
+/// @param bg Background colour
 void terminal_set_error_colour(enum Colour fg, enum Colour bg);
 
+/// @brief Writes a chacter to the terminal
+/// @param c Character to write
 void terminal_putchar(char c);
 
 #endif

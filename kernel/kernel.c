@@ -7,7 +7,7 @@
 
 #include <float.h>
 #include <kernel.h>
-#include <memory.h>
+#include <mem_allocation.h>
 #include <multiboot.h>
 #include <port.h>
 #include <serial.h>
@@ -50,7 +50,7 @@ void kernel_panic(const char* error_message)
     printf("KERNEL PANIC: %s\n", error_message);
 }
 
-void* kernel_alloc(size_t size) { return memory_alloc(size); }
+void *kernel_alloc(size_t size) { return memory_alloc(size); }
 
 void kernel_free(void* ptr) { memory_free(ptr); }
 

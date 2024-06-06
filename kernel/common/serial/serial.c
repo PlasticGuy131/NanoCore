@@ -25,7 +25,6 @@ int serial_initialize()
     return 0;
 }
 
-
 int serial_received()
 {
     return inb(port + 5) & 1;
@@ -37,7 +36,6 @@ char serial_read()
 
     return inb(port);
 }
-
 
 int serial_isempty()
 {

@@ -84,7 +84,7 @@ void memory_free(uint16_t* ptr)
     while ((size_t)ptr + header->size < _heap_end)
     {
         uint16_t* next_ptr = ptr;
-        next_ptr += header->size;
+        next_ptr += header->size + sizeof(struct block_header);
         while (*(uint8_t*)next_ptr == MEMORY_PENDING)
         {
             header->size++;

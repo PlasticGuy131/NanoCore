@@ -77,13 +77,13 @@ void* memory_alloc(size_t size)
     return start;
 }
 
-void memory_free(uint16_t* ptr)
+void memory_free(uint8_t* ptr)
 {
     struct block_header* header = (struct block_header*)ptr;
     header->allocated = false;
     while ((size_t)ptr + header->size < _heap_end)
     {
-        uint16_t* next_ptr = ptr;
+        uint8_t* next_ptr = ptr;
         next_ptr += header->size + sizeof(struct block_header);
         while (*(uint8_t*)next_ptr == MEMORY_PENDING)
         {

@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 
 #include <kernel.h>
 #include <multiboot.h>
@@ -53,6 +54,7 @@ void* memory_alloc(size_t size)
         if (start + header->size >= _heap_end) { return 0; }
 
         start += header->size + sizeof(struct block_header);
+        while (*start == MEMORY_PENDING) { start++; }
     }
 
     uint16_t remainder = header->size - size;
@@ -81,11 +83,11 @@ void memory_free(uint8_t* ptr)
 {
     struct block_header* header = (struct block_header*)ptr;
     header->allocated = false;
-    while ((size_t)ptr + header->size < _heap_end)
+    while ((size_t)ptr + header->size + sizeof(struct block_header) < _heap_end)
     {
         uint8_t* next_ptr = ptr;
         next_ptr += header->size + sizeof(struct block_header);
-        while (*(uint8_t*)next_ptr == MEMORY_PENDING)
+        while (*next_ptr == MEMORY_PENDING)
         {
             header->size++;
             next_ptr++;
@@ -95,25 +97,38 @@ void memory_free(uint8_t* ptr)
         if (next_header->allocated) { break; }
 
         header->size += next_header->size + sizeof(struct block_header);
-        if ((size_t)ptr + header->size < _heap_end)
+        if ((size_t)ptr + header->size + sizeof(struct block_header) < _heap_end)
         {
             next_ptr = ptr + header->size + sizeof(struct block_header);
             next_header = (struct block_header*)next_ptr;
             next_header->prev = (uint16_t)next_ptr - (uint16_t)ptr;
         }
     }
-    
-    while (ptr - header->prev != heap_start)
+
+    while (header->prev != 0)
     {
-        void* prev_ptr = ptr - header->prev;
+        uint8_t* prev_ptr = ptr - header->prev;
 
         struct block_header* prev_header = (struct block_header*)prev_ptr;
+
+        uint8_t* end = prev_ptr + prev_header->size + sizeof(struct block_header);
+
+        if (end != ptr)
+        {
+            memmove(end, ptr, sizeof(struct block_header));
+            size_t gaps = (size_t)ptr - (size_t)end; 
+            ptr = end;
+            header = (struct block_header*)ptr;
+            header->size += gaps;
+            header->prev -= gaps;
+        }
+      
         if (prev_header->allocated) { break; }
 
-        prev_header->size += header->prev + sizeof(struct block_header);
+        prev_header->size += header->size + sizeof(struct block_header);
         if ((size_t)ptr + header->size < _heap_end)
         {
-            void* next_ptr = ptr + header->size + sizeof(struct block_header);
+            uint8_t* next_ptr = ptr + header->size + sizeof(struct block_header);
             struct block_header* next_header = (struct block_header*)next_ptr;
             next_header->prev = (uint16_t)next_ptr - (uint16_t)prev_ptr;
         }

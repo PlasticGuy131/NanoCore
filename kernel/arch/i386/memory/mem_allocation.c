@@ -97,13 +97,13 @@ void memory_free(uint8_t* ptr)
         header->size += next_header->size + sizeof(struct block_header);
         if ((size_t)ptr + header->size < _heap_end)
         {
-            next_ptr = ptr + header->size;
+            next_ptr = ptr + header->size + sizeof(struct block_header);
             next_header = (struct block_header*)next_ptr;
             next_header->prev = (uint16_t)next_ptr - (uint16_t)ptr;
         }
     }
     
-    while (header->prev != 0)
+    while (ptr - header->prev != heap_start)
     {
         void* prev_ptr = ptr - header->prev;
 
@@ -113,7 +113,7 @@ void memory_free(uint8_t* ptr)
         prev_header->size += header->prev + sizeof(struct block_header);
         if ((size_t)ptr + header->size < _heap_end)
         {
-            void* next_ptr = ptr + header->size;
+            void* next_ptr = ptr + header->size + sizeof(struct block_header);
             struct block_header* next_header = (struct block_header*)next_ptr;
             next_header->prev = (uint16_t)next_ptr - (uint16_t)prev_ptr;
         }

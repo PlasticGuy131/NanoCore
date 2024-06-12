@@ -9,7 +9,7 @@
 void* malloc(size_t size)
 {
 #ifdef __is_libk
-    void *ptr = kernel_alloc(size);
+    void* ptr = kernel_alloc(size);
     if (ptr == NULL) { errno = ENOMEM; }
     return ptr;
 #endif

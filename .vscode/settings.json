@@ -9,6 +9,9 @@
         "xutility": "c",
         "stddef.h": "c",
         "xmemory": "c",
-        "terminal.h": "c"
+        "terminal.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c",
+        "stdint.h": "c"
     }
 }

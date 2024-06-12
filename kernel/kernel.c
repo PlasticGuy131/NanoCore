@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <float.h>
@@ -85,22 +86,22 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    void* test = kernel_alloc(6);
+    void* test = malloc(6);
     printf("Allocated 6 bytes at: %p\n", test);
-    void* test2 = kernel_alloc(3);
+    void* test2 = malloc(3);
     printf("Allocated another 3 bytes at: %p\n", test2);
-    void* test3 = kernel_alloc(3);
+    void* test3 = malloc(3);
     printf("Allocated another 3 bytes at: %p\n", test3);
 
-    kernel_free(test);
+    free(test);
     printf("Freed first 6 bytes.\n");
 
-    printf("Allocated another 5 bytes at: %p\n", kernel_alloc(5));
+    printf("Allocated another 5 bytes at: %p\n", malloc(5));
 
-    kernel_free(test2);
+    free(test2);
     printf("Freed another 3 bytes.\n");
 
-    printf("Allocated another 4 bytes at: %p\n", kernel_alloc(4));
+    printf("Allocated another 4 bytes at: %p\n", malloc(4));
 
     for (size_t i = 0; i < 32; i++)
     {

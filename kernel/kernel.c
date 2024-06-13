@@ -88,7 +88,7 @@ void kernel_main(void)
 
     void* test = malloc(6);
     printf("Allocated 6 bytes at: %p\n", test);
-    /*void* test2 = malloc(3);
+    void* test2 = malloc(3);
     printf("Allocated another 3 bytes at: %p\n", test2);
     void* test3 = malloc(3);
     printf("Allocated another 3 bytes at: %p\n", test3);
@@ -108,5 +108,5 @@ void kernel_main(void)
         if (i < 10) { printf("0"); }
         printf("%i: %X\n", i, *(unsigned char*)test);
         test = (void*)((unsigned char*)test + 1);
-    }*/
+    }
 }

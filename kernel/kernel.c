@@ -86,7 +86,7 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    void* test = kernel_alloc(6);
+    void* test = malloc(6);
     printf("Allocated 6 bytes at: %p\n", test);
     /*void* test2 = malloc(3);
     printf("Allocated another 3 bytes at: %p\n", test2);

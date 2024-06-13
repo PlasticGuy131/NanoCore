@@ -78,9 +78,10 @@ void* memory_alloc(size_t size)
     new_header.allocated = false;
     *(struct block_header*)new_start = new_header;
 
-    /*uint8_t* next_ptr = new_start + new_header.size + HEADER_WIDTH;
+    uint8_t* next_ptr = new_start + new_header.size + HEADER_WIDTH;
+    if ((uint32_t)next_ptr >= _heap_end) { return start; }
     struct block_header* next_header = (struct block_header*)next_ptr;
-    next_header->prev = (uint16_t)(uintptr_t)next_ptr - (uint16_t)(uintptr_t)new_start;*/
+    next_header->prev = (uint16_t)(uintptr_t)next_ptr - (uint16_t)(uintptr_t)new_start;
 
     return start;
 }

@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
 static const unsigned char PRINTF_FLAG_ALT = 1;
@@ -113,9 +114,63 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         written++;
         f *= -1;
     }
-    unsigned i = f;
-    f -= i;
+    unsigned integer = f;
+    f -= integer;
 
+    char* str = (char*) malloc(dp+1);
+    
+    for (size_t i = 0; i < dp+1; i++)
+    {
+        f *= 10;
+        str[i] = (char)(int)f;
+        f -= (int)f;
+    }
+
+    size_t offset = dp;
+    bool round = str[offset] >= 5;
+    while (round)
+    {
+        offset--;
+        if (str[offset] < 9)
+        {
+            str[offset]++;
+            round = false;
+        }
+        else
+        {
+            str[offset] = 0;
+        }
+    }
+
+    if(round) { integer++; }
+
+    int l = print_uint(integer, put, written, max);
+    if (l == -1) { return -1; }
+    written += l;
+
+    if (dp == 0) { return written; }
+    if (written == max)
+    {
+        errno = EOVERFLOW;
+        return -1;
+    }
+    if (put('.') == EOF) { return -1; }
+    written++;
+
+    for (size_t i = 0; i < dp; i++)
+    {
+        if (written == max)
+        {
+            errno = EOVERFLOW;
+            return -1;
+        }
+        if (put(str[i] + '0') == EOF) { return -1; }
+        written++;
+    }
+
+    return written;
+
+/*
     bool rounded = false;
     bool round = true;
     bool stop = true;
@@ -204,6 +259,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         written++;
     }
     return written;
+*/
 }
 
 static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Case ecase)

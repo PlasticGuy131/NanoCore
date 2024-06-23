@@ -117,17 +117,12 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     unsigned integer = f;
     f -= integer;
 
-    double min = 0.5;
-    for (size_t i; i < dp; i++) { min /= 10; }
-
-    if (f < min) { truncate = true; }
-
-    char *str = (char *)malloc(dp + 1);
+    char *str = (char*)malloc((dp + 1) * sizeof(char));
     
     for (size_t i = 0; i < dp+1; i++)
     {
         f *= 10;
-        str[i] = (char)(int)f;
+        str[i] = (char)(int)f + '0';
         f -= (int)f;
     }
 
@@ -136,14 +131,14 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     while (round)
     {
         offset--;
-        if (str[offset] < 9)
+        if (str[offset] < '9')
         {
             str[offset]++;
             round = false;
         }
         else
         {
-            str[offset] = 0;
+            str[offset] = '0';
         }
     }
 
@@ -155,10 +150,20 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (truncate)
     {
-        free(str);
-        return written;
-    }
+        offset = dp;
+        while (offset > 0)
+        {
+            offset--;
+            if(str[offset] == '0') { str[offset] = '\0'; }
+            else { break; }
+        }
 
+        if (offset == 0)
+        {
+            free(str);
+            return written;
+        }
+    }
     if (dp == 0) { return written; }
     if (written == max)
     {
@@ -170,12 +175,13 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     for (size_t i = 0; i < dp; i++)
     {
+        if(str[i] == '\0') { break; }
         if (written == max)
         {
             errno = EOVERFLOW;
             return -1;
         }
-        if (put(str[i] + '0') == EOF) { return -1; }
+        if (put(str[i]) == EOF) { return -1; }
         written++;
     }
 

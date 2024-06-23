@@ -122,7 +122,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     for (size_t i = 0; i < dp+1; i++)
     {
         f *= 10;
-        str[i] = (char)(int)f + '0';
+        str[i] = (char)(int)f;
         f -= (int)f;
     }
 
@@ -131,14 +131,14 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     while (round)
     {
         offset--;
-        if (str[offset] < '9')
+        if (str[offset] < 9)
         {
             str[offset]++;
             round = false;
         }
         else
         {
-            str[offset] = '0';
+            str[offset] = 0;
         }
     }
 

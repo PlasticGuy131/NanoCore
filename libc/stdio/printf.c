@@ -117,7 +117,12 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     unsigned integer = f;
     f -= integer;
 
-    char* str = (char*) malloc(dp+1);
+    double min = 0.5;
+    for (size_t i; i < dp; i++) { min /= 10; }
+
+    if (f < min) { truncate = true; }
+
+    char *str = (char *)malloc(dp + 1);
     
     for (size_t i = 0; i < dp+1; i++)
     {
@@ -168,6 +173,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         written++;
     }
 
+    free(str);
     return written;
 
 /*

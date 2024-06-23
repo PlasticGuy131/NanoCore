@@ -14,7 +14,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "Memory Manager"
+#define VERSION "More Printf Testing"
 #ifndef ARCH
 #define ARCH "WARNING: Unknown Architecture"
 #endif
@@ -86,27 +86,28 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    void* test = malloc(6);
-    printf("Allocated 6 bytes at: %p\n", test);
-    void* test2 = malloc(3);
-    printf("Allocated another 3 bytes at: %p\n", test2);
-    void* test3 = malloc(3);
-    printf("Allocated another 3 bytes at: %p\n", test3);
-
-    free(test);
-    printf("Freed first 6 bytes.\n");
-
-    printf("Allocated another 5 bytes at: %p\n", malloc(5));
-
-    free(test2);
-    printf("Freed another 3 bytes.\n");
-
-    printf("Allocated another 4 bytes at: %p\n", malloc(4));
-
-    for (size_t i = 0; i < 32; i++)
-    {
-        if (i < 10) { printf("0"); }
-        printf("%i: %X\n", i, *(unsigned char*)test);
-        test = (void*)((unsigned char*)test + 1);
-    }
+    printf("testing printf...\n");
+    int o = 17;
+    printf("OCTAL: %o\n", o);
+    printf("OCTAL: %#o\n", o);
+    double f = 5.000001;
+    printf("FLOAT G: %g\n", f);
+    printf("FLOAT F: %f\n", f);
+    printf("\n");
+    printf("FLOAT G: %#g\n", f);
+    printf("FLOAT F: %#f\n", f);
+    printf("HEX: %#x\n", 12);
+    printf("HEX: %X\n", 12);
+    printf("\n");
+    double f = 500000000;
+    printf("FLOAT g: %g\n", f);
+    printf("FLOAT e: %e\n", f);
+    printf("\n");
+    printf("FLOAT G: %#G\n", f);
+    printf("FLOAT E: %#E\n", f);
+    printf("\n");
+    f = 5.00001;
+    printf("FLOAT g: %g\n", f);
+    f = 50.00001;
+    printf("FLOAT g: %g\n", f);
 }

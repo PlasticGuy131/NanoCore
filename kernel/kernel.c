@@ -99,7 +99,7 @@ void kernel_main(void)
     printf("HEX: %#x\n", 12);
     printf("HEX: %X\n", 12);
     printf("\n");
-    double f = 500000000;
+    f = 500000000;
     printf("FLOAT g: %g\n", f);
     printf("FLOAT e: %e\n", f);
     printf("\n");

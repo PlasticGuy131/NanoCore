@@ -145,7 +145,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if(round) { integer++; }
 
     int l = print_uint(integer, put, written, max);
-    if (l == -1) { return -1; }
+    if (l == -1)
+    {
+        free(str);
+        return -1;
+    }
     written += l;
 
     if (truncate)
@@ -165,7 +169,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         }
     }
 
-    if (dp == 0) { return written; }
+    if (dp == 0)
+    {
+        free(str);
+        return written;
+    }
     if (written == max)
     {
         errno = EOVERFLOW;
@@ -180,9 +188,14 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         if (written == max)
         {
             errno = EOVERFLOW;
+            free(str);
             return -1;
         }
-        if (put(str[i] + '0') == EOF) { return -1; }
+        if (put(str[i] + '0') == EOF)
+        {
+            free(str);
+            return -1;
+        }
         written++;
     }
 

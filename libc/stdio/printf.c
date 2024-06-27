@@ -175,7 +175,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     for (size_t i = 0; i < dp; i++)
     {
-        if(str[i] == '\0') { break; }
+        //if(str[i] == '\0') { break; }
         if (written == max)
         {
             errno = EOVERFLOW;

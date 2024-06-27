@@ -148,13 +148,13 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if (l == -1) { return -1; }
     written += l;
 
-    /*if (truncate)
+    if (truncate)
     {
         offset = dp;
         while (offset > 0)
         {
             offset--;
-            if(str[offset] == '0') { str[offset] = '\0'; }
+            if(str[offset] == 0) { str[offset] = 10; }
             else { break; }
         }
 
@@ -163,7 +163,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
             free(str);
             return written;
         }
-    }*/
+    }
     if (dp == 0) { return written; }
     if (written == max)
     {
@@ -175,7 +175,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     for (size_t i = 0; i < dp; i++)
     {
-        //if(str[i] == '\0') { break; }
+        if(str[i] == 10) { break; }
         if (written == max)
         {
             errno = EOVERFLOW;

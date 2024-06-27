@@ -103,7 +103,6 @@ static int print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, 
 
 static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate)
 {
-    if(truncate) { put('T'); }
     if (f < 0)
     {
         if (written == max)
@@ -155,6 +154,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (truncate)
     {
+        put('T');
         offset = dp;
         while (offset > 0)
         {

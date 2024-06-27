@@ -152,7 +152,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     }
     written += l;
 
-    if (truncate)
+    if (0)
     {
         offset = dp;
         while (offset > 0)

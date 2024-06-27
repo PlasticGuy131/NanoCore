@@ -117,7 +117,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     unsigned integer = f;
     f -= integer;
 
-    char *str = (char*)malloc((dp + 1) * sizeof(char));
+    char* str = (char*)malloc((dp + 1) * sizeof(char));
     
     for (size_t i = 0; i < dp+1; i++)
     {
@@ -181,7 +181,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
             errno = EOVERFLOW;
             return -1;
         }
-        if (put(str[i]) == EOF) { return -1; }
+        if (put(str[i] + '0') == EOF) { return -1; }
         written++;
     }
 

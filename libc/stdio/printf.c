@@ -155,14 +155,14 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if (truncate)
     {
         offset = dp;
-        /*while (offset > 0)
+        while (offset > 0)
         {
-            offset--;
-            if(str[offset] == 0) { str[offset] = 10; }
-            else { break; }
+            //offset--;
+            //if(str[offset] == 0) { str[offset] = 10; }
+            //else { break; }
         }
-
-        if (offset == 0)
+        
+        /*if (offset == 0)
         {
             free(str);
             return written;

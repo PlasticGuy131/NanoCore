@@ -152,9 +152,8 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     }
     written += l;
 
-    if (truncate)
+    if (false)
     {
-        put('T');
         offset = dp;
         while (offset > 0)
         {
@@ -180,7 +179,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         errno = EOVERFLOW;
         return -1;
     }
-    if (put('.') == EOF) { return -1; }
+    if (put('.') == EOF)
+    {
+        free(str);
+        return -1;
+    }
     written++;
 
     for (size_t i = 0; i < dp; i++)

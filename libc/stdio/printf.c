@@ -152,7 +152,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     }
     written += l;
 
-    /*if (truncate)
+    if (/*truncate*/ false)
     {
         put('T');
         offset = dp;
@@ -168,7 +168,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
             free(str);
             return written;
         }
-    }*/
+    }
 
     if (dp == 0)
     {

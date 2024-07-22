@@ -108,7 +108,6 @@ void kernel_main(void)
     printf("\n");
     f = 5.00001;
     printf("FLOAT g: %g\n", f);
-    printf("HIIII\n");
-    //f = 50.00001;
-    //printf("FLOAT g: %g\n", f);
+    f = 50.00001;
+    printf("FLOAT g: %g\n", f);
 }

@@ -463,7 +463,6 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
         switch (*format)
         {
-            format++;
             int l;
             size_t len;
             case '%':
@@ -692,6 +691,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 int* n = va_arg(arg, int*);
                 *n = written;
         }
+        format++;
     }
     return written;
 }

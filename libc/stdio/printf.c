@@ -159,14 +159,14 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         {
             offset--;
             if(str[offset] == 0) { str[offset] = 10; }
-            //else { break; }
+            else { break; }
         }
         
-        /*if (offset == 0)
+        if (offset == 0)
         {
             free(str);
             return written;
-        }*/
+        }
     }
 
     if (dp == 0)

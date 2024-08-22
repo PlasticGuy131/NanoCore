@@ -24,6 +24,21 @@ static const size_t HEADER_WIDTH = sizeof(struct block_header);
 
 uint8_t* heap_start;
 
+int memory_usage()
+{
+    uint32_t usage = 0;
+    uint8_t* start = heap_start;
+    struct block_header* header = (struct block_header*)heap_start;
+    while ((uint32_t)start + header->size + HEADER_WIDTH < _heap_end)
+    {
+        usage += header->size;
+        start += header->size + HEADER_WIDTH;
+        while (*start == MEMORY_PENDING) { start++; }
+    }
+}
+
+int memory_max() { return _heap_end - _heap_start; }
+
 void memory_initialize()
 {
     heap_start = (void*)(uintptr_t)_heap_start;
@@ -52,7 +67,7 @@ void* memory_alloc(size_t size)
             break;
         }
 
-        if ((uint32_t)start + header->size >= _heap_end) { return 0; }
+        if ((uint32_t)start + header->size + HEADER_WIDTH >= _heap_end) { return 0; }
 
         start += header->size + HEADER_WIDTH;
         while (*start == MEMORY_PENDING) { start++; }

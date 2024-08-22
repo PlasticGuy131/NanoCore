@@ -15,4 +15,12 @@ void memory_free(void* ptr);
 /// @brief Initializes the OS's memory
 void memory_initialize();
 
+/// @brief How much memory is in use
+/// @return Memory in use (in bytes)
+int memory_usage();
+
+/// @brief How much memory is available
+/// @return Available memory (in bytes)
+int memory_max();
+
 #endif

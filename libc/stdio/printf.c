@@ -461,9 +461,9 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
         }
 
-        format++;
         switch (*format)
         {
+            format++;
             int l;
             size_t len;
             case '%':

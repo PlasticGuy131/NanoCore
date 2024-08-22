@@ -158,7 +158,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         while (offset > 0)
         {
             offset--;
-            //if(str[offset] == 0) { str[offset] = 10; }
+            if(str[offset] == 0) { str[offset] = 10; }
             //else { break; }
         }
         

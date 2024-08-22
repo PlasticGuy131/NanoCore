@@ -111,5 +111,6 @@ void kernel_main(void)
     f = 50.00001;
     printf("FLOAT g: %g\n", f);
 
+    malloc(6);
     printf("MEMORY USAGE: %i/%i", memory_usage(), memory_max());
 }

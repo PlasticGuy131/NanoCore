@@ -38,7 +38,7 @@ int memory_usage()
     return usage;
 }
 
-int memory_max() { return (uint32_t)(uintptr_t)_heap_end - (uint32_t)_heap_start; }
+int memory_max() { return _heap_end - _heap_start; }
 
 void memory_initialize()
 {

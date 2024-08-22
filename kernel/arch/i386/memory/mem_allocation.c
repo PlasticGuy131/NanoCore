@@ -35,6 +35,7 @@ int memory_usage()
         start += header->size + HEADER_WIDTH;
         while (*start == MEMORY_PENDING) { start++; }
     }
+    return usage;
 }
 
 int memory_max() { return (uint32_t)(uintptr_t)_heap_end - (uint32_t)_heap_start; }

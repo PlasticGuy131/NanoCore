@@ -23,4 +23,7 @@ int memory_usage();
 /// @return Available memory (in bytes)
 int memory_max();
 
+/// @brief Displays a visualisation of current memory usage
+void memory_visualise();
+
 #endif

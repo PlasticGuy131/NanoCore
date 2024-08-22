@@ -158,3 +158,22 @@ void memory_free(uint8_t* ptr)
         header = prev_header;
     }
 }
+
+void memory_visualise()
+{
+    uint8_t* start = heap_start;
+    struct block_header* header = (struct block_header*)heap_start;
+    while ((uint32_t)start + header->size + HEADER_WIDTH < _heap_end)
+    {
+        printf("H");
+        if (header->allocated) { printf("#%i#", header->size); }
+        else { printf("O%iO", header->size); }
+
+        start += header->size + HEADER_WIDTH;
+        while (*start == MEMORY_PENDING)
+        {
+            printf("|");
+            start++;
+        }
+    }
+}

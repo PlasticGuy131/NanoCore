@@ -177,6 +177,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     if (written == max)
     {
         errno = EOVERFLOW;
+        free(str);
         return -1;
     }
     if (put('.') == EOF)

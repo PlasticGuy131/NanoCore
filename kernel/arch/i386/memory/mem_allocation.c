@@ -31,7 +31,7 @@ int memory_usage()
     struct block_header* header = (struct block_header*)heap_start;
     while ((uint32_t)start + header->size + HEADER_WIDTH < _heap_end)
     {
-        usage += header->size;
+        if (header->allocated) { usage += header->size; };
         start += header->size + HEADER_WIDTH;
         while (*start == MEMORY_PENDING) { start++; }
     }

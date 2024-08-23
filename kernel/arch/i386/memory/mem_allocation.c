@@ -28,9 +28,10 @@ int memory_usage()
 {
     uint32_t usage = 0;
     uint8_t* start = heap_start;
-    struct block_header* header = (struct block_header*)heap_start;
+    struct block_header* header;
     while ((uint32_t)start + header->size + HEADER_WIDTH < _heap_end)
     {
+        header = (struct block_header*)start;
         if (header->allocated) { usage += header->size; };
         start += header->size + HEADER_WIDTH;
         while (*start == MEMORY_PENDING) { start++; }
@@ -110,7 +111,7 @@ void memory_free(uint8_t* ptr)
     {
         uint8_t* next_ptr = ptr;
         next_ptr += header->size + HEADER_WIDTH;
-        while (*next_ptr == MEMORY_PENDING)
+        while (*next_ptr == MEMORY_PENDING && next_ptr <= _heap_end)
         {
             header->size++;
             next_ptr++;
@@ -162,10 +163,11 @@ void memory_free(uint8_t* ptr)
 void memory_visualise()
 {
     uint8_t* start = heap_start;
-    struct block_header* header = (struct block_header*)heap_start;
+    struct block_header* header;
     printf("%i vs %i\n", (uint32_t)start + header->size + HEADER_WIDTH, _heap_end);
     while ((uint32_t)start + header->size + HEADER_WIDTH <= _heap_end)
     {
+        header = (struct block_header*)start;
         while (*start == MEMORY_PENDING)
         {
             printf("|");

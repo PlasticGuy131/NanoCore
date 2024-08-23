@@ -370,11 +370,11 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
         }
 
+        enum Case  printCase = LOWER;
         switch (*format)
         {
             int l;
             size_t len;
-            enum Case  printCase = LOWER;
             case '%':
                 if (written == max)
                 {

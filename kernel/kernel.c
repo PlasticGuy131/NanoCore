@@ -86,6 +86,8 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
+    memory_visualise();
+
     printf("testing printf...\n");
     int o = 17;
     printf("OCTAL: %o\n", o);

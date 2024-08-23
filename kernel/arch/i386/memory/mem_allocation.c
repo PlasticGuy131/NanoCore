@@ -178,4 +178,5 @@ void memory_visualise()
 
         start += header->size + HEADER_WIDTH;
     }
+    printf("\n");
 }

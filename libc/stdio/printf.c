@@ -224,7 +224,6 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
     if(put((ecase == UPPER) ? 'E' : 'e') == EOF) { return -1; }
     if(put((exp < 0) ? '-' : '+') == EOF) { return -1; }
     if (exp < 0) { exp *= -1; }
-    if (exp < 10) { if(put('0') == EOF) { return -1; } }
     l = print_uint((unsigned) exp, put, written, max);
     if (l == -1) { return -1; }
     written += 4;
@@ -288,7 +287,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         errno = EOVERFLOW;
         return -1;
     }
-    written ++;
+    written++;
     if (put('1') == EOF) { return -1; }
 
     if (written == max)

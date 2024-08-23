@@ -86,7 +86,7 @@ void* memory_alloc(size_t size)
         {
             *new_start = MEMORY_PENDING;
         }
-        return start;
+        return (start + HEADER_WIDTH);
     }
     uint8_t* new_start = start + size + HEADER_WIDTH;
     struct block_header new_header;
@@ -182,5 +182,5 @@ void memory_visualise()
         start += header->size + HEADER_WIDTH;
     }
     printf("\n");
-    printf("Memory Start: %i", _heap_start);
+    printf("Memory Start: %i\n", _heap_start);
 }

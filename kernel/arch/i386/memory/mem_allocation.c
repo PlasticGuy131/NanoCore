@@ -100,12 +100,12 @@ void* memory_alloc(size_t size)
     struct block_header* next_header = (struct block_header*)next_ptr;
     next_header->prev = (uint16_t)(uintptr_t)next_ptr - (uint16_t)(uintptr_t)new_start;
 
-    return start + HEADER_WIDTH;
+    return start;
 }
 
 void memory_free(uint8_t* ptr)
 {
-    ptr -= HEADER_WIDTH;
+    ptr;
     struct block_header* header = (struct block_header*)ptr;
     header->allocated = false;
     while ((size_t)ptr + header->size + HEADER_WIDTH < _heap_end)

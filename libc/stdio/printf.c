@@ -206,97 +206,6 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     free(str);
     return written;
-
-/*
-    bool rounded = false;
-    bool round = true;
-    bool stop = true;
-    double test_f = f;
-    for (size_t j = 0; j < dp+1; j++)
-    {
-        test_f *= 10.0;
-        unsigned test_c = test_f;
-        test_f -= test_c;
-
-        if ((test_c != 0 && j < dp) || (test_c >= 5 && j == dp))
-        {
-            stop = false;
-        }
-        unsigned limit = (j == dp) ? 5 : 9;
-        if (test_c < limit)
-        {
-            round = false;
-        }
-    }
-
-    if (round)
-    {
-        i++;
-        rounded = true;
-    }
-
-    int l = print_uint(i, put, written, max);
-    if (l == -1) { return -1; }
-    written += l;
-
-    if (truncate && stop) { return written; }
-
-    if (written == max)
-    {
-        errno = EOVERFLOW;
-        return -1;
-    }
-    if(put((int)'.') == EOF) { return -1; }
-    written++;
-    
-    bool cont = true;
-    while (dp > 0 && !(truncate && !cont))
-    {
-        dp--;
-        if (written == max)
-        {
-            errno = EOVERFLOW;
-            return -1;
-        }
-
-        if (rounded)
-        {
-            if(put('0') == EOF) { return -1; }
-            written++;
-            continue;
-        }
-
-        f *= 10;
-        unsigned c = f;
-        f -= c;
-
-        bool round = true;
-        double test_f = f;
-        for (size_t i = 0; i < dp+1; i++)
-        {
-            test_f *= 10.0;
-            unsigned test_c = test_f;
-            test_f -= test_c;
-            cont = cont && (test_c == 0);
-            unsigned limit = (i == dp) ? 5 : 9;
-            if (test_c < limit)
-            {
-                round = false;
-                break;
-            }
-        }
-
-        if (round)
-        {
-            c++;
-            rounded = true;
-        }
-
-        if(put(c + '0') == EOF) { return -1; }
-        written++;
-    }
-    return written;
-*/
 }
 
 static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Case ecase)
@@ -465,6 +374,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         {
             int l;
             size_t len;
+            enum Case  printCase = LOWER;
             case '%':
                 if (written == max)
                 {
@@ -571,6 +481,8 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 }
                 written += len;
                 break;
+            case 'X':
+                printCase = UPPER;
             case 'x':
                 unsigned x = va_arg(arg, unsigned);
                 if (flags & PRINTF_FLAG_ALT)
@@ -585,11 +497,11 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     if(put('x') == EOF) { return -1; }
                 }
 
-                l = print_hex(x, put, written, max, LOWER);
+                l = print_hex(x, put, written, max, printCase);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
-            case 'X':
+/*
                 unsigned X = va_arg(arg, unsigned);
                 if (flags & PRINTF_FLAG_ALT)
                 {
@@ -606,7 +518,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 l = print_hex(X, put, written, max, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
-                break;
+                break; */
             case 'p':
                 unsigned p = va_arg(arg, unsigned);
                 if (written + 2 > max)

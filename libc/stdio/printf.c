@@ -501,24 +501,6 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (l == -1) { return -1; }
                 written += l;
                 break;
-/*
-                unsigned X = va_arg(arg, unsigned);
-                if (flags & PRINTF_FLAG_ALT)
-                {
-                    if (written + 2 > max)
-                    {
-                        errno = EOVERFLOW;
-                        return -1;
-                    }
-
-                    if(put('0') == EOF) { return -1; }
-                    if(put('X') == EOF) { return -1; }
-                }
-
-                l = print_hex(X, put, written, max, UPPER);
-                if (l == -1) { return -1; }
-                written += l;
-                break; */
             case 'p':
                 unsigned p = va_arg(arg, unsigned);
                 if (written + 2 > max)
@@ -541,20 +523,17 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (l == -1) { return -1; }
                 written += l;
                 break;
+            case 'E':
+                printCase = UPPER;
             case 'e':
                 double e = va_arg(arg, double);
 
-                l = print_exp(e, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), LOWER);
+                l = print_exp(e, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), printCase);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
-            case 'E':
-                double E = va_arg(arg, double);
-
-                l = print_exp(E, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), UPPER);
-                if (l == -1) { return -1; }
-                written += l;
-                break;
+            case 'G':
+                printCase = UPPER;
             case 'g':
                 double g = va_arg(arg, double);
 
@@ -562,7 +541,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 int exp_g = get_exp(&test_g, 10);
                 if (exp_g < -4 || exp_g >= 6)
                 {
-                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), LOWER);                    
+                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), printCase);                    
                 }
                 else
                 {
@@ -570,32 +549,12 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 }
                 written += l;
                 break;
-            case 'G':
-                double G = va_arg(arg, double);
-
-                double test_G = G;
-                int exp_G = get_exp(&test_G, 10);
-                if (exp_G < -4 || exp_G >= 6)
-                {
-                    l = print_exp(G, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), UPPER);                    
-                }
-                else
-                {
-                    l = print_float(G, put, written, max, 5 - exp_G, !(flags & PRINTF_FLAG_ALT));
-                }
-                written += l;
-                break;
+            case 'A':
+                printCase = UPPER;
             case 'a':
                 double a = va_arg(arg, double);
 
-                l = print_float_hex(a, put, written, max, false, 0, flags & PRINTF_FLAG_ALT, LOWER);
-                if (l == -1) { return -1; }
-                written += l;
-                break;
-            case 'A':
-                double A = va_arg(arg, double);
-
-                l = print_float_hex(A, put, written, max, false, 0, flags & PRINTF_FLAG_ALT, UPPER);
+                l = print_float_hex(a, put, written, max, false, 0, flags & PRINTF_FLAG_ALT, printCase);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

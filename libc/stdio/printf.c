@@ -554,7 +554,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'A':
                 printCase = UPPER;
-                // fall through
+                [[fallthrough]];
             case 'a':
                 double a = va_arg(arg, double);
 

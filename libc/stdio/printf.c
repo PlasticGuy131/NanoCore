@@ -483,7 +483,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'X':
                 printCase = UPPER;
-                // fall through
+                [[fallthrough]];
             case 'x':
                 unsigned x = va_arg(arg, unsigned);
                 if (flags & PRINTF_FLAG_ALT)
@@ -526,7 +526,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'E':
                 printCase = UPPER;
-                // fall through
+                [[fallthrough]];
             case 'e':
                 double e = va_arg(arg, double);
 
@@ -536,7 +536,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'G':
                 printCase = UPPER;
-                // fall through
+                [[fallthrough]];
             case 'g':
                 double g = va_arg(arg, double);
 

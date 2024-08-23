@@ -165,7 +165,6 @@ void memory_visualise()
 {
     uint8_t* start = heap_start;
     struct block_header* header = (struct block_header*)start;
-    printf("%i vs %i\n", (uint32_t)start + header->size + HEADER_WIDTH, _heap_end);
     while ((uint32_t)start + header->size + HEADER_WIDTH <= _heap_end)
     {
         header = (struct block_header*)start;
@@ -182,5 +181,4 @@ void memory_visualise()
         start += header->size + HEADER_WIDTH;
     }
     printf("\n");
-    printf("Memory Start: %i\n", _heap_start);
 }

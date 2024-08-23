@@ -86,50 +86,30 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    memory_visualise();
-
-    void* addr = malloc(6);
-    printf("%i\n", (uint32_t)addr);
-    free(addr);
-
     printf("testing printf...\n");
     int o = 17;
     printf("OCTAL: %o\n", o);
-    memory_visualise();
     printf("OCTAL: %#o\n", o);
-    memory_visualise();
     double f = 5.000001;
     printf("FLOAT G: %g\n", f);
-    memory_visualise();
     printf("FLOAT F: %f\n", f);
-    memory_visualise();
     printf("\n");
     printf("FLOAT G: %#g\n", f);
-    memory_visualise();
     printf("FLOAT F: %#f\n", f);
-    memory_visualise();
     printf("HEX: %#x\n", 12);
-    memory_visualise();
     printf("HEX: %X\n", 12);
-    memory_visualise();
     printf("\n");
     f = 500000000;
     printf("FLOAT g: %g\n", f);
-    memory_visualise();
     printf("FLOAT e: %e\n", f);
-    memory_visualise();
     printf("\n");
     //printf("FLOAT G: %#G\n", f);
     printf("FLOAT E: %#E\n", f);
-    memory_visualise();
     printf("\n");
     f = 5.00001;
     printf("FLOAT g: %g\n", f);
-    memory_visualise();
     f = 50.00001;
     printf("FLOAT g: %g\n", f);
-    memory_visualise();
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
-    memory_visualise();
 }

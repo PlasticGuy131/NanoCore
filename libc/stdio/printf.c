@@ -119,7 +119,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     char* str = (char*)malloc((dp + 1) * sizeof(char));
     
-    for (size_t i = 0; i < dp+1; i++)
+    for (size_t i = 0; i < dp + 1; i++)
     {
         f *= 10;
         str[i] = (char)(int)f;

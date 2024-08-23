@@ -267,7 +267,21 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     if (put('0') == EOF) { return -1; }
     if (put((acase == UPPER) ? 'X' : 'x') == EOF) { return -1; }
 
-    if (trunc && dp == 0)
+    if (f == 0)
+    {
+        if (written == max)
+        {
+            errno = EOVERFLOW;
+            return -1;
+        }
+        if (put('0') == EOF) { return -1; }
+        int l = print_float_hex_exp(exp, put, written, max, acase);
+        if (l == -1) { return -1; }
+        written += l;
+        return written;
+    }
+
+    /*if (trunc && dp == 0)
     {
         if (written + 3 > max)
         {
@@ -314,7 +328,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         written++;
         f -= n;
         f *= 16;
-    }
+    }*/
 
     int l = print_float_hex_exp(exp, put, written, max, acase);
     if (l == -1) { return -1; }

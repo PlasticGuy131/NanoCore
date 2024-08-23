@@ -103,7 +103,7 @@ void kernel_main(void)
     printf("FLOAT g: %g\n", f);
     printf("FLOAT e: %e\n", f);
     printf("\n");
-    //printf("FLOAT G: %#G\n", f);
+    printf("FLOAT G: %#G\n", f);
     printf("FLOAT E: %#E\n", f);
     printf("\n");
     f = 5.00001;

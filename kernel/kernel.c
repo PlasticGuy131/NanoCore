@@ -88,6 +88,10 @@ void kernel_main(void)
 
     memory_visualise();
 
+    void* addr = malloc(6);
+    printf("%i", (uint32_t)addr);
+    free(addr);
+
     printf("testing printf...\n");
     int o = 17;
     printf("OCTAL: %o\n", o);

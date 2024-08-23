@@ -182,4 +182,5 @@ void memory_visualise()
         start += header->size + HEADER_WIDTH;
     }
     printf("\n");
+    printf("Memory Start: %i", _heap_start);
 }

@@ -88,6 +88,12 @@ void kernel_main(void)
 
     memory_visualise();
 
+    void* m = malloc(6);
+    memory_visualise();
+
+    free(m);
+    memory_visualise();
+
     printf("testing printf...\n");
     int o = 17;
     printf("OCTAL: %o\n", o);

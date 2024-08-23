@@ -163,7 +163,7 @@ void memory_visualise()
 {
     uint8_t* start = heap_start;
     struct block_header* header = (struct block_header*)heap_start;
-    printf("%i vs %i", (uint32_t)start + header->size + HEADER_WIDTH, _heap_end);
+    printf("%i vs %i\n", (uint32_t)start + header->size + HEADER_WIDTH, _heap_end);
     while ((uint32_t)start + header->size + HEADER_WIDTH <= _heap_end)
     {
         while (*start == MEMORY_PENDING)

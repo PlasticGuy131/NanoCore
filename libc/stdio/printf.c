@@ -26,14 +26,15 @@ int offset;
 static int get_exp(double* d, unsigned base)
 {
     int exp = 0;
-    while (*(d) >= base)
+    if (*d == 0) { return 0; }
+    while (*d >= base)
     {
-        *(d) /= base;
+        *d /= base;
         exp++;
     }
-    while (*(d) < 1.0)
+    while (*d < 1.0)
     {
-        *(d) *= base;
+        *d *= base;
         exp--;
     }
     return exp;

@@ -789,13 +789,23 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             put = realPut;
             if (passes == 1)
             {
-                for (unsigned i = 0; i < width - widthUsage; i++)
+                if (!(flags & PRINTF_FLAG_LEFT))
                 {
-                    if (put((flags & PRINTF_FLAG_ZERO) && isNumeric ? '0' : ' ') == EOF) { return -1; }
+                    for (unsigned i = 0; i < width - widthUsage; i++)
+                    {
+                        if (put((flags & PRINTF_FLAG_ZERO) && isNumeric ? '0' : ' ') == EOF) { return -1; }
+                    }
                 }
                 for (unsigned i = 0; i < widthUsage; i++)
                 {
                     if (put(widthBuffer[i]) == EOF) { return -1; }
+                }
+                if (flags & PRINTF_FLAG_LEFT)
+                {
+                    for (unsigned i = 0; i < width - widthUsage; i++)
+                    {
+                        if (put(' ') == EOF) { return -1; }
+                    }
                 }
             }
             free(widthBuffer);

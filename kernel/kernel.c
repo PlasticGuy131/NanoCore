@@ -119,6 +119,7 @@ void kernel_main(void)
 
     printf("INT 7: |%2d|\n", 7);
     printf("INT 7: |%02d|\n", 7);
+    printf("INT 7: |%-2d|\n", 7);
     printf("INT 123: %2d\n", 123);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

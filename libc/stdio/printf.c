@@ -344,8 +344,8 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
                 return -1;
             }
         }
-        free(str);
     }
+    free(str);
 
     int l = print_float_hex_exp(exp, put, written, max, acase);
     if (l == -1) { return -1; }

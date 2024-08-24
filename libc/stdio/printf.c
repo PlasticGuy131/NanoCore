@@ -1,5 +1,4 @@
 #include <ctype.h>
-#include <errno.h>
 #include <limits.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -8,6 +7,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 static const unsigned char PRINTF_FLAG_ALT = 1;
 static const unsigned char PRINTF_FLAG_ZERO = 2;

@@ -72,10 +72,10 @@ static int sputchar(int ic)
     return ic;
 }
 
-static int print_uint(unsigned i, int (*put)(int), size_t written, unsigned max)
+static int print_uint(long long unsigned i, int (*put)(int), size_t written, unsigned max)
 {
     size_t len = 1;
-    unsigned header = 1;
+    long long unsigned header = 1;
     while (i / header >= 10)
     {
         header *= 10;
@@ -98,10 +98,10 @@ static int print_uint(unsigned i, int (*put)(int), size_t written, unsigned max)
     return len;
 }
 
-static int print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, enum Case hcase)
+static int print_hex(long long unsigned i, int (*put)(int), size_t written, unsigned max, enum Case hcase)
 {
     size_t len = 1;
-    unsigned header = 1;
+    long long unsigned header = 1;
     while (i / header >= 16)
     {
         header *= 16;
@@ -591,7 +591,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'd':
             case 'i':
                 isNumeric = true;
-                int i = va_arg(arg, int);
+                long long int i = va_arg(arg, long long int);
 
                 if (i < 0)
                 {
@@ -651,7 +651,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'u':
                 isNumeric = true;
-                int u = va_arg(arg, int);
+                long long unsigned u = va_arg(arg, long long unsigned);
 
                 if (hasPrecision)
                 {
@@ -681,7 +681,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'o':
                 isNumeric = true;
-                int o = va_arg(arg, int);
+                long long unsigned o = va_arg(arg, long long unsigned);
 
                 if (o != 0 && (flags & PRINTF_FLAG_ALT))
                 {
@@ -733,7 +733,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 }
 
                 len = 1;
-                unsigned header = 1;
+                long long unsigned header = 1;
                 while (o / header >= 8)
                 {
                     header *= 8;
@@ -764,7 +764,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 [[fallthrough]];
             case 'x':
                 isNumeric = true;
-                unsigned x = va_arg(arg, unsigned);
+                long long unsigned x = va_arg(arg, long long unsigned);
                 if (flags & PRINTF_FLAG_ALT)
                 {
                     if (written + 2 > max)

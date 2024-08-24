@@ -204,30 +204,6 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (truncate)
     {
-        /*if (dp > 1)
-        {
-            offset = dp;
-            while (offset > 0)
-            {
-                offset--;
-                if (str[offset] == 0 || str[offset] == 10) { str[offset] = 10; }
-                else { break; }
-            }
-
-            if (offset == 0)
-            {
-                free(str);
-                return written;
-            }
-        }
-        else
-        {
-            if (str[0] == 0)
-            {
-                free(str);
-                return written;
-            }
-        }*/
         offset = dp;
         while (offset > 0)
         {
@@ -596,6 +572,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 's':
                 const char* s = va_arg(arg, const char*);
                 len = strlen(s);
+                if (hasPrecision && precision < len) { len = precision; }
                 if (written + len > max)
                 {
                     errno = EOVERFLOW;

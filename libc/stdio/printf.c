@@ -479,13 +479,39 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             format++;
             if (isdigit(*format))
             {
-                unsigned n = (unsigned)atoi(format);
+                unsigned n = atoi(format);
                 while (isdigit(*format)) { format++; }
                 if (*format != '$') { return -1; }
                 format++;
                 width = n_arg(vaOriginal, n);
             }
             else { width = va_arg(arg, int); }
+        }
+
+        bool hasPrecision = false;
+        unsigned precision = 0;
+        if (*format == '.')
+        {
+            hasPrecision = true;
+            format++;
+            if (isdigit(*format))
+            {
+                precision = atoi(format);
+                while (isdigit(*format)) { format++; }
+            }
+            else if (*format == '*')
+            {
+                format++;
+                if (isdigit(*format))
+                {
+                    unsigned n = atoi(format);
+                    while (isdigit(*format)) { format++; }
+                    if (*format != '$') { return -1; }
+                    format++;
+                    precision = n_arg(vaOriginal, n);
+                }
+                else { precision = va_arg(arg, int); }
+            }
         }
 
         if (hasWidth)
@@ -550,6 +576,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'i':
                 isNumeric = true;
                 int i = va_arg(arg, int);
+
                 if (i < 0)
                 {
                     i = -i;
@@ -579,6 +606,24 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     }
                     written++;
                 }
+
+                if (hasPrecision)
+                {
+                    double test_i = i;
+                    int digits = get_exp(&test_i, 10);
+                    if (digits < precision)
+                    {
+                        for (int j = 0; j < precision - digits; j++)
+                        {
+                            if (put('0') == EOF)
+                            {
+                                didEOF = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 l = print_uint(i, put, written, max);
                 if (l == -1)
                 {
@@ -592,6 +637,23 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 isNumeric = true;
                 int u = va_arg(arg, int);
 
+                if (hasPrecision)
+                {
+                    double test_u = u;
+                    int digits = get_exp(&test_u, 10);
+                    if (digits < precision)
+                    {
+                        for (int j = 0; j < precision - digits; j++)
+                        {
+                            if (put('0') == EOF)
+                            {
+                                didEOF = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
                 l = print_uint(u, put, written, max);
                 if (l == -1)
                 {
@@ -607,6 +669,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                 if (o != 0 && (flags & PRINTF_FLAG_ALT))
                 {
+                    precision--;
                     if (written == max)
                     {
                         errno = EOVERFLOW;
@@ -635,6 +698,24 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     }
                     written++;
                 }
+
+                if (hasPrecision)
+                {
+                    double test_o = o;
+                    int digits = get_exp(&test_o, 8);
+                    if (digits < precision)
+                    {
+                        for (int j = 0; j < precision - digits; j++)
+                        {
+                            if (put('0') == EOF)
+                            {
+                                didEOF = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 len = 1;
                 unsigned header = 1;
                 while (o / header >= 8)
@@ -685,6 +766,23 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     {
                         didEOF = true;
                         break;
+                    }
+                }
+
+                if (hasPrecision)
+                {
+                    double test_x = x;
+                    int digits = get_exp(&test_x, 16);
+                    if (digits < precision)
+                    {
+                        for (int j = 0; j < precision - digits; j++)
+                        {
+                            if (put('0') == EOF)
+                            {
+                                didEOF = true;
+                                break;
+                            }
+                        }
                     }
                 }
 

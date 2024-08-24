@@ -89,38 +89,9 @@ void kernel_main(void)
 
     printf("testing printf...\n");
     int o = 17;
-    printf("OCTAL: %o\n", o);
-    printf("OCTAL: %#o\n", o);
-    double f = 5.000001;
-    printf("FLOAT G: %g\n", f);
-    printf("FLOAT F: %f\n", f);
-    printf("\n");
-    printf("FLOAT G: %#g\n", f);
-    printf("FLOAT F: %#f\n", f);
-    printf("HEX: %#x\n", 12);
-    printf("HEX: %X\n", 12);
-    printf("\n");
-    f = 500000000;
-    printf("FLOAT g: % g\n", f);
-    printf("FLOAT e: % +e\n", f);
-    printf("\n");
-    printf("FLOAT G: %#G\n", f);
-    printf("FLOAT E: %#E\n", f);
-    printf("\n");
-    f = 5.00001;
-    printf("FLOAT g: %g\n", f);
-    f = 50.00001;
-    printf("FLOAT g: %g\n", f);
-
-    f = 3.5;
-    printf("FLOAT f: %+a\n", f);
-    printf("FLOAT f: % f\n", f);
-    printf("FLOAT f: %+f\n", f);
-
-    printf("INT 7: |%*d|\n", 2, 7);
-    printf("INT 7: |%02d|\n", 7);
-    printf("INT 7, 3: |%-*2$d|, %d\n", 7, 3);
-    printf("INT 123: %2d\n", 123);
+    printf("INT 7: %.2d", 7);
+    printf("OCT 7: %.*o", 3, 7);
+    printf("HEX 7: %.*2$x", 7, 4);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

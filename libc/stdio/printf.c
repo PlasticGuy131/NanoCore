@@ -20,6 +20,13 @@ enum Case
     UPPER = 0
 };
 
+enum Sign_Spacer
+{
+    NONE = 0,
+    SPACE = ' ',
+    PLUS = '+'
+};
+
 char* buf;
 int offset;
 
@@ -102,7 +109,7 @@ static int print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, 
     return len;
 }
 
-static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate)
+static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Sign_Spacer spacer)
 {
     if (f < 0)
     {
@@ -114,6 +121,16 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         if (put('-') == EOF) { return -1; }
         written++;
         f *= -1;
+    }
+    else if (spacer)
+    {
+        if (written == max)
+        {
+            errno = EOVERFLOW;
+            return -1;
+        }
+        if(put(spacer == SPACE ? ' ' : '+') == EOF) { return -1; }
+        written++;
     }
     unsigned integer = f;
     f -= integer;
@@ -213,7 +230,7 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
 {
     int exp = get_exp(&f, 10);
 
-    int l = print_float(f, put, written, max, dp, truncate);
+    int l = print_float(f, put, written, max, dp, truncate, NONE);
     if (l == -1) { return -1; }
     written += l;
 
@@ -355,7 +372,6 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
 
 static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, va_list arg)
 {
-    //TODO: Flags and such
     size_t written = 0;
 
     while (*format != '\0')
@@ -399,8 +415,11 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 format++;
                 break;
         }
+        enum Sign_Spacer spacer = NONE;
+        if (flags & PRINTF_FLAG_SPACE) { spacer = SPACE; }
+        if (flags & PRINTF_FLAG_SIGN) { spacer = PLUS; }
 
-        enum Case  printCase = LOWER;
+        enum Case printCase = LOWER;
         switch (*format)
         {
             int l;
@@ -450,6 +469,16 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         return -1;
                     }
                     if(put('-') == EOF) { return -1; }
+                    written++;
+                }
+                else if (spacer)
+                {
+                    if (written == max)
+                    {
+                        errno = EOVERFLOW;
+                        return -1;
+                    }
+                    if(put(spacer == SPACE ? ' ' : '+') == EOF) { return -1; }
                     written++;
                 }
                 l = print_uint(i, put, written, max);
@@ -550,7 +579,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'F':
                 double f = va_arg(arg, double);
 
-                l = print_float(f, put, written, max, 6, false);
+                l = print_float(f, put, written, max, 6, false, spacer);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -578,7 +607,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 }
                 else
                 {
-                    l = print_float(g, put, written, max, 5 - exp_g, !(flags & PRINTF_FLAG_ALT));
+                    l = print_float(g, put, written, max, 5 - exp_g, !(flags & PRINTF_FLAG_ALT), spacer);
                 }
                 written += l;
                 break;

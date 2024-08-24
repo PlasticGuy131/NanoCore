@@ -92,7 +92,7 @@ void kernel_main(void)
     printf("OCT 7: %.*o\n", 3, 7);
     printf("HEX 7: %.*2$x\n", 7, 4);
     printf("\n");
-    printf("FLOAT 3.5: %.3f\n", 3.5);
+    printf("FLOAT 3.5: %.1f\n", 3.5);
     printf("FLOAT 3.5: %f\n", 3.5);
     printf("EXP 150.75: %.2e\n", 150.75);
     printf("EXP 150.75: %e\n", 150.75);

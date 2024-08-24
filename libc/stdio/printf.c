@@ -827,7 +827,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 isNumeric = true;
                 double f = va_arg(arg, double);
 
-                l = print_float(f, put, written, max, 6, false, spacer);
+                l = print_float(f, put, written, max, hasPrecision ? 6 : precision, false, spacer);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
@@ -843,13 +843,13 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 isNumeric = true;
                 double e = va_arg(arg, double);
 
-                l = print_exp(e, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
+                l = print_exp(e, put, written, max, hasPrecision ? 6 : precision, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
                     didEOF = true;
                     break;
-                }    
+                }
                 written += l;
                 break;
             case 'G':
@@ -885,7 +885,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 isNumeric = true;
                 double a = va_arg(arg, double);
 
-                l = print_float_hex(a, put, written, max, true, 0, flags & PRINTF_FLAG_ALT, printCase, spacer);
+                l = print_float_hex(a, put, written, max, hasPrecision, precision, flags & PRINTF_FLAG_ALT, printCase, spacer);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }

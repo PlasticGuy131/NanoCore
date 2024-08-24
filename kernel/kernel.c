@@ -92,5 +92,12 @@ void kernel_main(void)
     printf("OCT 7: %.*o\n", 3, 7);
     printf("HEX 7: %.*2$x\n", 7, 4);
 
+    printf("FLOAT 3.5: %.3f\n", 3.5);
+    printf("FLOAT 3.5: %f\n", 3.5);
+    printf("EXP 150.75: %.2f\n", 150.75);
+    printf("EXP 150.75: %f\n", 150.75);
+    printf("FHEX 3.8: %.4a", 3.8);
+    printf("FHEX 3.8: %a", 3.8);
+
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

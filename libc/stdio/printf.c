@@ -204,7 +204,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (truncate)
     {
-        offset = dp - 1;
+        offset = dp;
         while (offset > 0)
         {
             if (str[offset] == 0 || str[offset] == 10)

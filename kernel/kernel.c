@@ -100,8 +100,8 @@ void kernel_main(void)
     printf("HEX: %X\n", 12);
     printf("\n");
     f = 500000000;
-    printf("FLOAT g: %g\n", f);
-    printf("FLOAT e: %e\n", f);
+    printf("FLOAT g: % g\n", f);
+    printf("FLOAT e: % +e\n", f);
     printf("\n");
     printf("FLOAT G: %#G\n", f);
     printf("FLOAT E: %#E\n", f);
@@ -112,7 +112,7 @@ void kernel_main(void)
     printf("FLOAT g: %g\n", f);
 
     f = 3.5;
-    printf("FLOAT f: %f\n", f);
+    printf("FLOAT f: %+a\n", f);
     printf("FLOAT f: % f\n", f);
     printf("FLOAT f: %+f\n", f);
 

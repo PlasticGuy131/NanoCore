@@ -226,11 +226,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     return written;
 }
 
-static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Case ecase)
+static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Case ecase, enum Sign_Spacer spacer)
 {
     int exp = get_exp(&f, 10);
 
-    int l = print_float(f, put, written, max, dp, truncate, NONE);
+    int l = print_float(f, put, written, max, dp, truncate, spacer);
     if (l == -1) { return -1; }
     written += l;
 
@@ -260,7 +260,7 @@ static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigne
     return written;
 }
 
-static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool defaultPrecision, unsigned dp, bool point, enum Case acase)
+static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool defaultPrecision, unsigned dp, bool point, enum Case acase, enum Sign_Spacer spacer)
 {
     if (f < 0)
     {
@@ -272,6 +272,16 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         if (put('-') == EOF) { return -1; }
         written++;
         f *= -1;
+    }
+    else if (spacer)
+    {
+        if (written == max)
+        {
+            errno = EOVERFLOW;
+            return -1;
+        }
+        if(put(spacer == SPACE ? ' ' : '+') == EOF) { return -1; }
+        written++;
     }
 
     int exp = get_exp(&f, 2);
@@ -589,7 +599,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'e':
                 double e = va_arg(arg, double);
 
-                l = print_exp(e, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), printCase);
+                l = print_exp(e, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
                 if (l == -1) { return -1; }
                 written += l;
                 break;
@@ -603,7 +613,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 int exp_g = get_exp(&test_g, 10);
                 if (exp_g < -4 || exp_g >= 6)
                 {
-                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), printCase);                    
+                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), printCase, spacer);                    
                 }
                 else
                 {
@@ -617,7 +627,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'a':
                 double a = va_arg(arg, double);
 
-                l = print_float_hex(a, put, written, max, true, 0, flags & PRINTF_FLAG_ALT, printCase);
+                l = print_float_hex(a, put, written, max, true, 0, flags & PRINTF_FLAG_ALT, printCase, spacer);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

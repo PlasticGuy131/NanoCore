@@ -295,7 +295,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     f--;
     f *= 16;
 
-    for (unsigned i; i < dp + 1; i++)
+    for (unsigned i = 0; i < dp + 1; i++)
     {
         dp--;
         unsigned n = f;
@@ -308,7 +308,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
 
     // CLEAR PASS
 
-    for (unsigned i; i < dp; i++)
+    for (unsigned i = 0; i < dp; i++)
     {
         if (written == max)
         {

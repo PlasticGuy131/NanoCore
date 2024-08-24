@@ -88,9 +88,9 @@ void kernel_main(void)
     kernel_intro_splash();
 
     printf("testing printf...\n");
-    printf("INT 7: %.2d", 7);
-    printf("OCT 7: %.*o", 3, 7);
-    printf("HEX 7: %.*2$x", 7, 4);
+    printf("INT 7: %.2d\n", 7);
+    printf("OCT 7: %.*o\n", 3, 7);
+    printf("HEX 7: %.*2$x\n", 7, 4);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

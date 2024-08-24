@@ -610,7 +610,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (hasPrecision)
                 {
                     double test_i = i;
-                    unsigned digits = get_exp(&test_i, 10);
+                    unsigned digits = get_exp(&test_i, 10) + 1;
                     if (digits < precision)
                     {
                         for (unsigned j = 0; j < precision - digits; j++)
@@ -640,7 +640,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (hasPrecision)
                 {
                     double test_u = u;
-                    unsigned digits = get_exp(&test_u, 10);
+                    unsigned digits = get_exp(&test_u, 10)  + 1;
                     if (digits < precision)
                     {
                         for (unsigned j = 0; j < precision - digits; j++)
@@ -702,7 +702,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (hasPrecision)
                 {
                     double test_o = o;
-                    unsigned digits = get_exp(&test_o, 8);
+                    unsigned digits = get_exp(&test_o, 8) + 1;
                     if (digits < precision)
                     {
                         for (unsigned j = 0; j < precision - digits; j++)
@@ -772,7 +772,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (hasPrecision)
                 {
                     double test_x = x;
-                    unsigned digits = get_exp(&test_x, 16);
+                    unsigned digits = get_exp(&test_x, 16) + 1;
                     if (digits < precision)
                     {
                         for (unsigned j = 0; j < precision - digits; j++)

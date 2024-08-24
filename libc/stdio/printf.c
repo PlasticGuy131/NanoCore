@@ -297,7 +297,6 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
 
     for (unsigned i = 0; i < dp + 1; i++)
     {
-        dp--;
         unsigned n = f;
         str[i] = (n < 10) ? n + '0' : n - 10 + 'A' + acase * 32;
         f -= n;

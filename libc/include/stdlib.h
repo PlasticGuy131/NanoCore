@@ -9,4 +9,6 @@ void* realloc(void* ptr, size_t new_size);
 
 void free(void* ptr);
 
+int atoi(const char* str);
+
 #endif

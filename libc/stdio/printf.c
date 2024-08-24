@@ -402,8 +402,11 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
         format++;
         char flags = 0;
-        switch (*format)
+        bool onFlags = true;
+        while (onFlags)
         {
+            switch (*format)
+            {
             case '#':
                 flags |= PRINTF_FLAG_ALT;
                 format++;
@@ -424,8 +427,12 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 flags |= PRINTF_FLAG_SIGN;
                 format++;
                 break;
+            default:
+                onFlags = false;
+                break;
+            }
         }
-        enum Sign_Spacer spacer = NONE;
+            enum Sign_Spacer spacer = NONE;
         if (flags & PRINTF_FLAG_SPACE) { spacer = SPACE; }
         if (flags & PRINTF_FLAG_SIGN) { spacer = PLUS; }
 

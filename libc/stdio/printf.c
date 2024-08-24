@@ -465,10 +465,10 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             put = &wputchar;
         }
 
-        bool tooWide = false;
-
+        bool tooWide = true;
         while (tooWide)
         {
+            tooWide = false;
             enum Case printCase = LOWER;
             switch (*format)
             {

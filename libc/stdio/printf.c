@@ -778,7 +778,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         if (hasWidth)
         {
             put = realPut;
-            if (passes = 1)
+            if (passes == 1)
             {
                 for (unsigned i = 0; i < widthUsage; i++)
                 {

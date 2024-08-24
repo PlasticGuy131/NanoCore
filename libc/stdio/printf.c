@@ -397,8 +397,18 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     return written;
 }
 
+static int n_arg(va_list arg, unsigned n)
+{
+    va_list copy;
+    va_copy(copy, arg);
+    for (unsigned i = 0; i < n - 1; i++) { va_arg(copy, int); }
+    return va_arg(copy, int);
+}
+
 static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, va_list arg)
 {
+    va_list vaOriginal;
+    va_copy(vaOriginal, arg);
     size_t written = 0;
 
     while (*format != '\0')
@@ -460,14 +470,22 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         {
             hasWidth = true;
             width = atoi(format);
-            while (isdigit(*format)) { format++; }            
+            while (isdigit(*format)) { format++; }
         }
 
         if (*format == '*')
         {
             hasWidth = true;
             format++;
-            width = va_arg(arg, int);
+            if (isdigit(*format))
+            {
+                unsigned n = (unsigned)atoi(format);
+                while (isdigit(*format)) { format++; }
+                if (*format != '$') { return -1; }
+                format++;
+                width = n_arg(vaOriginal, n);
+            }
+            else { width = va_arg(arg, int); }
         }
 
         if (hasWidth)

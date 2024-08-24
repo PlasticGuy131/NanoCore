@@ -117,9 +117,9 @@ void kernel_main(void)
     printf("FLOAT f: % f\n", f);
     printf("FLOAT f: %+f\n", f);
 
-    printf("INT 7: |%*d|\n", 7, 2);
+    printf("INT 7: |%*d|\n", 2, 7);
     printf("INT 7: |%02d|\n", 7);
-    printf("INT 7: |%-*d|\n", 7, 3);
+    printf("INT 7, 3: |%-*2$d|, %d\n", 7, 3);
     printf("INT 123: %2d\n", 123);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

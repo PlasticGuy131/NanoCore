@@ -225,7 +225,8 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
     if(put((ecase == UPPER) ? 'E' : 'e') == EOF) { return -1; }
     if(put((exp < 0) ? '-' : '+') == EOF) { return -1; }
     if (exp < 0) { exp *= -1; }
-    l = print_uint((unsigned) exp, put, written, max);
+    if (exp < 10) { if (put('0') == EOF) { return -1; } }
+    l = print_uint((unsigned)exp, put, written, max);
     if (l == -1) { return -1; }
     written += 4;
     return written;
@@ -236,7 +237,6 @@ static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigne
     if (put((acase == UPPER) ? 'P' : 'p') == EOF) { return -1; }
     if (put((exp >= 0) ? '+' : '-') == EOF) { return -1; }
     if (exp < 0) { exp *= -1; }
-    if (exp < 10) { if (put('0') == EOF) { return -1; } }
     int l = print_uint(exp, put, written, max);
     if (l == -1) { return -1; }
     written += l;
@@ -280,6 +280,47 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         if (l == -1) { return -1; }
         written += l;
         return written;
+    }
+
+    if (written == max)
+    {
+        errno = EOVERFLOW;
+        return -1;
+    }
+    if (put('1') == EOF) { return -1; }
+
+    if (!trunc) { dp = 13; }
+    char* str = (char*)malloc((dp + 1) * sizeof(char));
+
+    f--;
+    f *= 16;
+
+    for (unsigned i; i < dp + 1; i++)
+    {
+        dp--;
+        unsigned n = f;
+        str[i] = (n < 10) ? n + '0' : n - 10 + 'A' + acase * 32;
+        f -= n;
+        f *= 16;
+    }
+
+    // ROUND PASS
+
+    // CLEAR PASS
+
+    for (unsigned i; i < dp; i++)
+    {
+        if (written == max)
+        {
+            errno = EOVERFLOW;
+            free(str);
+            return -1;
+        }
+        if (put(str[i]) == EOF)
+        {
+            free(str);
+            return -1;
+        }
     }
 
     /*if (trunc && dp == 0)

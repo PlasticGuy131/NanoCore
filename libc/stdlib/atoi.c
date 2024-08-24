@@ -22,6 +22,7 @@ int atoi(const char* str)
     {
         value *= 10;
         value -= *str - '0';
+        str++;
     }
 
     return positive ? -value : value;

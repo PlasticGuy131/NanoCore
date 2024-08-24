@@ -455,6 +455,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
         bool hasWidth = false;
         int (*realPut)(int);
+        va_list vaBackup;
         if (isdigit(*format))
         {
             hasWidth = true;
@@ -463,13 +464,15 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             widthUsage = 0;
             realPut = put;
             put = &wputchar;
+            va_copy(vaBackup, arg);
             while (isdigit(*format)) { format++; }
         }
 
-        bool tooWide = true;
-        while (tooWide)
+        unsigned passes = 0;
+        unsigned maxPasses = 1;
+        while (passes < maxPasses)
         {
-            tooWide = false;
+            passes++;
             enum Case printCase = LOWER;
             bool didEOF = false;
             switch (*format)
@@ -764,7 +767,9 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             {
                 if (hasWidth)
                 {
-                    return -1;
+                    arg = vaBackup;
+                    put = realPut;
+                    maxPasses = 2;
                 }
                 else { return -1; }
             }
@@ -773,7 +778,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         if (hasWidth)
         {
             put = realPut;
-            if (!tooWide)
+            if (passes = 1)
             {
                 for (unsigned i = 0; i < widthUsage; i++)
                 {

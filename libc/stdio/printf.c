@@ -670,7 +670,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         {
             hasWidth = true;
             width = atoi(format);
-            widthBuffer = (char*)calloc(width, sizeof(char));
+            widthBuffer = (char*)malloc(width * sizeof(char));
             widthUsage = 0;
             realPut = put;
             put = &wputchar;
@@ -692,7 +692,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             put = realPut;
             if (!tooWide)
             {
-                for (unsigned i = 0; i < strlen(widthBuffer); i++)
+                for (unsigned i = 0; i < widthUsage; i++)
                 {
                     if (realPut(widthBuffer[i]) == EOF) { return -1; }
                 }

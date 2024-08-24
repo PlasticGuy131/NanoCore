@@ -876,7 +876,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 double test_g = g;
                 int exp_g = get_exp(&test_g, 10);
 
-                unsigned g_precision = hasPrecision ? precision : 6;
+                int g_precision = hasPrecision ? precision : 6;
                 if (exp_g < -4 || exp_g >= g_precision)
                 {
                     l = print_exp(g, put, written, max, g_precision - 1, !(flags & PRINTF_FLAG_ALT), printCase, spacer);

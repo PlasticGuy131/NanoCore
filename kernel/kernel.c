@@ -94,7 +94,7 @@ void kernel_main(void)
     printf("\n");
     printf("FLOAT 3.5: %.1f\n", 3.5);
     printf("FLOAT 3.5: %f\n", 3.5);
-    printf("EXP 150.75: %.2e\n", 150.75);
+    printf("EXP 150.75: %.1e\n", 150.75);
     printf("EXP 150.75: %e\n", 150.75);
     printf("FHEX 3.8: %.4a\n", 3.8);
     printf("FHEX 3.8: %a\n", 3.8);

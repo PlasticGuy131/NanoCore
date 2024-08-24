@@ -468,6 +468,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             while (isdigit(*format)) { format++; }
         }
 
+        bool isNumeric = false;
         unsigned passes = 0;
         unsigned maxPasses = 1;
         while (passes < maxPasses)
@@ -518,6 +519,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'd':
             case 'i':
+                isNumeric = true;
                 int i = va_arg(arg, int);
                 if (i < 0)
                 {
@@ -558,6 +560,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 written += l;
                 break;
             case 'u':
+                isNumeric = true;
                 int u = va_arg(arg, int);
 
                 l = print_uint(u, put, written, max);
@@ -570,6 +573,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 written += l;
                 break;
             case 'o':
+                isNumeric = true;
                 int o = va_arg(arg, int);
 
                 if (o != 0 && (flags & PRINTF_FLAG_ALT))
@@ -633,6 +637,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 printCase = UPPER;
                 [[fallthrough]];
             case 'x':
+                isNumeric = true;
                 unsigned x = va_arg(arg, unsigned);
                 if (flags & PRINTF_FLAG_ALT)
                 {
@@ -692,6 +697,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'f':
             case 'F':
+                isNumeric = true;
                 double f = va_arg(arg, double);
 
                 l = print_float(f, put, written, max, 6, false, spacer);
@@ -707,6 +713,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 printCase = UPPER;
                 [[fallthrough]];
             case 'e':
+                isNumeric = true;
                 double e = va_arg(arg, double);
 
                 l = print_exp(e, put, written, max, 6, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
@@ -722,6 +729,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 printCase = UPPER;
                 [[fallthrough]];
             case 'g':
+                isNumeric = true;
                 double g = va_arg(arg, double);
 
                 double test_g = g;
@@ -747,6 +755,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 printCase = UPPER;
                 [[fallthrough]];
             case 'a':
+                isNumeric = true;
                 double a = va_arg(arg, double);
 
                 l = print_float_hex(a, put, written, max, true, 0, flags & PRINTF_FLAG_ALT, printCase, spacer);
@@ -782,7 +791,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             {
                 for (unsigned i = 0; i < width - widthUsage; i++)
                 {
-                    if (put(' ') == EOF) { return -1; }
+                    if (put((flags & PRINTF_FLAG_ZERO) && isNumeric ? '0' : ' ') == EOF) { return -1; }
                 }
                 for (unsigned i = 0; i < widthUsage; i++)
                 {

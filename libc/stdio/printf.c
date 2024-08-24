@@ -243,7 +243,7 @@ static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigne
     return written;
 }
 
-static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool trunc, unsigned dp, bool point, enum Case acase)
+static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool defaultPrecision, unsigned dp, bool point, enum Case acase)
 {
     if (f < 0)
     {
@@ -289,7 +289,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     }
     if (put('1') == EOF) { return -1; }
 
-    if (!trunc) { dp = 13; }
+    if (defaultPrecision) { dp = 13; }
     char* str = (char*)malloc((dp + 1) * sizeof(char));
 
     f--;
@@ -585,7 +585,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'a':
                 double a = va_arg(arg, double);
 
-                l = print_float_hex(a, put, written, max, false, 0, flags & PRINTF_FLAG_ALT, printCase);
+                l = print_float_hex(a, put, written, max, true, 0, flags & PRINTF_FLAG_ALT, printCase);
                 if (l == -1) { return -1; }
                 written += l;
                 break;

@@ -32,8 +32,8 @@ char* buf;
 int offset;
 
 char* widthBuffer;
-int widthUsage;
-int width;
+unsigned widthUsage;
+unsigned width;
 
 static int wputchar(int ic)
 {
@@ -780,6 +780,10 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             put = realPut;
             if (passes == 1)
             {
+                for (unsigned i = 0; i < width - widthUsage; i++)
+                {
+                    if (realPut(' ') == EOF) { return -1; }
+                }
                 for (unsigned i = 0; i < widthUsage; i++)
                 {
                     if (realPut(widthBuffer[i]) == EOF) { return -1; }

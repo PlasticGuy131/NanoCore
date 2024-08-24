@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <errno.h>
 #include <limits.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -7,7 +8,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
 
 static const unsigned char PRINTF_FLAG_ALT = 1;
 static const unsigned char PRINTF_FLAG_ZERO = 2;
@@ -44,7 +44,7 @@ static int wputchar(int ic)
         widthUsage++;
         return ic;
     }
-    else { return -1; }
+    else { return EOF; }
 }
 
 static int get_exp(double* d, unsigned base)
@@ -676,11 +676,17 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 *n = written;
             }
         }
-        if (hasWidth && !tooWide)
+
+        if (hasWidth)
         {
-            for (int i = 0; i < strlen(widthBuffer); i++)
+            free(widthBuffer);
+            put = realPut;
+            if (!tooWide)
             {
-                if (realPut(widthBuffer[i]) == EOF) { return -1; }
+                for (int i = 0; i < strlen(widthBuffer); i++)
+                {
+                    if (realPut(widthBuffer[i]) == EOF) { return -1; }
+                }
             }
         }
         format++;

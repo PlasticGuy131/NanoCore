@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdarg.h>
@@ -29,6 +30,22 @@ enum Sign_Spacer
 
 char* buf;
 int offset;
+
+char* widthBuffer;
+int widthUsage;
+int width;
+
+static int wputchar(int ic)
+{
+    char c = (char)ic;
+    if (widthUsage < width)
+    {
+        widthBuffer[widthUsage] = c;
+        widthUsage++;
+        return ic;
+    }
+    else { return -1; }
+}
 
 static int get_exp(double* d, unsigned base)
 {
@@ -432,22 +449,38 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             }
         }
-            enum Sign_Spacer spacer = NONE;
+        enum Sign_Spacer spacer = NONE;
         if (flags & PRINTF_FLAG_SPACE) { spacer = SPACE; }
         if (flags & PRINTF_FLAG_SIGN) { spacer = PLUS; }
 
-        enum Case printCase = LOWER;
-        switch (*format)
+        bool hasWidth = false;
+        int (*realPut)(int);
+        if (isdigit(*format))
         {
-            int l;
-            size_t len;
+            hasWidth = true;
+            width = atoi(format);
+            widthBuffer = (char*)calloc(width, sizeof(char));
+            widthUsage = 0;
+            realPut = put;
+            put = &wputchar;
+        }
+
+        bool tooWide = false;
+
+        while (tooWide)
+        {
+            enum Case printCase = LOWER;
+            switch (*format)
+            {
+                int l;
+                size_t len;
             case '%':
                 if (written == max)
                 {
                     errno = EOVERFLOW;
                     return -1;
                 }
-                if(put('%') == EOF) { return -1; }
+                if (put('%') == EOF) { return -1; }
                 written++;
                 break;
             case 'c':
@@ -457,7 +490,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     return -1;
                 }
                 int c = va_arg(arg, int);
-                if(put(c) == EOF) { return -1; }
+                if (put(c) == EOF) { return -1; }
                 written++;
                 break;
             case 's':
@@ -470,7 +503,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 }
                 for (size_t i = 0; i < len; i++)
                 {
-                    if(put(s[i]) == EOF) { return -1; }
+                    if (put(s[i]) == EOF) { return -1; }
                 }
                 written += len;
                 break;
@@ -485,7 +518,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         errno = EOVERFLOW;
                         return -1;
                     }
-                    if(put('-') == EOF) { return -1; }
+                    if (put('-') == EOF) { return -1; }
                     written++;
                 }
                 else if (spacer)
@@ -495,7 +528,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         errno = EOVERFLOW;
                         return -1;
                     }
-                    if(put(spacer == SPACE ? ' ' : '+') == EOF) { return -1; }
+                    if (put(spacer == SPACE ? ' ' : '+') == EOF) { return -1; }
                     written++;
                 }
                 l = print_uint(i, put, written, max);
@@ -519,7 +552,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         errno = EOVERFLOW;
                         return -1;
                     }
-                    if(put('0') == EOF) { return -1; }
+                    if (put('0') == EOF) { return -1; }
                     written++;
                 }
 
@@ -531,7 +564,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         errno = EOVERFLOW;
                         return -1;
                     }
-                    if(put('-') == EOF) { return -1; }
+                    if (put('-') == EOF) { return -1; }
                     written++;
                 }
                 len = 1;
@@ -551,7 +584,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 for (size_t j = 0; j < len; j++)
                 {
                     char ch = (char)(o / header);
-                    if(put(ch + '0') == EOF) { return -1; }
+                    if (put(ch + '0') == EOF) { return -1; }
                     o %= header;
                     header /= 8;
                 }
@@ -570,8 +603,8 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         return -1;
                     }
 
-                    if(put('0') == EOF) { return -1; }
-                    if(put('x') == EOF) { return -1; }
+                    if (put('0') == EOF) { return -1; }
+                    if (put('x') == EOF) { return -1; }
                 }
 
                 l = print_hex(x, put, written, max, printCase);
@@ -586,8 +619,8 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     return -1;
                 }
 
-                if(put('0') == EOF) { return -1; }
-                if(put('x') == EOF) { return -1; }
+                if (put('0') == EOF) { return -1; }
+                if (put('x') == EOF) { return -1; }
                 l = print_hex(p, put, written, max, UPPER);
                 if (l == -1) { return -1; }
                 written += l;
@@ -620,7 +653,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 int exp_g = get_exp(&test_g, 10);
                 if (exp_g < -4 || exp_g >= 6)
                 {
-                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), printCase, spacer);                    
+                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
                 }
                 else
                 {
@@ -641,6 +674,14 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'n':
                 int* n = va_arg(arg, int*);
                 *n = written;
+            }
+        }
+        if (hasWidth && !tooWide)
+        {
+            for (int i = 0; i < strlen(widthBuffer); i++)
+            {
+                if (realPut(widthBuffer[i]) == EOF) { return -1; }
+            }
         }
         format++;
     }

@@ -335,7 +335,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
                 free(str);
                 return -1;
             }
-            if (put((str[i] < 10) ? str[i] + '0' : str[i] - 10 + 'A' + acase * 32) == EOF)
+            if (put(((unsigned)str[i] < 10) ? str[i] + '0' : str[i] - 10 + 'A' + acase * 32) == EOF)
             {
                 free(str);
                 return -1;
@@ -343,55 +343,6 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         }
         free(str);
     }
-
-    /*if (trunc && dp == 0)
-    {
-        if (written + 3 > max)
-        {
-            errno = EOVERFLOW;
-            return -1;
-        }
-        written += 3;
-        if (put((f >= 1.5) ? '2' : '1') == EOF) { return -1; }
-        int l = print_float_hex_exp(exp, put, written, max, acase);
-        if (l == -1) { return -1; }
-        written += l;
-        return written;
-    }
-
-    if (written == max)
-    {
-        errno = EOVERFLOW;
-        return -1;
-    }
-    written++;
-    if (put('1') == EOF) { return -1; }
-
-    if (written == max)
-    {
-        errno = EOVERFLOW;
-        return -1;
-    }
-    written ++;
-    if (trunc || f != 1 || point) { if (put('.') == EOF) { return -1; } }
-
-    f--;
-    f *= 16;
-    while ((!trunc && f != 0) || (trunc && dp > 0))
-    {
-        if (written == max)
-        {
-            errno = EOVERFLOW;
-            return -1;
-        }
-
-        dp--;
-        unsigned n = f;
-        if (put((n < 10) ? n + '0' : n - 10 + 'A' + acase * 32) == EOF) { return -1; }
-        written++;
-        f -= n;
-        f *= 16;
-    }*/
 
     int l = print_float_hex_exp(exp, put, written, max, acase);
     if (l == -1) { return -1; }

@@ -113,7 +113,7 @@ void kernel_main(void)
 
     f = 4;
     printf("FLOAT a: %a\n", f);
-    f = 0;
+    f = 3.8;
     printf("FLOAT a: %a\n", f);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

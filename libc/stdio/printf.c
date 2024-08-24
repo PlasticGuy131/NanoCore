@@ -689,7 +689,6 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
         if (hasWidth)
         {
-            free(widthBuffer);
             put = realPut;
             if (!tooWide)
             {
@@ -698,6 +697,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     if (realPut(widthBuffer[i]) == EOF) { return -1; }
                 }
             }
+            free(widthBuffer);
         }
         format++;
     }

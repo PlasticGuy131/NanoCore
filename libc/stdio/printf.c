@@ -183,10 +183,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         for (unsigned i = 0; i < dp + 1; i++)
         {
             if (str[i] != 0) { significant = true; }
-            if (sig_digits > 0) { if (significant) { sig_digits--; } }
-            else
+            if (sig_digits && significant) { sig_digits--; }
+            if (sig_digits == 0)
             {
                 if (i != dp) { str[i + 1] = 10; }
+                break;
             }
         }
     }

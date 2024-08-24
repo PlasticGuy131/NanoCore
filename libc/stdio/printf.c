@@ -460,12 +460,23 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         {
             hasWidth = true;
             width = atoi(format);
+            while (isdigit(*format)) { format++; }            
+        }
+
+        if (*format == '*')
+        {
+            hasWidth = true;
+            format++;
+            width = va_arg(arg, int);
+        }
+
+        if (hasWidth)
+        {
             widthBuffer = (char*)malloc(width * sizeof(char));
             widthUsage = 0;
             realPut = put;
             put = &wputchar;
             va_copy(vaBackup, arg);
-            while (isdigit(*format)) { format++; }
         }
 
         bool isNumeric = false;

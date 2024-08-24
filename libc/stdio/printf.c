@@ -463,6 +463,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             widthUsage = 0;
             realPut = put;
             put = &wputchar;
+            while (isdigit(*format)) { format++; }
         }
 
         bool tooWide = true;

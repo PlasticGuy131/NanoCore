@@ -98,8 +98,8 @@ void kernel_main(void)
     printf("EXP 150.75: %e\n", 150.75);
     printf("FHEX 3.8: %.4a\n", 3.8);
     printf("FHEX 3.8: %a\n", 3.8);
-    printf("GFLOAT 111: %.3g\n", 111.0);
-    printf("GFLOAT 111: %g\n", 111.0);
+    printf("GFLOAT 111: %.2g\n", 1111.0);
+    printf("GFLOAT 111: %g\n", 1111.0);
     printf("GFLOAT 0.0101: %.2g\n", 0.0101);
     printf("GFLOAT 0.0101: %#.2g\n", 0.0101);
     printf("GFLOAT 0.0101: %g\n", 0.0101);

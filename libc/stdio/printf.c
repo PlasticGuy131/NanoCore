@@ -262,7 +262,7 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
 {
     int exp = get_exp(&f, 10);
 
-    int l = print_float(f, put, written, max, dp, truncate, spacer, 0);
+    int l = print_float(f, put, written, max, /*dp*/ 1, truncate, spacer, 0);
     if (l == -1) { return -1; }
     written += l;
 

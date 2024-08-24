@@ -88,7 +88,6 @@ void kernel_main(void)
     kernel_intro_splash();
 
     printf("testing printf...\n");
-    int o = 17;
     printf("INT 7: %.2d", 7);
     printf("OCT 7: %.*o", 3, 7);
     printf("HEX 7: %.*2$x", 7, 4);

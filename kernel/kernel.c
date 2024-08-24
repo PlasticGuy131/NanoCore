@@ -98,6 +98,11 @@ void kernel_main(void)
     printf("EXP 150.75: %e\n", 150.75);
     printf("FHEX 3.8: %.4a\n", 3.8);
     printf("FHEX 3.8: %a\n", 3.8);
+    printf("GFLOAT 111: %.2g", 111.0);
+    printf("GFLOAT 111: %g", 111.0);
+    printf("GFLOAT 0.0101: %.2g", 0.0101);
+    printf("GFLOAT 0.0101: %#.2g", 0.0101);
+    printf("GFLOAT 0.0101: %g", 0.0101);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

@@ -126,7 +126,7 @@ static int print_hex(unsigned i, int (*put)(int), size_t written, unsigned max, 
     return len;
 }
 
-static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Sign_Spacer spacer)
+static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Sign_Spacer spacer, unsigned sig_digits)
 {
     if (f < 0)
     {
@@ -177,6 +177,20 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         }
     }
 
+    if (sig_digits != 0)
+    {
+        bool significant = false;
+        for (unsigned i = 0; i < dp + 1; i++)
+        {
+            if (str[i] != 0) { significant = true; }
+            if (sig_digits > 0) { if (significant) { sig_digits--; } }
+            else
+            {
+                if (i != dp) { str[i + 1] = 10; }
+            }
+        }
+    }
+
     if(round) { integer++; }
 
     int l = print_uint(integer, put, written, max);
@@ -193,7 +207,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
         while (offset > 0)
         {
             offset--;
-            if(str[offset] == 0) { str[offset] = 10; }
+            if(str[offset] == 0 || str[offset] == 10) { str[offset] = 10; }
             else { break; }
         }
         
@@ -247,7 +261,7 @@ static int print_exp(double f, int (*put)(int), size_t written, unsigned max, un
 {
     int exp = get_exp(&f, 10);
 
-    int l = print_float(f, put, written, max, dp, truncate, spacer);
+    int l = print_float(f, put, written, max, dp, truncate, spacer, 0);
     if (l == -1) { return -1; }
     written += l;
 
@@ -827,7 +841,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 isNumeric = true;
                 double f = va_arg(arg, double);
 
-                l = print_float(f, put, written, max, hasPrecision ? precision : 6, false, spacer);
+                l = print_float(f, put, written, max, hasPrecision ? precision : 6, false, spacer, 0);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
@@ -861,13 +875,15 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                 double test_g = g;
                 int exp_g = get_exp(&test_g, 10);
-                if (exp_g < -4 || exp_g >= 6)
+
+                unsigned g_precision = hasPrecision ? precision : 6;
+                if (exp_g < -4 || exp_g >= g_precision)
                 {
-                    l = print_exp(g, put, written, max, 5, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
+                    l = print_exp(g, put, written, max, g_precision - 1, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
                 }
                 else
                 {
-                    l = print_float(g, put, written, max, 5 - exp_g, !(flags & PRINTF_FLAG_ALT), spacer);
+                    l = print_float(g, put, written, max, 5 - exp_g, !(flags & PRINTF_FLAG_ALT), spacer, hasPrecision ? precision : 0);
                 }
                 
                 if (l == -1)

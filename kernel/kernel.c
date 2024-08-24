@@ -112,11 +112,11 @@ void kernel_main(void)
     printf("FLOAT g: %g\n", f);
 
     f = 4;
-    printf("FLOAT a: %a\n", f);
+    printf("FLOAT a: %#a\n", f);
     f = 3.8;
-    printf("FLOAT a: %a\n", f);
+    printf("FLOAT a: %#a\n", f);
     f = 3.85;
-    printf("FLOAT a: %a\n", f);
+    printf("FLOAT a: %#a\n", f);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

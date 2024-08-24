@@ -290,7 +290,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     if (put('1') == EOF) { return -1; }
 
     if (defaultPrecision) { dp = 13; }
-    char* str = (char*)malloc((dp + 1) * sizeof(char));
+    unsigned char* str = (unsigned char*)malloc((dp + 1) * sizeof(unsigned char));
 
     f--;
     f *= 16;
@@ -318,14 +318,17 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
         else { break; }
     }
 
-    if (offset != 0)
+    if (offset != 0 || point)
     {
         if (put('.') == EOF)
         {
             free(str);
             return -1;
         }
+    }
 
+    if (offset != 0)
+    {
         for (unsigned i = 0; i < dp; i++)
         {
             if (str[i] == 16) { break; }
@@ -335,7 +338,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
                 free(str);
                 return -1;
             }
-            if (put(((unsigned)str[i] < 10) ? str[i] + '0' : str[i] - 10 + 'A' + acase * 32) == EOF)
+            if (put((str[i] < 10) ? str[i] + '0' : str[i] - 10 + 'A' + acase * 32) == EOF)
             {
                 free(str);
                 return -1;

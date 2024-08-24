@@ -117,7 +117,7 @@ void kernel_main(void)
     printf("FLOAT f: % f\n", f);
     printf("FLOAT f: %+f\n", f);
 
-    printf("INT 7: %2d\n", 7);
+    //printf("INT 7: %2d\n", 7);
     //printf("INT 123: %2d\n", 123);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

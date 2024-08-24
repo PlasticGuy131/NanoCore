@@ -365,7 +365,7 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
                 free(str);
                 return -1;
             }
-            if (put((str[i] < 10) ? str[i] + '0' : str[i] - 10 + 'A' + acase * 32) == EOF)
+            if (put((str[i] < 10) ? str[i] + (unsigned)'0' : str[i] - 10 + 'A' + acase * 32) == EOF)
             {
                 free(str);
                 return -1;

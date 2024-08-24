@@ -117,11 +117,7 @@ void kernel_main(void)
     printf("FLOAT f: % f\n", f);
     printf("FLOAT f: %+f\n", f);
 
-    printf("Is 5 a digit?: %d\n", isdigit('5'));
-    printf("Is A a digit?: %d\n", isdigit('A'));
-
-    printf("Is   a space?: %d\n", isspace(' '));
-    printf("Is O a space?: %d\n", isspace('O'));
+    printf("INT -12345: %d\n", atoi("  -12345hi"));
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

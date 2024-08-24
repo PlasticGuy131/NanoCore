@@ -298,28 +298,50 @@ static int print_float_hex(double f, int (*put)(int), size_t written, unsigned m
     for (unsigned i = 0; i < dp + 1; i++)
     {
         unsigned n = f;
-        str[i] = (n < 10) ? n + '0' : n - 10 + 'A' + acase * 32;
+        str[i] = n;
         f -= n;
         f *= 16;
     }
 
-    // ROUND PASS
-
-    // CLEAR PASS
-
+    if (str[dp] > 8) { str[dp - 1]++; }
     for (unsigned i = 0; i < dp; i++)
     {
-        if (written == max)
+        if (str[dp - i] == 16) { str[dp - i - 1]++; }
+        else { break; }
+    }
+
+    unsigned offset = dp + 1;
+    for (unsigned i = 0; i < dp + 1; i++)
+    {
+        offset--;
+        if (str[offset] == 0) { str[offset] = 16; }
+        else { break; }
+    }
+
+    if (offset != 0)
+    {
+        if (put('.') == EOF)
         {
-            errno = EOVERFLOW;
             free(str);
             return -1;
         }
-        if (put(str[i]) == EOF)
+
+        for (unsigned i = 0; i < dp; i++)
         {
-            free(str);
-            return -1;
+            if (str[i] == 16) { break; }
+            if (written == max)
+            {
+                errno = EOVERFLOW;
+                free(str);
+                return -1;
+            }
+            if (put((str[i] < 10) ? str[i] + '0' : str[i] - 10 + 'A' + acase * 32) == EOF)
+            {
+                free(str);
+                return -1;
+            }
         }
+        free(str);
     }
 
     /*if (trunc && dp == 0)

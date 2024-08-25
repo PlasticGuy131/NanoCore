@@ -1067,7 +1067,34 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 written += l;
                 break;
             case 'n':
-                int* n = va_arg(arg, int*);
+                long long int* n;
+                switch (int_width)
+                {
+                case DEFAULT:
+                    n = va_arg(arg, int*);
+                    break;
+                case CHAR:
+                    n = (char*)va_arg(arg, int*);
+                    break;
+                case SHORT:
+                    n = (short int*)va_arg(arg, int*);
+                    break;
+                case LONG:
+                    n = va_arg(arg, long int*);
+                    break;
+                case LONG_LONG:
+                    n = va_arg(arg, long long int*);
+                    break;
+                case MAX:
+                    n = va_arg(arg, intmax_t*);
+                    break;
+                case SIZE:
+                    n = va_arg(arg, size_t*);
+                    break;
+                case PTR:
+                    n = va_arg(arg, ptrdiff_t*);
+                    break;
+                }
                 *n = written;
             }
 

@@ -120,8 +120,8 @@ void kernel_main(void)
     printf("INT MAX++: %d\n", 2147483648);
     printf("INT MAX++: %lld\n", 2147483648);
     printf("\n");
-    printf("DOUBLE MAX: %f\n", DBL_MAX * 2);
-    printf("DOUBLE MAX: %Lf\n", DBL_MAX * 2);
+    printf("DOUBLE MAX: %e\n", DBL_MAX * 2);
+    printf("DOUBLE MAX: %Le\n", DBL_MAX * 2);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

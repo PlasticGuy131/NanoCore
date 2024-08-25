@@ -204,6 +204,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (truncate)
     {
+        if (dp == 1 && str[0] == 0)
+        {
+            free(str);
+            return written;
+        }
         offset = dp;
         while (offset > 0)
         {
@@ -591,7 +596,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'd':
             case 'i':
                 isNumeric = true;
-                long long int i = va_arg(arg, long long int);
+                long long int i = va_arg(arg, int);
 
                 if (i < 0)
                 {
@@ -651,7 +656,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'u':
                 isNumeric = true;
-                long long unsigned u = va_arg(arg, long long unsigned);
+                long long unsigned u = va_arg(arg, unsigned);
 
                 if (hasPrecision)
                 {
@@ -681,7 +686,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'o':
                 isNumeric = true;
-                long long unsigned o = va_arg(arg, long long unsigned);
+                long long unsigned o = va_arg(arg, unsigned);
 
                 if (o != 0 && (flags & PRINTF_FLAG_ALT))
                 {
@@ -692,22 +697,6 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         return -1;
                     }
                     if (put('0') == EOF)
-                    {
-                        didEOF = true;
-                        break;
-                    }
-                    written++;
-                }
-
-                if (o < 0)
-                {
-                    o = -o;
-                    if (written == max)
-                    {
-                        errno = EOVERFLOW;
-                        return -1;
-                    }
-                    if (put('-') == EOF)
                     {
                         didEOF = true;
                         break;
@@ -764,7 +753,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 [[fallthrough]];
             case 'x':
                 isNumeric = true;
-                long long unsigned x = va_arg(arg, long long unsigned);
+                long long unsigned x = va_arg(arg, unsigned);
                 if (flags & PRINTF_FLAG_ALT)
                 {
                     if (written + 2 > max)

@@ -1,6 +1,18 @@
 #include <stdint.h>
+#include <stdio.h>
 
 #include <kernel.h>
+
+static const uint8_t ACCESS_BYTE_ACCESSED = 1;
+static const uint8_t ACCESS_BYTE_CODE_READ = 1 >> 1;
+static const uint8_t ACCESS_BYTE_DATA_WRITE = 1 >> 1;
+static const uint8_t ACCESS_BYTE_CODE_CONFORMING = 1 >> 2;
+static const uint8_t ACCESS_BYTE_DATA_GROWS_DOWN = 1 >> 2;
+static const uint8_t ACCESS_BYTE_IS_CODE = 3 >> 3;
+static const uint8_t ACCESS_BYTE_IS_DATA = 2 >> 3;
+static const uint8_t ACCESS_BYTE_IS_TASK = 1 >> 3;
+static const uint8_t ACCESS_BYTE_USER = 3 >> 5;
+static const uint8_t ACCESS_BYTE_PRESENT = 1 >> 7;
 
 struct GDT
 {
@@ -31,7 +43,7 @@ static void encode_GDT_entry(uint8_t* target, struct GDT source)
     target[6] |= source.flags << 4;
 }
 
-void initialize_GDT()
+void GDT_initialize()
 {
     uint8_t* gdt_offset = (uint8_t*)gdt;
 
@@ -39,8 +51,45 @@ void initialize_GDT()
     null.limit = 0;
     null.base = 0;
     null.access_byte = 0;
+    printf("Null access byte: %#.2x", null.access_byte);
     null.flags = 0;
     encode_GDT_entry(gdt_offset, null);
+
+    gdt_offset += 8;
+    struct GDT kernel_code;
+    kernel_code.limit = 0xFFFFF;
+    kernel_code.base = 0;
+    kernel_code.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_CODE | ACCESS_BYTE_PRESENT;
+    printf("Kernel code access byte: %#.2x", kernel_code.access_byte);
+    kernel_code.flags = 0;
+    encode_GDT_entry(gdt_offset, kernel_code);
+
+    gdt_offset += 8;
+    struct GDT kernel_data;
+    kernel_data.limit = 0xFFFFF;
+    kernel_data.base = 0;
+    kernel_data.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_DATA | ACCESS_BYTE_PRESENT;
+    printf("Kernel data access byte: %#.2x", kernel_data.access_byte);
+    kernel_data.flags = 0;
+    encode_GDT_entry(gdt_offset, kernel_data);
+
+    gdt_offset += 8;
+    struct GDT user_code;
+    user_code.limit = 0xFFFFF;
+    user_code.base = 0;
+    user_code.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_CODE | ACCESS_BYTE_USER | ACCESS_BYTE_PRESENT;
+    printf("User code access byte: %#.2x", user_code.access_byte);
+    user_code.flags = 0;
+    encode_GDT_entry(gdt_offset, user_code);
+
+    gdt_offset += 8;
+    struct GDT user_data;
+    user_data.limit = 0xFFFFF;
+    user_data.base = 0;
+    user_data.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_CODE | ACCESS_BYTE_USER | ACCESS_BYTE_PRESENT;
+    printf("User code access byte: %#.2x", user_data.access_byte);
+    user_data.flags = 0;
+    encode_GDT_entry(gdt_offset, user_data);
 
     set_gdt();
 }

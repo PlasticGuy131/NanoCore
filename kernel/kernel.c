@@ -16,7 +16,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "Stack Smash Protection"
+#define VERSION "GDT setup"
 #ifndef ARCH
 #define ARCH "WARNING: Unknown Architecture"
 #endif
@@ -78,6 +78,9 @@ void kernel_main(void)
         printf("Warning: Serial initialization failure");
         terminal_col_default();
     }
+
+    printf("Initializing GDT...\n");
+    GDT_initialize();
 
     printf("Initializing FPU...\n");
     float_initialize();

@@ -44,6 +44,11 @@ _heap_start:
 _heap_end:
     .long 0
 
+.align 32
+gdt:
+.skip 48
+gdt_end:
+
 .align 16
 stack_bottom:
 .skip 16384

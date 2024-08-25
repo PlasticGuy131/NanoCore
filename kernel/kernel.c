@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include <float_init.h>
+#include <gdt.h>
 #include <kernel.h>
 #include <mem_allocation.h>
 #include <multiboot.h>

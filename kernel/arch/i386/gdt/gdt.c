@@ -43,7 +43,7 @@ static void encode_GDT_entry(uint8_t* target, struct GDT source)
     target[6] |= source.flags << 4;
 }
 
-void GDT_initialize()
+int GDT_initialize()
 {
     uint8_t* gdt_offset = (uint8_t*)gdt;
 
@@ -92,4 +92,6 @@ void GDT_initialize()
     encode_GDT_entry(gdt_offset, user_data);
 
     set_gdt();
+
+    return 0;
 }

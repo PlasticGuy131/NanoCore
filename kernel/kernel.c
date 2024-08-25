@@ -120,8 +120,8 @@ void kernel_main(void)
     printf("INT MAX++: %d\n", 2147483648);
     printf("INT MAX++: %lld\n", 2147483648);
     printf("\n");
-    int* n = 0;
-    char* c = 0;
+    int* n;
+    char* c;
     char s[258];
     for (int i = 0; i < 257; i++)
     {

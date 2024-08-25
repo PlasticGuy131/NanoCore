@@ -14,3 +14,6 @@ set_gdt:
     dec %eax
     mov %eax, gdtr
     lgdt [gdtr]
+    sgdt gdtr
+    mov gdtr, %eax
+    mov [gdtr+2], %ebx

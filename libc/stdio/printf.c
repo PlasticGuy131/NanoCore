@@ -59,7 +59,7 @@ static int wputchar(int ic)
     else { return EOF; }
 }
 
-static int get_exp(double* d, unsigned base)
+static int get_exp(long double* d, unsigned base)
 {
     int exp = 0;
     if (*d == 0) { return 0; }
@@ -138,7 +138,7 @@ static int print_hex(long long unsigned i, int (*put)(int), size_t written, unsi
     return len;
 }
 
-static int print_float(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Sign_Spacer spacer, unsigned sig_digits)
+static int print_float(long double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Sign_Spacer spacer, unsigned sig_digits)
 {
     if (f < 0)
     {
@@ -216,11 +216,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (truncate)
     {
-        /*if (dp == 1 && str[0] == 0)
-        {
-            free(str);
-            return written;
-        }*/
+
         offset = dp;
         while (offset > 0)
         {
@@ -275,7 +271,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
     return written;
 }
 
-static int print_exp(double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Case ecase, enum Sign_Spacer spacer)
+static int print_exp(long double f, int (*put)(int), size_t written, unsigned max, unsigned dp, bool truncate, enum Case ecase, enum Sign_Spacer spacer)
 {
     int exp = get_exp(&f, 10);
 
@@ -309,7 +305,7 @@ static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigne
     return written;
 }
 
-static int print_float_hex(double f, int (*put)(int), size_t written, unsigned max, bool defaultPrecision, unsigned dp, bool point, enum Case acase, enum Sign_Spacer spacer)
+static int print_float_hex(long double f, int (*put)(int), size_t written, unsigned max, bool defaultPrecision, unsigned dp, bool point, enum Case acase, enum Sign_Spacer spacer)
 {
     if (f < 0)
     {
@@ -555,6 +551,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             }
         }
 
+        bool long_double = false;
         enum Int_Width int_width = DEFAULT;
         switch (*format)
         {
@@ -587,6 +584,10 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         case 't':
             format++;
             int_width = PTR;
+            break;
+        case 'L':
+            format++;
+            long_double = true;
             break;
         }
 
@@ -986,7 +987,9 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'f':
             case 'F':
                 isNumeric = true;
-                double f = va_arg(arg, double);
+                long double f;
+                if (long_double) { f = va_arg(arg, long double); }
+                else { f = va_arg(arg, double); }
 
                 l = print_float(f, put, written, max, hasPrecision ? precision : 6, false, spacer, 0);
                 if (l == -1)
@@ -1002,7 +1005,9 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 [[fallthrough]];
             case 'e':
                 isNumeric = true;
-                double e = va_arg(arg, double);
+                long double e;
+                if (long_double) { e = va_arg(arg, long double); }
+                else { e = va_arg(arg, double); }
 
                 l = print_exp(e, put, written, max, hasPrecision ? precision : 6, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
                 if (l == -1)
@@ -1018,7 +1023,9 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 [[fallthrough]];
             case 'g':
                 isNumeric = true;
-                double g = va_arg(arg, double);
+                long double g;
+                if (long_double) { g = va_arg(arg, long double); }
+                else { g = va_arg(arg, double); }
 
                 double test_g = g;
                 int exp_g = get_exp(&test_g, 10);
@@ -1046,7 +1053,9 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 [[fallthrough]];
             case 'a':
                 isNumeric = true;
-                double a = va_arg(arg, double);
+                long double a;
+                if (long_double) { a = va_arg(arg, long double); }
+                else { a = va_arg(arg, double); }
 
                 l = print_float_hex(a, put, written, max, !hasPrecision, precision, flags & PRINTF_FLAG_ALT, printCase, spacer);
                 if (l == -1)

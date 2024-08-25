@@ -46,7 +46,7 @@ static void encode_GDT_entry(uint8_t* target, struct GDT source)
 
 int GDT_initialize()
 {
-    printf("GDT: %#x", _gdt_start);
+    printf("GDT: %#x\n", _gdt_start);
     uint8_t* gdt_offset = (uint8_t*)_gdt_start;
 
     struct GDT null;

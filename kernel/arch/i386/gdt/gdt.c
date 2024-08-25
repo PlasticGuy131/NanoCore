@@ -86,12 +86,13 @@ int GDT_initialize()
     struct GDT user_data;
     user_data.limit = 0xFFFFF;
     user_data.base = 0;
-    user_data.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_CODE | ACCESS_BYTE_USER | ACCESS_BYTE_PRESENT;
-    printf("User code access byte: %#.2x\n", user_data.access_byte);
+    user_data.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_DATA | ACCESS_BYTE_USER | ACCESS_BYTE_PRESENT;
+    printf("User data access byte: %#.2x\n", user_data.access_byte);
     user_data.flags = 0;
     encode_GDT_entry(gdt_offset, user_data);
 
     set_gdt();
+    enter_protected();
 
     return 0;
 }

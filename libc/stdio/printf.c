@@ -43,17 +43,17 @@ enum Int_Width
 char* buf;
 int offset;
 
-char* width_buffer;
-unsigned width_usage;
+char* widthBuffer;
+unsigned widthUsage;
 unsigned width;
 
 static int wputchar(int ic)
 {
     char c = (char)ic;
-    if (width_usage < width)
+    if (widthUsage < width)
     {
-        width_buffer[width_usage] = c;
-        width_usage++;
+        widthBuffer[widthUsage] = c;
+        widthUsage++;
         return ic;
     }
     else { return EOF; }
@@ -305,7 +305,7 @@ static int print_float_hex_exp(int exp, int (*put)(int), size_t written, unsigne
     return written;
 }
 
-static int print_float_hex(long double f, int (*put)(int), size_t written, unsigned max, bool default_precision, unsigned dp, bool point, enum Case acase, enum Sign_Spacer spacer)
+static int print_float_hex(long double f, int (*put)(int), size_t written, unsigned max, bool defaultPrecision, unsigned dp, bool point, enum Case acase, enum Sign_Spacer spacer)
 {
     if (f < 0)
     {
@@ -361,7 +361,7 @@ static int print_float_hex(long double f, int (*put)(int), size_t written, unsig
     }
     if (put('1') == EOF) { return -1; }
 
-    if (default_precision) { dp = 13; }
+    if (defaultPrecision) { dp = 13; }
     unsigned char* str = (unsigned char*)malloc((dp + 1) * sizeof(unsigned char));
 
     f--;
@@ -435,8 +435,8 @@ static int n_arg(va_list arg, unsigned n)
 
 static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, va_list arg)
 {
-    va_list va_original;
-    va_copy(va_original, arg);
+    va_list vaOriginal;
+    va_copy(vaOriginal, arg);
     size_t written = 0;
 
     while (*format != '\0')
@@ -491,19 +491,19 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
         if (flags & PRINTF_FLAG_SPACE) { spacer = SPACE; }
         if (flags & PRINTF_FLAG_SIGN) { spacer = PLUS; }
 
-        bool has_width = false;
-        int (*real_put)(int);
-        va_list va_backup;
+        bool hasWidth = false;
+        int (*realPut)(int);
+        va_list vaBackup;
         if (isdigit(*format))
         {
-            has_width = true;
+            hasWidth = true;
             width = atoi(format);
             while (isdigit(*format)) { format++; }
         }
 
         if (*format == '*')
         {
-            has_width = true;
+            hasWidth = true;
             format++;
             if (isdigit(*format))
             {
@@ -511,25 +511,25 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 while (isdigit(*format)) { format++; }
                 if (*format != '$') { return -1; }
                 format++;
-                width = n_arg(va_original, n);
+                width = n_arg(vaOriginal, n);
             }
             else { width = va_arg(arg, int); }
         }
 
-        if (has_width)
+        if (hasWidth)
         {
-            width_buffer = (char*)malloc(width * sizeof(char));
-            width_usage = 0;
-            real_put = put;
+            widthBuffer = (char*)malloc(width * sizeof(char));
+            widthUsage = 0;
+            realPut = put;
             put = &wputchar;
-            va_copy(va_backup, arg);
+            va_copy(vaBackup, arg);
         }
 
-        bool has_precision = false;
+        bool hasPrecision = false;
         unsigned precision = 0;
         if (*format == '.')
         {
-            has_precision = true;
+            hasPrecision = true;
             format++;
             if (isdigit(*format))
             {
@@ -545,7 +545,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     while (isdigit(*format)) { format++; }
                     if (*format != '$') { return -1; }
                     format++;
-                    precision = n_arg(va_original, n);
+                    precision = n_arg(vaOriginal, n);
                 }
                 else { precision = va_arg(arg, int); }
             }
@@ -591,14 +591,14 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             break;
         }
 
-        bool is_numeric = false;
+        bool isNumeric = false;
         unsigned passes = 0;
-        unsigned max_passes = 1;
-        while (passes < max_passes)
+        unsigned maxPasses = 1;
+        while (passes < maxPasses)
         {
             passes++;
-            enum Case print_case = LOWER;
-            bool did_EOF = false;
+            enum Case printCase = LOWER;
+            bool didEOF = false;
             switch (*format)
             {
                 int l;
@@ -625,7 +625,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 's':
                 const char* s = va_arg(arg, const char*);
                 len = strlen(s);
-                if (has_precision && precision < len) { len = precision; }
+                if (hasPrecision && precision < len) { len = precision; }
                 if (written + len > max)
                 {
                     errno = EOVERFLOW;
@@ -635,7 +635,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 {
                     if (put(s[i]) == EOF)
                     {
-                        did_EOF = true;
+                        didEOF = true;
                         break;
                     }
                 }
@@ -643,7 +643,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'd':
             case 'i':
-                is_numeric = true;
+                isNumeric = true;
                 long long int i;
                 switch (int_width)
                 {
@@ -683,7 +683,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     }
                     if (put('-') == EOF) 
                     {
-                        did_EOF = true;
+                        didEOF = true;
                         break;
                     }
                     written++;
@@ -697,13 +697,13 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     }
                     if (put(spacer == SPACE ? ' ' : '+') == EOF)
                     {
-                        did_EOF = true;
+                        didEOF = true;
                         break;
                     }
                     written++;
                 }
 
-                if (has_precision)
+                if (hasPrecision)
                 {
                     long double test_i = i;
                     unsigned digits = get_exp(&test_i, 10) + 1;
@@ -713,7 +713,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         {
                             if (put('0') == EOF)
                             {
-                                did_EOF = true;
+                                didEOF = true;
                                 break;
                             }
                         }
@@ -724,13 +724,13 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
                 break;
             case 'u':
-                is_numeric = true;
+                isNumeric = true;
                 long long unsigned u;
                 switch (int_width)
                 {
@@ -760,7 +760,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     break;
                 }
 
-                if (has_precision)
+                if (hasPrecision)
                 {
                     long double test_u = u;
                     unsigned digits = get_exp(&test_u, 10)  + 1;
@@ -770,7 +770,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         {
                             if (put('0') == EOF)
                             {
-                                did_EOF = true;
+                                didEOF = true;
                                 break;
                             }
                         }
@@ -781,13 +781,13 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
                 break;
             case 'o':
-                is_numeric = true;
+                isNumeric = true;
                 long long unsigned o;
                 switch (int_width)
                 {
@@ -827,13 +827,13 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     }
                     if (put('0') == EOF)
                     {
-                        did_EOF = true;
+                        didEOF = true;
                         break;
                     }
                     written++;
                 }
 
-                if (has_precision)
+                if (hasPrecision)
                 {
                     long double test_o = o;
                     unsigned digits = get_exp(&test_o, 8) + 1;
@@ -843,7 +843,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         {
                             if (put('0') == EOF)
                             {
-                                did_EOF = true;
+                                didEOF = true;
                                 break;
                             }
                         }
@@ -869,7 +869,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     char ch = (char)(o / header);
                     if (put(ch + '0') == EOF)
                     {
-                        did_EOF = true;
+                        didEOF = true;
                         break;
                     }
                     o %= header;
@@ -878,10 +878,10 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 written += len;
                 break;
             case 'X':
-                print_case = UPPER;
+                printCase = UPPER;
                 [[fallthrough]];
             case 'x':
-                is_numeric = true;
+                isNumeric = true;
                 long long unsigned x;
                 switch (int_width)
                 {
@@ -921,17 +921,17 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                     if (put('0') == EOF)
                     {
-                        did_EOF = true;
+                        didEOF = true;
                         break;
                     }
                     if (put('x') == EOF)
                     {
-                        did_EOF = true;
+                        didEOF = true;
                         break;
                     }
                 }
 
-                if (has_precision)
+                if (hasPrecision)
                 {
                     long double test_x = x;
                     unsigned digits = get_exp(&test_x, 16) + 1;
@@ -941,18 +941,18 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                         {
                             if (put('0') == EOF)
                             {
-                                did_EOF = true;
+                                didEOF = true;
                                 break;
                             }
                         }
                     }
                 }
 
-                l = print_hex(x, put, written, max, print_case);
+                l = print_hex(x, put, written, max, printCase);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
@@ -967,62 +967,62 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
 
                 if (put('0') == EOF)
                 {
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 if (put('x') == EOF)
                 {
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 l = print_hex(p, put, written, max, UPPER);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
                 break;
             case 'f':
             case 'F':
-                is_numeric = true;
+                isNumeric = true;
                 long double f;
                 if (long_double) { f = va_arg(arg, long double); }
                 else { f = va_arg(arg, double); }
 
-                l = print_float(f, put, written, max, has_precision ? precision : 6, false, spacer, 0);
+                l = print_float(f, put, written, max, hasPrecision ? precision : 6, false, spacer, 0);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
                 break;
             case 'E':
-                print_case = UPPER;
+                printCase = UPPER;
                 [[fallthrough]];
             case 'e':
-                is_numeric = true;
+                isNumeric = true;
                 long double e;
                 if (long_double) { e = va_arg(arg, long double); }
                 else { e = va_arg(arg, double); }
 
-                l = print_exp(e, put, written, max, has_precision ? precision : 6, !(flags & PRINTF_FLAG_ALT), print_case, spacer);
+                l = print_exp(e, put, written, max, hasPrecision ? precision : 6, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
                 break;
             case 'G':
-                print_case = UPPER;
+                printCase = UPPER;
                 [[fallthrough]];
             case 'g':
-                is_numeric = true;
+                isNumeric = true;
                 long double g;
                 if (long_double) { g = va_arg(arg, long double); }
                 else { g = va_arg(arg, double); }
@@ -1030,38 +1030,38 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 long double test_g = g;
                 int exp_g = get_exp(&test_g, 10);
 
-                int g_precision = has_precision ? precision : 6;
+                int g_precision = hasPrecision ? precision : 6;
                 if (exp_g < -4 || exp_g >= g_precision)
                 {
-                    l = print_exp(g, put, written, max, g_precision - 1, !(flags & PRINTF_FLAG_ALT), print_case, spacer);
+                    l = print_exp(g, put, written, max, g_precision - 1, !(flags & PRINTF_FLAG_ALT), printCase, spacer);
                 }
                 else
                 {
-                    l = print_float(g, put, written, max, 5 - exp_g, !(flags & PRINTF_FLAG_ALT), spacer, has_precision ? precision : 0);
+                    l = print_float(g, put, written, max, 5 - exp_g, !(flags & PRINTF_FLAG_ALT), spacer, hasPrecision ? precision : 0);
                 }
                 
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
                 break;
             case 'A':
-                print_case = UPPER;
+                printCase = UPPER;
                 [[fallthrough]];
             case 'a':
-                is_numeric = true;
+                isNumeric = true;
                 long double a;
                 if (long_double) { a = va_arg(arg, long double); }
                 else { a = va_arg(arg, double); }
 
-                l = print_float_hex(a, put, written, max, !has_precision, precision, flags & PRINTF_FLAG_ALT, print_case, spacer);
+                l = print_float_hex(a, put, written, max, !hasPrecision, precision, flags & PRINTF_FLAG_ALT, printCase, spacer);
                 if (l == -1)
                 {
                     if (errno == EOVERFLOW) { return -1; }
-                    did_EOF = true;
+                    didEOF = true;
                     break;
                 }
                 written += l;
@@ -1105,43 +1105,43 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 
             }
 
-            if (did_EOF)
+            if (didEOF)
             {
-                if (has_width)
+                if (hasWidth)
                 {
-                    arg = va_backup;
-                    put = real_put;
-                    max_passes = 2;
+                    arg = vaBackup;
+                    put = realPut;
+                    maxPasses = 2;
                 }
                 else { return -1; }
             }
         }
 
-        if (has_width)
+        if (hasWidth)
         {
-            put = real_put;
+            put = realPut;
             if (passes == 1)
             {
                 if (!(flags & PRINTF_FLAG_LEFT))
                 {
-                    for (unsigned i = 0; i < width - width_usage; i++)
+                    for (unsigned i = 0; i < width - widthUsage; i++)
                     {
-                        if (put((flags & PRINTF_FLAG_ZERO) && is_numeric ? '0' : ' ') == EOF) { return -1; }
+                        if (put((flags & PRINTF_FLAG_ZERO) && isNumeric ? '0' : ' ') == EOF) { return -1; }
                     }
                 }
-                for (unsigned i = 0; i < width_usage; i++)
+                for (unsigned i = 0; i < widthUsage; i++)
                 {
-                    if (put(width_buffer[i]) == EOF) { return -1; }
+                    if (put(widthBuffer[i]) == EOF) { return -1; }
                 }
                 if (flags & PRINTF_FLAG_LEFT)
                 {
-                    for (unsigned i = 0; i < width - width_usage; i++)
+                    for (unsigned i = 0; i < width - widthUsage; i++)
                     {
                         if (put(' ') == EOF) { return -1; }
                     }
                 }
             }
-            free(width_buffer);
+            free(widthBuffer);
         }
         format++;
     }

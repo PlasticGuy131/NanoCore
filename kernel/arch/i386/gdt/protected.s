@@ -5,7 +5,6 @@ enter_protected:
     or $1, %eax
     mov %eax, %cr0
 
-    hlt
     ljmp $0x08, $.reload_CS
 .reload_CS:
     hlt

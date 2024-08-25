@@ -13,5 +13,7 @@ set_gdt:
     mov %ax, gdtr
     mov $gdtr, %eax
     lgdt [gdtr]
+    movw $7, gdtr
+    hlt
     sgdt gdtr
     hlt

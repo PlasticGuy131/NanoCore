@@ -45,8 +45,10 @@ _heap_end:
     .long 0
 
 .align 32
+.globl gdt
 gdt:
 .skip 48
+.globl gdt_end
 gdt_end:
 
 .align 16

@@ -104,8 +104,11 @@ void kernel_main(void)
     printf("GFLOAT 0.0101: %.2g\n", 0.0101);
     printf("GFLOAT 0.0101: %#.2g\n", 0.0101);
     printf("GFLOAT 0.0101: %g\n", 0.0101);
-
+    printf("\n");
     printf("STRING HELLO: %.5s\n", "HELLO:(");
+    printf("\n");
+    printf("INT 257: %d\n", 256);
+    printf("CHAR 257: %hhd\n", 256);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

@@ -28,6 +28,18 @@ enum Sign_Spacer
     PLUS = '+'
 };
 
+enum Int_Width
+{
+    DEFAULT,
+    CHAR,
+    SHORT,
+    LONG,
+    LONG_LONG,
+    MAX,
+    SIZE,
+    PTR
+};
+
 char* buf;
 int offset;
 
@@ -508,6 +520,15 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             else { width = va_arg(arg, int); }
         }
 
+        if (hasWidth)
+        {
+            widthBuffer = (char*)malloc(width * sizeof(char));
+            widthUsage = 0;
+            realPut = put;
+            put = &wputchar;
+            va_copy(vaBackup, arg);
+        }
+
         bool hasPrecision = false;
         unsigned precision = 0;
         if (*format == '.')
@@ -534,13 +555,39 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             }
         }
 
-        if (hasWidth)
+        enum Int_Width int_width = DEFAULT;
+        switch (*format)
         {
-            widthBuffer = (char*)malloc(width * sizeof(char));
-            widthUsage = 0;
-            realPut = put;
-            put = &wputchar;
-            va_copy(vaBackup, arg);
+        case 'h':
+            format++;
+            if (*format == 'h')
+            {
+                format++;
+                int_width = CHAR;
+            }
+            else { int_width = SHORT; }
+            break;
+        case 'l':
+            format++;
+            if (*format == 'l')
+            {
+                format++;
+                int_width = LONG_LONG;
+            }
+            else { int_width = LONG; }
+            break;
+        case 'j':
+            format++;
+            int_width = MAX;
+            break;
+        case 'z':
+            format++;
+            int_width = SIZE;
+            break;
+        case 't':
+            format++;
+            int_width = PTR;
+            break;
         }
 
         bool isNumeric = false;
@@ -596,7 +643,34 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
             case 'd':
             case 'i':
                 isNumeric = true;
-                long long int i = va_arg(arg, int);
+                long long int i;
+                switch (int_width)
+                {
+                case DEFAULT:
+                    i = va_arg(arg, int);
+                    break;
+                case CHAR:
+                    i = va_arg(arg, char);
+                    break;
+                case SHORT:
+                    i = va_arg(arg, short int);
+                    break;
+                case LONG:
+                    i = va_arg(arg, long int);
+                    break;
+                case LONG_LONG:
+                    i = va_arg(arg, long long int);
+                    break;
+                case MAX:
+                    i = va_arg(arg, intmax_t);
+                    break;
+                case SIZE:
+                    i = va_arg(arg, size_t);
+                    break;
+                case PTR:
+                    i = va_arg(arg, ptrdiff_t);
+                    break;
+                }
 
                 if (i < 0)
                 {

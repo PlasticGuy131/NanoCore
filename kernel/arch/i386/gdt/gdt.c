@@ -14,6 +14,10 @@ static const uint8_t ACCESS_BYTE_IS_TASK = 1 << 3;
 static const uint8_t ACCESS_BYTE_USER = 3 << 5;
 static const uint8_t ACCESS_BYTE_PRESENT = 1 << 7;
 
+static const uint8_t FLAG_LONG = 1 << 1;
+static const uint8_t FLAG_32BIT = 1 << 2;
+static const uint8_t FLAG_GRANULAR = 1 << 3;
+
 struct GDT
 {
     uint32_t limit;
@@ -63,7 +67,7 @@ int GDT_initialize()
     kernel_code.base = 0;
     kernel_code.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_CODE | ACCESS_BYTE_PRESENT;
     printf("Kernel code access byte: %#.2x\n", kernel_code.access_byte);
-    kernel_code.flags = 0;
+    kernel_code.flags = FLAG_32BIT | FLAG_GRANULAR;
     encode_GDT_entry(gdt_offset, kernel_code);
 
     gdt_offset += 8;
@@ -72,7 +76,7 @@ int GDT_initialize()
     kernel_data.base = 0;
     kernel_data.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_DATA | ACCESS_BYTE_PRESENT;
     printf("Kernel data access byte: %#.2x\n", kernel_data.access_byte);
-    kernel_data.flags = 0;
+    kernel_data.flags = FLAG_32BIT | FLAG_GRANULAR;
     encode_GDT_entry(gdt_offset, kernel_data);
 
     gdt_offset += 8;
@@ -81,7 +85,7 @@ int GDT_initialize()
     user_code.base = 0;
     user_code.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_CODE | ACCESS_BYTE_USER | ACCESS_BYTE_PRESENT;
     printf("User code access byte: %#.2x\n", user_code.access_byte);
-    user_code.flags = 0;
+    user_code.flags = FLAG_32BIT | FLAG_GRANULAR;
     encode_GDT_entry(gdt_offset, user_code);
 
     gdt_offset += 8;
@@ -90,7 +94,7 @@ int GDT_initialize()
     user_data.base = 0;
     user_data.access_byte = ACCESS_BYTE_CODE_READ | ACCESS_BYTE_IS_DATA | ACCESS_BYTE_USER | ACCESS_BYTE_PRESENT;
     printf("User data access byte: %#.2x\n", user_data.access_byte);
-    user_data.flags = 0;
+    user_data.flags = FLAG_32BIT | FLAG_GRANULAR;
     encode_GDT_entry(gdt_offset, user_data);
 
     set_gdt();

@@ -4,15 +4,15 @@
 #include <kernel.h>
 
 static const uint8_t ACCESS_BYTE_ACCESSED = 1;
-static const uint8_t ACCESS_BYTE_CODE_READ = 1 >> 1;
-static const uint8_t ACCESS_BYTE_DATA_WRITE = 1 >> 1;
-static const uint8_t ACCESS_BYTE_CODE_CONFORMING = 1 >> 2;
-static const uint8_t ACCESS_BYTE_DATA_GROWS_DOWN = 1 >> 2;
-static const uint8_t ACCESS_BYTE_IS_CODE = 3 >> 3;
-static const uint8_t ACCESS_BYTE_IS_DATA = 2 >> 3;
-static const uint8_t ACCESS_BYTE_IS_TASK = 1 >> 3;
-static const uint8_t ACCESS_BYTE_USER = 3 >> 5;
-static const uint8_t ACCESS_BYTE_PRESENT = 1 >> 7;
+static const uint8_t ACCESS_BYTE_CODE_READ = 1 << 1;
+static const uint8_t ACCESS_BYTE_DATA_WRITE = 1 << 1;
+static const uint8_t ACCESS_BYTE_CODE_CONFORMING = 1 << 2;
+static const uint8_t ACCESS_BYTE_DATA_GROWS_DOWN = 1 << 2;
+static const uint8_t ACCESS_BYTE_IS_CODE = 3 << 3;
+static const uint8_t ACCESS_BYTE_IS_DATA = 2 << 3;
+static const uint8_t ACCESS_BYTE_IS_TASK = 1 << 3;
+static const uint8_t ACCESS_BYTE_USER = 3 << 5;
+static const uint8_t ACCESS_BYTE_PRESENT = 1 << 7;
 
 struct GDT
 {

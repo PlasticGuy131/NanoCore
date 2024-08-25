@@ -5,7 +5,7 @@ enter_protected:
     or 1, %eax
     mov %eax, %cr0
 
-    jmp 0x08:.reload_CS
+    ljmp 0x08, .reload_CS
 .reload_CS:
     mov 0x10, %ax
     mov %ax, %ds

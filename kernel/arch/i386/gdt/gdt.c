@@ -98,6 +98,8 @@ int GDT_initialize()
     encode_GDT_entry(gdt_offset, user_data);
 
     set_gdt();
+
+    printf("Entering protected mode...");
     enter_protected();
 
     return 0;

@@ -13,6 +13,4 @@ enter_protected:
     mov %ax, %fs
     mov %ax, %gs
     mov %ax, %ss
-    hlt
     ret
-

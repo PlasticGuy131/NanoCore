@@ -16,7 +16,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "More Printf Testing"
+#define VERSION "Stack Smash Protection"
 #ifndef ARCH
 #define ARCH "WARNING: Unknown Architecture"
 #endif
@@ -87,53 +87,6 @@ void kernel_main(void)
 
     printf("\n");
     kernel_intro_splash();
-
-    printf("testing printf...\n");
-    printf("INT 7: %.2d\n", 7);
-    printf("OCT 7: %.*o\n", 3, 7);
-    printf("HEX 7: %.*2$x\n", 7, 4);
-    printf("\n");
-    printf("FLOAT 3.5: %.1f\n", 3.5);
-    printf("FLOAT 3.5: %f\n", 3.5);
-    printf("FLOAT 1.5075: %.1f\n", 1.5075);
-    printf("EXP 150.75: %.1e\n", 150.75);
-    printf("EXP 150.75: %e\n", 150.75);
-    printf("FHEX 3.8: %.4a\n", 3.8);
-    printf("FHEX 3.8: %a\n", 3.8);
-    printf("GFLOAT 111: %.2g\n", 111.0);
-    printf("GFLOAT 111: %g\n", 111.0);
-    printf("GFLOAT 0.0101: %.2g\n", 0.0101);
-    printf("GFLOAT 0.0101: %#.2g\n", 0.0101);
-    printf("GFLOAT 0.0101: %g\n", 0.0101);
-    printf("\n");
-    printf("STRING HELLO: %.5s\n", "HELLO:(");
-    printf("\n");
-    printf("INT 256: %d\n", 257);
-    printf("CHAR 256: %hhd\n", 257);
-    printf("UINT 257: %u\n", 257);
-    printf("CHAR 257: %hhu\n", 257);
-    printf("UINT 258: %o\n", 258);
-    printf("CHAR 258: %hho\n", 258);
-    printf("UINT 259: %x\n", 259);
-    printf("CHAR 259: %hhx\n", 259);
-    printf("\n");
-    printf("INT MAX++: %d\n", 2147483648);
-    printf("INT MAX++: %lld\n", 2147483648);
-    printf("\n");
-    int* n;
-    char* c;
-    char s[258];
-    for (int i = 0; i < 257; i++)
-    {
-        s[i] = 'A';
-    }
-    s[257] = '\0';
-    printf("%s%n\n", s, n);
-    printf("PRINTED: %d\n", *n);
-    printf("%s%hhn\n", s, n);
-    printf("PRINTED: %d\n", *n);
-    printf("%s%hhn\n", s, c);
-    printf("PRINTED: %d\n", *c);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

@@ -11,5 +11,6 @@ set_gdt:
     mov %eax, gdtr+2
     mov _gdt_end, %eax
     sub _gdt_start, %eax
+    dec %eax
     mov %eax, gdtr
-    lgdt $gdtr
+    lgdt [gdtr]

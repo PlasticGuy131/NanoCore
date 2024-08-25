@@ -1,4 +1,4 @@
-.gobl enter_protected
+.globl enter_protected
 enter_protected:
     cli
     mov %cr0, %eax

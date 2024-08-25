@@ -94,9 +94,9 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    prinf("16 characters\n");
+    printf("16 characters\n");
     foo("0123456789012345");
-    prinf("17 characters\n");
+    printf("17 characters\n");
     foo("01234567890123456");
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

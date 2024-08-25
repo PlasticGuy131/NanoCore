@@ -18,6 +18,6 @@ __attribute__((noreturn)) void __stack_chk_fail(void)
 #ifdef __is_libk
     kernel_panic("Stack Smash Detected.");
 #else
-    //TODO: System calls
+    abort();
 #endif
 }

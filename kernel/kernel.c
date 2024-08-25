@@ -88,5 +88,8 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
+    int buf[8];
+    buf[8] = 1;
+
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

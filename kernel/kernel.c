@@ -129,7 +129,7 @@ void kernel_main(void)
     }
     s[257] = '\0';
     printf("%s%n\n", s, n);
-    printf("PRINTED: %d", *n);
+    printf("PRINTED: %d\n", *n);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

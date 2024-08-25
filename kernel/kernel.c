@@ -107,8 +107,17 @@ void kernel_main(void)
     printf("\n");
     printf("STRING HELLO: %.5s\n", "HELLO:(");
     printf("\n");
-    printf("INT 257: %d\n", 256);
-    printf("CHAR 257: %hhd\n", 256);
+    printf("INT 256: %d\n", 257);
+    printf("CHAR 256: %hhd\n", 257);
+    printf("UINT 257: %u\n", 257);
+    printf("CHAR 257: %hhu\n", 257);
+    printf("UINT 258: %o\n", 258);
+    printf("CHAR 258: %hho\n", 258);
+    printf("UINT 259: %x\n", 259);
+    printf("CHAR 259: %hhx\n", 259);
+    printf("\n");
+    printf("INT MAX++: %d\n", 2147483648);
+    printf("INT MAX++: %lld\n", 2147483648);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

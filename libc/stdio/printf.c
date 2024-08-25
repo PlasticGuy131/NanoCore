@@ -730,7 +730,34 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'u':
                 isNumeric = true;
-                long long unsigned u = va_arg(arg, unsigned);
+                long long unsigned u;
+                switch (int_width)
+                {
+                case DEFAULT:
+                    u = va_arg(arg, unsigned);
+                    break;
+                case CHAR:
+                    u = (unsigned char)va_arg(arg, unsigned);
+                    break;
+                case SHORT:
+                    u = (short unsigned)va_arg(arg, unsigned);
+                    break;
+                case LONG:
+                    u = va_arg(arg, long unsigned);
+                    break;
+                case LONG_LONG:
+                    u = va_arg(arg, long long unsigned);
+                    break;
+                case MAX:
+                    u = va_arg(arg, uintmax_t);
+                    break;
+                case SIZE:
+                    u = va_arg(arg, size_t);
+                    break;
+                case PTR:
+                    u = va_arg(arg, ptrdiff_t);
+                    break;
+                }
 
                 if (hasPrecision)
                 {
@@ -760,7 +787,34 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 break;
             case 'o':
                 isNumeric = true;
-                long long unsigned o = va_arg(arg, unsigned);
+                long long unsigned o;
+                switch (int_width)
+                {
+                case DEFAULT:
+                    o = va_arg(arg, unsigned);
+                    break;
+                case CHAR:
+                    o = (unsigned char)va_arg(arg, unsigned);
+                    break;
+                case SHORT:
+                    o = (short unsigned)va_arg(arg, unsigned);
+                    break;
+                case LONG:
+                    o = va_arg(arg, long unsigned);
+                    break;
+                case LONG_LONG:
+                    o = va_arg(arg, long long unsigned);
+                    break;
+                case MAX:
+                    o = va_arg(arg, uintmax_t);
+                    break;
+                case SIZE:
+                    o = va_arg(arg, size_t);
+                    break;
+                case PTR:
+                    o = va_arg(arg, ptrdiff_t);
+                    break;
+                }
 
                 if (o != 0 && (flags & PRINTF_FLAG_ALT))
                 {
@@ -827,7 +881,35 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 [[fallthrough]];
             case 'x':
                 isNumeric = true;
-                long long unsigned x = va_arg(arg, unsigned);
+                long long unsigned x;
+                switch (int_width)
+                {
+                case DEFAULT:
+                    x = va_arg(arg, unsigned);
+                    break;
+                case CHAR:
+                    x = (unsigned char)va_arg(arg, unsigned);
+                    break;
+                case SHORT:
+                    x = (short unsigned)va_arg(arg, unsigned);
+                    break;
+                case LONG:
+                    x = va_arg(arg, long unsigned);
+                    break;
+                case LONG_LONG:
+                    x = va_arg(arg, long long unsigned);
+                    break;
+                case MAX:
+                    x = va_arg(arg, uintmax_t);
+                    break;
+                case SIZE:
+                    x = va_arg(arg, size_t);
+                    break;
+                case PTR:
+                    x = va_arg(arg, ptrdiff_t);
+                    break;
+                }
+
                 if (flags & PRINTF_FLAG_ALT)
                 {
                     if (written + 2 > max)

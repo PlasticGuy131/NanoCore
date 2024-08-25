@@ -8,7 +8,7 @@ set_gdt:
     mov %ds, %ax
     shl $4, %eax
     add _gdt_start, %eax
-    mov %eax, gdtr+2
+    mov %eax, [gdtr+2]
     mov _gdt_end, %eax
     sub _gdt_start, %eax
     dec %eax

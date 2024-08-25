@@ -204,11 +204,11 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
 
     if (truncate)
     {
-        if (dp == 1 && str[0] == 0)
+        /*if (dp == 1 && str[0] == 0)
         {
             free(str);
             return written;
-        }
+        }*/
         offset = dp;
         while (offset > 0)
         {
@@ -217,7 +217,7 @@ static int print_float(double f, int (*put)(int), size_t written, unsigned max, 
             else { break; }
         }
 
-        if (offset == 0 && str[0] == 0)
+        if (str[0] == 10)
         {
             free(str);
             return written;

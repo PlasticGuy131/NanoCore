@@ -7,7 +7,7 @@ enter_protected:
 
     ljmp $0x08, $.reload_CS
 .reload_CS:
-    mov 0x10, %ax
+    mov $0x10, %ax
     mov %ax, %ds
     mov %ax, %es
     mov %ax, %fs

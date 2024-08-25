@@ -20,4 +20,5 @@ __attribute__((noreturn)) void __stack_chk_fail(void)
 #else
     abort();
 #endif
+    while (1);
 }

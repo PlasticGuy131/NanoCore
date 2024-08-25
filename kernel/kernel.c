@@ -57,6 +57,12 @@ void* kernel_alloc(size_t size) { return memory_alloc(size); }
 
 void kernel_free(void* ptr) { memory_free(ptr); }
 
+void foo(const char* str)
+{
+	char buffer[16];
+	strcpy(buffer, str);
+}
+
 void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
@@ -88,8 +94,10 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    int buf[8];
-    buf[8] = 1;
+    prinf("16 characters\n");
+    foo("0123456789012345");
+    prinf("17 characters\n");
+    foo("01234567890123456");
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

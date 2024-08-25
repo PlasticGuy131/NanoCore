@@ -650,10 +650,10 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                     i = va_arg(arg, int);
                     break;
                 case CHAR:
-                    i = va_arg(arg, char);
+                    i = (char)va_arg(arg, int);
                     break;
                 case SHORT:
-                    i = va_arg(arg, short int);
+                    i = (short int)va_arg(arg, int);
                     break;
                 case LONG:
                     i = va_arg(arg, long int);

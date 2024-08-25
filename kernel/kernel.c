@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <errno.h>
+#include <float.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -118,6 +119,9 @@ void kernel_main(void)
     printf("\n");
     printf("INT MAX++: %d\n", 2147483648);
     printf("INT MAX++: %lld\n", 2147483648);
+    printf("\n");
+    printf("DOUBLE MAX: %f\n", DBL_MAX * 2);
+    printf("DOUBLE MAX: %Lf\n", DBL_MAX * 2);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

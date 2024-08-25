@@ -120,15 +120,20 @@ void kernel_main(void)
     printf("INT MAX++: %d\n", 2147483648);
     printf("INT MAX++: %lld\n", 2147483648);
     printf("\n");
-    int* n;
+    int* n = 0;
+    char* c = 0;
     char s[258];
     for (int i = 0; i < 257; i++)
     {
         s[i] = 'A';
     }
     s[257] = '\0';
-    printf("%s%n", s, n);
+    printf("%s%n\n", s, n);
     printf("PRINTED: %d", *n);
+    printf("%s%hhn\n", s, n);
+    printf("PRINTED: %d", *n);
+    printf("%s%hhn\n", s, c);
+    printf("PRINTED: %d", *c);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

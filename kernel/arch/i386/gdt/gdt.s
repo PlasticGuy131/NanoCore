@@ -13,3 +13,4 @@ set_gdt:
     mov %ax, gdtr
     mov $gdtr, %eax
     lgdt [gdtr]
+    ret

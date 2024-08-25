@@ -28,6 +28,10 @@
 
 / * Multiboot does not define a stack, and so this allocates a small one of 16 KiB * /
 .section .bss
+.globl _stack_top
+_stack_top:
+    .long 0
+
 .globl _multiboot_info_start
 _multiboot_info_start:
     .long 0
@@ -52,11 +56,18 @@ _gdt_start:
 _gdt_end:
     .long 0
 
+.globl _tss
+_tss:
+    .long 0
+
 .align 32
 
 gdt:
 .skip 48
 gdt_end:
+
+tss:
+.skip 104
 
 .align 16
 stack_bottom:
@@ -84,6 +95,7 @@ _start:
     / * stack is setup by moving esp (top-of-stack pointer) to stack_top. This is done in assembly as C * /
     / * cannot function without a stack. * /
     mov $stack_top, %esp
+    mov $stack_top, _stack_top
 
     / * Cruicial processor state should be initialised here before the full kernel starts. This means * /
     / * floats, GDT, paging and some c++ features will not work untill they are implemented here. * /
@@ -95,6 +107,8 @@ _start:
 
     movl $gdt, _gdt_start
     movl $gdt_end, _gdt_end
+
+    movl $tss, _tss
 
     mov %cr0, %eax
     mov 0, %ebx

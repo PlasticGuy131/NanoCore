@@ -17,7 +17,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "GDT setup"
+#define VERSION "TSS setup"
 #ifndef ARCH
 #define ARCH "WARNING: Unknown Architecture"
 #endif

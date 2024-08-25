@@ -22,7 +22,7 @@ struct GDT
     uint8_t flags;
 };
 
-extern uint32_t gdt;
+extern uint32_t _gdt_start;
 extern void set_gdt();
 extern void enter_protected();
 
@@ -46,8 +46,8 @@ static void encode_GDT_entry(uint8_t* target, struct GDT source)
 
 int GDT_initialize()
 {
-    printf("GDT: %#x", gdt);
-    uint8_t* gdt_offset = (uint8_t*)gdt;
+    printf("GDT: %#x", _gdt_start);
+    uint8_t* gdt_offset = (uint8_t*)_gdt_start;
 
     struct GDT null;
     null.limit = 0;

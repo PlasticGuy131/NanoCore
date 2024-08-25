@@ -44,11 +44,18 @@ _heap_start:
 _heap_end:
     .long 0
 
+.globl _gdt_start
+_gdt_start:
+    .long 0
+
+.globl _gdt_end
+_gdt_end:
+    .long 0
+
 .align 32
-.globl gdt
+
 gdt:
 .skip 48
-.globl gdt_end
 gdt_end:
 
 .align 16
@@ -85,6 +92,9 @@ _start:
 
     movl $heap_bottom, _heap_start
     movl $heap_top, _heap_end
+
+    movl $gdt, _gdt_start
+    movl $gdt, _gdt_end
 
     mov %cr0, %eax
     mov 0, %ebx

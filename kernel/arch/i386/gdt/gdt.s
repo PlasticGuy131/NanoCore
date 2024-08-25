@@ -4,9 +4,9 @@ gdtr:
 
 .globl set_gdt
 set_gdt:
-    mov $gdt, %eax
+    mov $_gdt_start, %eax
     mov %eax, gdtr+2
-    mov $gdt_end, %eax
-    sub $gdt, %eax
+    mov $_gdt_end, %eax
+    sub $_gdt_start, %eax
     mov %eax, gdtr
     lgdt gdtr

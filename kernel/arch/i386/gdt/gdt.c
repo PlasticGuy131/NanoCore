@@ -49,10 +49,6 @@ int GDT_initialize()
     printf("GDT: %#x\n", _gdt_start);
     uint8_t* gdt_offset = (uint8_t*)_gdt_start;
 
-    *gdt_offset = 7;
-    
-    return 0;
-
     struct GDT null;
     null.limit = 0;
     null.base = 0;

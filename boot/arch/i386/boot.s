@@ -94,7 +94,7 @@ _start:
     movl $heap_top, _heap_end
 
     movl $gdt, _gdt_start
-    movl $gdt, _gdt_end
+    movl $gdt_end, _gdt_end
 
     mov %cr0, %eax
     mov 0, %ebx

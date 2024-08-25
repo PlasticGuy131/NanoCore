@@ -4,10 +4,6 @@ gdtr:
 
 .globl set_gdt
 set_gdt:
-    /mov $0, %eax
-    /mov %ds, %ax
-    /shl $4, %eax
-    /add _gdt_start, %eax
     mov _gdt_start, %eax
     mov _gdt_start, %edx
     mov %eax, [gdtr+2]
@@ -17,4 +13,5 @@ set_gdt:
     mov %ax, gdtr
     mov $gdtr, %eax
     lgdt [gdtr]
+    sgdt gdtr
     hlt

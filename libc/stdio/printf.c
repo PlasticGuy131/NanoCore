@@ -1027,7 +1027,7 @@ static int vaprintf(const char* restrict format, int (*put)(int), unsigned max, 
                 if (long_double) { g = va_arg(arg, long double); }
                 else { g = va_arg(arg, double); }
 
-                double test_g = g;
+                long double test_g = g;
                 int exp_g = get_exp(&test_g, 10);
 
                 int g_precision = hasPrecision ? precision : 6;

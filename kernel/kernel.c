@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <float.h>
+#include <float_init.h>
 #include <kernel.h>
 #include <mem_allocation.h>
 #include <multiboot.h>

@@ -10,5 +10,6 @@ load_idt:
 
 .globl enable_interrupts
 enable_interrupts:
+    hlt
     sti
     ret

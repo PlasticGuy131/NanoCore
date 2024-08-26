@@ -23,8 +23,6 @@
 #define ARCH "WARNING: Unknown Architecture"
 #endif
 
-extern void interrupt_panic_wpr();
-
 void kernel_putchar(char c) { terminal_putchar(c); }
 
 static void kernel_intro_splash()
@@ -98,8 +96,6 @@ void kernel_main(void)
 
     printf("\n");
     kernel_intro_splash();
-
-    interrupt_panic_wpr();
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

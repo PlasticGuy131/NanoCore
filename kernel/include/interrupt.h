@@ -6,6 +6,6 @@
 int interrupt_initialize();
 
 /// @brief Interrupt that panics kernel
-//void interrupt_panic_wpr();
+void interrupt_panic_wpr();
 
 #endif

@@ -7,8 +7,6 @@
 #include <interrupt.h>
 #include <kernel.h>
 
-extern void interrupt_panic_wpr();
-
 enum Type
 {
     TASK = 0x5,
@@ -48,7 +46,7 @@ static void encode_IDT_entry(uint8_t* target, struct IDT source)
     target[2] = source.selector & 0xFF;
     target[3] = (source.selector >> 8) & 0xFF;
 
-    target[5] = source.type | (source.dpl << 5) | 1 << 8;
+    target[5] = source.type | (source.dpl << 5) | 1 << 7;
 
     target[4] = 0;
 }
@@ -73,6 +71,6 @@ int interrupt_initialize()
     for (int i = 0; i < 32; i++) { encode_IDT_entry(idt + 8 * i, idt_entry); }
 
     load_idtr();
-    //enable_interrupts();
+    enable_interrupts();
     return 0;
 }

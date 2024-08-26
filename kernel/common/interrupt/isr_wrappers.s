@@ -5,4 +5,4 @@ interrupt_panic_wpr:
     cld
     call interrupt_panic
     popal
-    iret
+    ret

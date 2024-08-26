@@ -1,7 +1,4 @@
 #include <stdint.h>
-#include <stdio.h>
-
-#include <kernel.h>
 
 static const uint8_t ACCESS_BYTE_ACCESSED = 1;
 static const uint8_t ACCESS_BYTE_CODE_READ = 1 << 1;
@@ -28,11 +25,9 @@ struct GDT
 
 extern uint32_t _gdt_start;
 extern void set_gdt();
-extern void enter_protected();
 
 extern uint32_t _tss;
 extern uint32_t _stack_top;
-extern void load_tss();
 
 static void encode_GDT_entry(uint8_t* target, struct GDT source)
 {
@@ -69,7 +64,6 @@ int GDT_initialize()
     null.limit = 0;
     null.base = 0;
     null.access_byte = 0;
-    printf("Null access byte: %#.2x\n", null.access_byte);
     null.flags = 0;
     encode_GDT_entry(gdt_offset, null);
 
@@ -114,11 +108,6 @@ int GDT_initialize()
     encode_GDT_entry(gdt_offset, task_state);
 
     set_gdt();
-
-    printf("Entering protected mode...\n");
-    enter_protected();
-
-    load_tss();
 
     return 0;
 }

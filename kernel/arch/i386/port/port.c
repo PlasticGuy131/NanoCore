@@ -1,3 +1,7 @@
+#ifdef _MSC_VER
+#include <vscode.h>
+#endif
+
 #include <stdint.h>
 
 #include <port.h>

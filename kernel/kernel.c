@@ -9,7 +9,7 @@
 #include <string.h>
 
 #include <float_init.h>
-#include <gdt.h>
+#include <init.h>
 #include <kernel.h>
 #include <mem_allocation.h>
 #include <multiboot.h>
@@ -17,7 +17,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "TSS setup"
+#define VERSION "IDT setup"
 #ifndef ARCH
 #define ARCH "WARNING: Unknown Architecture"
 #endif
@@ -80,8 +80,8 @@ void kernel_main(void)
         terminal_col_default();
     }
 
-    printf("Initializing GDT...\n");
-    GDT_initialize();
+    printf("Initializing processor state...\n");
+    general_initialize();
 
     printf("Initializing FPU...\n");
     float_initialize();

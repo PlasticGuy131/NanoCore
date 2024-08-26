@@ -29,6 +29,8 @@ struct __attribute__((packed)) IDTR
     uint32_t base;
 };
 
+extern void load_idt(uint32_t idtr);
+
 __attribute__((aligned(0x10))) static uint8_t idt[256 * 8];
 static struct IDTR idtr;
 
@@ -47,7 +49,16 @@ static void encode_IDT_entry(uint8_t* target, struct IDT source)
     target[4] = 0;
 }
 
-int IDT_initialie()
+static void load_idtr()
 {
+    idtr.base = (uintptr_t)&idt[0];
+    idtr.limit = 32;
+
+    load_idt((uintptr_t)&idtr);
+}
+
+int interrupt_initialize()
+{
+    load_idtr();
     return 0;
 }

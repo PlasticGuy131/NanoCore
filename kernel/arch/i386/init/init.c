@@ -11,7 +11,7 @@ extern void load_tss();
 int general_initialize()
 {
     bool result = 0;
-    printf("Initializing GDT...");
+    printf("Initializing GDT...\n");
     result |= GDT_initialize();
 
     printf("Entering protected mode...\n");

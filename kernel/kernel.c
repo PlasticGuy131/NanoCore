@@ -10,6 +10,7 @@
 
 #include <float_init.h>
 #include <init.h>
+#include <interrupt.h>
 #include <kernel.h>
 #include <mem_allocation.h>
 #include <multiboot.h>
@@ -82,6 +83,9 @@ void kernel_main(void)
 
     printf("Initializing processor state...\n");
     general_initialize();
+
+    printf("Initializing interrupts...\n");
+    interrupt_initialize();
 
     printf("Initializing FPU...\n");
     float_initialize();

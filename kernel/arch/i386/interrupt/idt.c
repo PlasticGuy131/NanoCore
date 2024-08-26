@@ -31,6 +31,7 @@ struct __attribute__((packed)) IDTR
 };
 
 extern void load_idt();
+extern void enable_interrupts();
 
 __attribute__((aligned(0x10))) static uint8_t idt[256 * 8];
 extern struct IDTR idtr;
@@ -70,5 +71,6 @@ int interrupt_initialize()
     for (int i = 0; i < 32; i++) { encode_IDT_entry(idt + 8 * i, idt_entry); }
 
     load_idtr();
+    enable_interrupts();
     return 0;
 }

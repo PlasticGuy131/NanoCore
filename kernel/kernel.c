@@ -23,6 +23,8 @@
 #define ARCH "WARNING: Unknown Architecture"
 #endif
 
+extern void interrupt_panic_wpr();
+
 void kernel_putchar(char c) { terminal_putchar(c); }
 
 static void kernel_intro_splash()

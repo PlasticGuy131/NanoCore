@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include <kernel.h>
+
 static const uint8_t ACCESS_BYTE_ACCESSED = 1;
 static const uint8_t ACCESS_BYTE_CODE_READ = 1 << 1;
 static const uint8_t ACCESS_BYTE_DATA_WRITE = 1 << 1;

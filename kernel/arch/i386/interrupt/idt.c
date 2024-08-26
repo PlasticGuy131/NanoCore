@@ -65,7 +65,7 @@ int interrupt_initialize()
     idt_entry.dpl = 0;
     idt_entry.type = TRAP_32;
 
-    idt_entry.selector = (uintptr_t)&interrupt_panic;
+    idt_entry.offset = (uintptr_t)&interrupt_panic_wpr;
 
     for (int i = 0; i < 32; i++) { encode_IDT_entry(idt + 8 * i, idt_entry); }
 

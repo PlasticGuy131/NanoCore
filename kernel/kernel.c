@@ -97,7 +97,7 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    interrupt_panic_wpr();
+    //interrupt_panic_wpr();
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

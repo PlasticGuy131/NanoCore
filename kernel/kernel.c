@@ -53,6 +53,7 @@ void kernel_panic(const char* error_message)
     printf("ERR/ORER/RORR/ERRO/R\n");
     terminal_col_default();
     printf("KERNEL PANIC: %s\n", error_message);
+    while (1);
 }
 
 void* kernel_alloc(size_t size) { return memory_alloc(size); }

@@ -60,6 +60,15 @@ static void load_idtr()
 
 int interrupt_initialize()
 {
+    struct IDT idt_entry;
+    idt_entry.selector = 0x08;
+    idt_entry.dpl = 0;
+    idt_entry.type = TRAP_32;
+
+    idt_entry.selector = (uintptr_t)&interrupt_panic;
+
+    for (int i = 0; i < 32; i++) { encode_IDT_entry(idt[8 * i], idt_entry); }
+
     load_idtr();
     return 0;
 }

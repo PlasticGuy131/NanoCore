@@ -5,4 +5,7 @@
 /// @return Status Code: 0 OK, 1 ERROR
 int interrupt_initialize();
 
+/// @brief Interrupt that panics kernel
+void interrupt_panic();
+
 #endif

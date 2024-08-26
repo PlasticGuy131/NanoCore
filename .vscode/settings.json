@@ -14,6 +14,7 @@
         "string.h": "c",
         "stdint.h": "c",
         "stdio.h": "c",
-        "init.h": "c"
+        "init.h": "c",
+        "interrupt.h": "c"
     }
 }

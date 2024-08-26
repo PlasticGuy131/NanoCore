@@ -7,3 +7,8 @@ idtr:
 load_idt:
     lidt [idtr]
     ret
+
+.globl enable_interrupts
+enable_interrupts:
+    sti
+    ret

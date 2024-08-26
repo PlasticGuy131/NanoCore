@@ -73,6 +73,6 @@ int interrupt_initialize()
     for (int i = 0; i < 32; i++) { encode_IDT_entry(idt + 8 * i, idt_entry); }
 
     load_idtr();
-    enable_interrupts();
+    //enable_interrupts();
     return 0;
 }

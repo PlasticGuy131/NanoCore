@@ -30,10 +30,10 @@ struct __attribute__((packed)) IDTR
     uint32_t base;
 };
 
-extern void load_idt(uint32_t idtr);
+extern void load_idt();
 
 __attribute__((aligned(0x10))) static uint8_t idt[256 * 8];
-static struct IDTR idtr;
+extern struct IDTR idtr;
 
 static void encode_IDT_entry(uint8_t* target, struct IDT source)
 {

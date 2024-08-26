@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 
+#include <interrupt.h>
 #include <kernel.h>
 
 enum Type

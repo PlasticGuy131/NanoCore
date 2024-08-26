@@ -7,6 +7,8 @@
 #include <interrupt.h>
 #include <kernel.h>
 
+extern void interrupt_panic_wpr();
+
 enum Type
 {
     TASK = 0x5,

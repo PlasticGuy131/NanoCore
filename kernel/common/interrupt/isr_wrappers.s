@@ -6,3 +6,4 @@ interrupt_panic_wpr:
     call interrupt_panic
     popad
     iret
+    

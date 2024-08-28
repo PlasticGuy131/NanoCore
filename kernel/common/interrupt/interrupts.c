@@ -12,15 +12,6 @@ enum DESCRIPTOR_TABLE
     DESCRIPTOR_LDT = 2
 };
 
-static const PAGE_FAULT_PRESENT = 1;
-static const PAGE_FAULT_WRITE = 1 << 1;
-static const PAGE_FAULT_USER = 1 << 2;
-static const PAGE_FAULT_R_WRITE = 1 << 3;
-static const PAGE_FAULT_INSTRUCTION = 1 << 4;
-static const PAGE_FAULT_PROTECTION = 1 << 5;
-static const PAGE_FAULT_STACK = 1 << 6;
-static const PAGE_FAULT_SGX = 1 << 15;
-
 static bool selector_is_external(uint32_t selector) { return selector & 1; }
 
 static enum DESCRIPTOR_TABLE selector_table(uint32_t selector)
@@ -34,9 +25,8 @@ static enum DESCRIPTOR_TABLE selector_table(uint32_t selector)
 
 static int selector_index(uint32_t selector) { return (selector >> 3) & 0x1FFF; }
 
-static char* selector_info(uint32_t selector)
+static void selector_info(char* buf, uint32_t selector)
 {
-    char buf[35];
     char table[4];
 
     switch(selector_table(selector))
@@ -71,30 +61,38 @@ void interrupt_double() { kernel_panic("DOUBLE FAULT OCCURRED: UNRECOVERABLE"); 
 
 void interrupt_tss(uint32_t selector)
 {
+    char info[35];
+    selector_info(info, selector);
     char buf[66];
-    sprintf(buf, "Exception Occurred: TSS Error\n%s", selector_info(selector));
+    sprintf(buf, "Exception Occurred: TSS Error\n%s", info);
     kernel_panic(buf);
 }
 
 void interrupt_segment(uint32_t selector)
 {
+    char info[35];
+    selector_info(info, selector);
     char buf[76];
-    sprintf(buf, "Exception Occurred: Segment Not Present\n%s", selector_info(selector));
+    sprintf(buf, "Exception Occurred: Segment Not Present\n%s", info);
     kernel_panic(buf);
 }
 
-void interrupt_segment(uint32_t selector)
+void interrupt_stack_segment(uint32_t selector)
 {
+    char info[35];
+    selector_info(info, selector);
     char buf[98];
-    if (selector) { sprintf(buf, "Exception Occurred: Stack Segment Not Present or Out of Limit\n%s", selector_info(selector)); }
+    if (selector) { sprintf(buf, "Exception Occurred: Stack Segment Not Present or Out of Limit\n%s", info); }
     else { sprintf(buf, "Exception Occurred: Stack Segment Error"); }
     kernel_panic(buf);
 }
 
-void interrupt_segment(uint32_t selector)
+void interrupt_general_protection(uint32_t selector)
 {
+    char info[35];
+    selector_info(info, selector);
     char buf[96];
-    if (selector) { sprintf(buf, "Exception Occurred: General Protection Fault Due to Segemnt\n", selector_info(selector)); }
+    if (selector) { sprintf(buf, "Exception Occurred: General Protection Fault Due to Segemnt\n%s", info); }
     else { sprintf(buf, "Exception Occurred: Misc General Protection Fault"); }
     kernel_panic(buf);
 }

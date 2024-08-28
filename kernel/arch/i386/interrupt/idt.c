@@ -64,7 +64,7 @@ int interrupt_initialize()
     struct IDT idt_entry;
     idt_entry.selector = 0x08;
     idt_entry.dpl = 0;
-    idt_entry.type = TRAP_32;
+    idt_entry.type = INTERRUPT_32;
 
     idt_entry.offset = (uintptr_t)&interrupt_panic_wpr;
 

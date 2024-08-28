@@ -1,7 +1,6 @@
 .globl interrupt_panic_wpr
 interrupt_panic_wpr:
-    .long 7
-    //hlt
+    hlt
     //pushal
     //cld
     //call interrupt_panic

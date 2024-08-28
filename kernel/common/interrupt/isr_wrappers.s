@@ -4,7 +4,8 @@
     pushal
     cld
     call \isr
-    popal iret
+    popal
+    iret
 .endm
 
 interrupt_no_err interrupt_panic

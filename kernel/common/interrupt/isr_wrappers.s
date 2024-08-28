@@ -14,8 +14,8 @@
     pushal
     cld
     call \isr
-    addl $4, %esp
     popal
+    addl $4, %esp
     iret
 .endm
 

@@ -141,7 +141,7 @@ int interrupt_initialize()
     load_idtr();
     enable_interrupts();
 
-    pic_initialize();
+    //pic_initialize();
 
     return 0;
 }

@@ -43,8 +43,6 @@ static void selector_info(char* buf, uint32_t selector)
     }
 
     sprintf(buf, "Extrn: %.0d\nTable: %s\n Index: %#.5x", selector_is_external(selector), table, selector_index(selector));
-
-    return buf;
 }
 
 void interrupt_panic() { kernel_panic("Unknown Exception Occurred!"); }

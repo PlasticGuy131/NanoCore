@@ -1,10 +1,24 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 
 #include <interrupt.h>
 #include <kernel.h>
 
-void interrupt_div_zero() { kernel_panic("Exception Occurred: Division Error"); }
+static bool try_return()
+{
+    if (interrupt_callback)
+    {
+        interrupt_callback();
+        return true;
+    }
+    else { return false; }
+}
+
+void interrupt_register_callback(void (*callback)()) { interrupt_callback = callback; }
+void interrupt_end_callback() { interrupt_callback = 0; }
+
+void interrupt_div_zero() { if (!try_return()) { kernel_panic("Exception Occurred: Division Error"); } }
 void interrupt_debug() { kernel_panic("Exception Occurred: Debug (not supported)"); }
 void interrupt_nmi() { kernel_panic("Exception Occurred: Hardware Error"); }
 void interrupt_breakpoint() { kernel_panic("Exception Occurred: Breakpoint (not supported)"); }

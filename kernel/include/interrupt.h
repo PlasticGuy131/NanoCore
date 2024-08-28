@@ -3,9 +3,14 @@
 
 #include <stdint.h>
 
+extern void (*interrupt_callback)();
+
 /// @brief Initialises interrupts
 /// @return Status Code: 0 OK, 1 ERROR
 int interrupt_initialize();
+
+void interrupt_register_callback(void (*callback)());
+void interrupt_end_callback();
 
 void interrupt_panic_wpr();
 void interrupt_arg_test_wpr(uint32_t arg);

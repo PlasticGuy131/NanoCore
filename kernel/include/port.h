@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define WAIT_PORT 0x0080
+
 #define PIC1_COM 0x0020
 #define PIC1_DATA 0x0021
 #define PIC2_COM 0x00A0
@@ -40,6 +42,9 @@ uint16_t inw(uint16_t port);
 /// @param port Serial port address
 /// @return Read value
 uint32_t inl(uint16_t port);
+
+/// @brief Waits a small amount of time
+void io_wait();
 
 /// @brief Gets the address of Serial Port COM1
 /// @return Address of COM1

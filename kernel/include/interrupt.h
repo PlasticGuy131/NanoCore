@@ -9,7 +9,11 @@ extern void (*interrupt_callback)();
 /// @return Status Code: 0 OK, 1 ERROR
 int interrupt_initialize();
 
+/// @brief Registers a callback function that will be called in case of minor exception, instead of halting the program (Always pair with interrupt_end_callback)
+/// @param callback Callback function (used to recover the exception)
 void interrupt_register_callback(void (*callback)());
+
+/// @brief Un-registers a callback function so that minor exceptions will halt the program
 void interrupt_end_callback();
 
 void interrupt_panic_wpr();

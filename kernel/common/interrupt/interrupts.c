@@ -21,13 +21,13 @@ void interrupt_register_callback(void (*callback)()) { interrupt_callback = call
 void interrupt_end_callback() { interrupt_callback = 0; }
 
 void interrupt_div_zero() { if (!try_return()) { kernel_panic("Exception Occurred: Division Error"); } }
-void interrupt_debug() { kernel_panic("Exception Occurred: Debug (not supported)"); }
+void interrupt_debug() { if (!try_return()) { kernel_panic("Exception Occurred: Debug (not supported)"); } }
 void interrupt_nmi() { kernel_panic("Exception Occurred: Hardware Error"); }
 void interrupt_breakpoint() { kernel_panic("Exception Occurred: Breakpoint (not supported)"); }
-void interrupt_overflow() { kernel_panic("Exception Occurred: Overflow Error"); }
-void interrupt_bound() { kernel_panic("Exception Occurred: Bound range exceeded"); }
-void interrupt_invalid_opcode() { kernel_panic("Exception Occurred: Invalid Opcode"); }
-void interrupt_device() { kernel_panic("Exception Occurred: Device not available"); }
+void interrupt_overflow() { if (!try_return()) { kernel_panic("Exception Occurred: Overflow Error"); } }
+void interrupt_bound() { if (!try_return()) { kernel_panic("Exception Occurred: Bound range exceeded"); } }
+void interrupt_invalid_opcode() { if (!try_return()) { kernel_panic("Exception Occurred: Invalid Opcode"); } }
+void interrupt_device() { if (!try_return()) { kernel_panic("Exception Occurred: Device not available"); } }
 void interrupt_double() { kernel_panic("DOUBLE FAULT OCCURRED: UNRECOVERABLE"); }
 
 void interrupt_page(uint32_t error)

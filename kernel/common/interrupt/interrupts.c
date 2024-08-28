@@ -46,6 +46,7 @@ static void selector_info(char* buf, uint32_t selector)
 }
 
 void interrupt_panic() { kernel_panic("Unknown Exception Occurred!"); }
+void interrupt_arg_test(uint32_t arg) { printf("%d\n", arg); }
 
 void interrupt_div_zero() { kernel_panic("Exception Occurred: Division Error"); }
 void interrupt_debug() { kernel_panic("Exception Occurred: Debug (not supported)"); }
@@ -103,4 +104,5 @@ void interrupt_SIMD() { kernel_panic("Exception Occurred: SIMD Floating Point Ex
 void interrupt_virtualization() { kernel_panic("Exception Occurred: Virtualization Exception"); }
 void interrupt_control() { kernel_panic("Exception Occurred: Control protection Exception"); }
 void interrupt_hypervisor() { kernel_panic("Exception Occurred: Hypervisior Injection Exception"); }
+void interrupt_VMM() { kernel_panic("Exception Occurred: VMM Communication Exception"); }
 void interrupt_security() { kernel_panic("Exception Occurred: Security Exception"); }

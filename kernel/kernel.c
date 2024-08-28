@@ -101,10 +101,7 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    __asm__ volatile("mov $0, %edx\n"
-                     "mov $0, %eax\n"
-                     "mov $0, %ecx\n"
-                     "div %ecx");
+    __asm__ volatile("int $0");
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

@@ -8,6 +8,9 @@
 #define PIC2_COM 0x00A0
 #define PIC2_DATA 0x00A1
 
+#define SYSTEM_CONTROL_A 0x0092
+#define SYSTEM_CONTROL_B 0x0061
+
 #define BDA_START 0x0400
 
 /// @brief Writes 1B to a serial port

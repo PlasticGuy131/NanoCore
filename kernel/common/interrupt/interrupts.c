@@ -5,6 +5,8 @@
 #include <interrupt.h>
 #include <kernel.h>
 
+void (*interrupt_callback)();
+
 static bool try_return()
 {
     if (interrupt_callback)

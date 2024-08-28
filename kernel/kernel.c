@@ -104,7 +104,7 @@ void kernel_main(void)
     kernel_intro_splash();
 
     interrupt_register_callback(foo);
-    __asm__ volatile("int $13");
+    __asm__ volatile("int $7");
     interrupt_end_callback();
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

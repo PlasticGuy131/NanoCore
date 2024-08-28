@@ -69,9 +69,74 @@ int interrupt_initialize()
     idt_entry.dpl = 0;
     idt_entry.type = INTERRUPT_32;
 
-    idt_entry.offset = (uintptr_t)&interrupt_arg_test_wpr;
+    idt_entry.offset = (uintptr_t)&interrupt_div_zero_wpr;
+    encode_IDT_entry(idt + 8 * 0, idt_entry);
 
-    for (int i = 0; i < 32; i++) { encode_IDT_entry(idt + 8 * i, idt_entry); }
+    idt_entry.offset = (uintptr_t)&interrupt_debug_wpr;
+    encode_IDT_entry(idt + 8 * 1, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_nmi_wpr;
+    encode_IDT_entry(idt + 8 * 2, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_breakpoint_wpr;
+    encode_IDT_entry(idt + 8 * 3, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_overflow_wpr;
+    encode_IDT_entry(idt + 8 * 4, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_bound_wpr;
+    encode_IDT_entry(idt + 8 * 5, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_invalid_opcode_wpr;
+    encode_IDT_entry(idt + 8 * 6, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_device_wpr;
+    encode_IDT_entry(idt + 8 * 7, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_double_wpr;
+    encode_IDT_entry(idt + 8 * 8, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_tss_wpr;
+    encode_IDT_entry(idt + 8 * 10, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_segment_wpr;
+    encode_IDT_entry(idt + 8 * 11, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_stack_segment_wpr;
+    encode_IDT_entry(idt + 8 * 12, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_general_protection_wpr;
+    encode_IDT_entry(idt + 8 * 13, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_page_wpr;
+    encode_IDT_entry(idt + 8 * 14, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_floating_wpr;
+    encode_IDT_entry(idt + 8 * 16, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_alignment_wpr;
+    encode_IDT_entry(idt + 8 * 17, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_machine_wpr;
+    encode_IDT_entry(idt + 8 * 18, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_SIMD_wpr;
+    encode_IDT_entry(idt + 8 * 19, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_virtualization_wpr;
+    encode_IDT_entry(idt + 8 * 20, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_control_wpr;
+    encode_IDT_entry(idt + 8 * 21, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_hypervisor_wpr;
+    encode_IDT_entry(idt + 8 * 28, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_VMM_wpr;
+    encode_IDT_entry(idt + 8 * 29, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_security_wpr;
+    encode_IDT_entry(idt + 8 * 30, idt_entry);
 
     load_idtr();
     enable_interrupts();

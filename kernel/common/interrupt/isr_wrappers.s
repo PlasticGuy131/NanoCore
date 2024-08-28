@@ -19,17 +19,6 @@
     iret
 .endm
 
-.globl interrupt_arg_test_wpr
-interrupt_arg_test_wpr:
-    pushal
-    cld
-    push $7
-    call interrupt_arg_test
-    addl $4, %esp
-    popal
-    iret
-
-interrupt_no_err interrupt_panic
 interrupt_no_err interrupt_div_zero
 interrupt_no_err interrupt_debug
 interrupt_no_err interrupt_nmi

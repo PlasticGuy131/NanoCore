@@ -3,7 +3,12 @@
 
 #include <stdint.h>
 
-#define BDA_START 0x0400;
+#define PIC1_COM 0x0020
+#define PIC1_DATA 0x0021
+#define PIC2_COM 0x00A0
+#define PIC2_DATA 0x00A1
+
+#define BDA_START 0x0400
 
 /// @brief Writes 1B to a serial port
 /// @param port Serial port address

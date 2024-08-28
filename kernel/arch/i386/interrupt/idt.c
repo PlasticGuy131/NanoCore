@@ -7,6 +7,8 @@
 #include <kernel.h>
 #include <interrupt.h>
 
+#include <pic.c>
+
 enum Type
 {
     TASK = 0x5,
@@ -61,6 +63,7 @@ static void load_idtr()
 
 int interrupt_initialize()
 {
+    pic_disable();
     struct IDT idt_entry;
     idt_entry.selector = 0x08;
     idt_entry.dpl = 0;

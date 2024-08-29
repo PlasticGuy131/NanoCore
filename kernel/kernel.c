@@ -105,7 +105,7 @@ void kernel_main(void)
     kernel_intro_splash();
 
     interrupt_register_callback(foo);
-    for (int i = 0; i < 8; i++)
+    for (int i = 5; i < 8; i++)
     {
         __asm__ volatile("int %0" : : "N"(i));
     }   

@@ -103,6 +103,4 @@ void kernel_main(void)
     kernel_intro_splash();
     
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
-
-    //for (;;);
 }

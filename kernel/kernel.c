@@ -1,4 +1,6 @@
+#ifdef _MSC_VER
 #include <vscode.h>
+#endif
 
 #include <ctype.h>
 #include <errno.h>

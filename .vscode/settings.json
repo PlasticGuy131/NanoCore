@@ -16,6 +16,7 @@
         "stdio.h": "c",
         "init.h": "c",
         "interrupt.h": "c",
-        "port.h": "c"
+        "port.h": "c",
+        "vscode.h": "c"
     }
 }

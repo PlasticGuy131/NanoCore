@@ -106,14 +106,5 @@ void kernel_main(void)
     
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 
-    unsigned pause = 1000000000;
-    while (1)
-    {
-        if (pause == 0)
-        {
-            printf("P");
-            pause = 1000000000;
-        }
-        pause--;
-    }
+    for (;;);
 }

@@ -46,4 +46,8 @@ void interrupt_security_wpr();
 void interrupt_clock_wpr();
 void interrupt_keyboard_wpr();
 
+void pic_send_eoi(uint8_t irq);
+void pic_disable();
+void pic_initialize();
+
 #endif

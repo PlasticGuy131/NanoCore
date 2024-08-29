@@ -50,4 +50,7 @@ void pic_send_eoi(uint8_t irq);
 void pic_disable();
 void pic_initialize();
 
+void enable_interrupts();
+void disable_interrupts();
+
 #endif

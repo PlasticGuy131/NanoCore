@@ -123,7 +123,6 @@ _start:
     call kernel_main
 
     / * Put the computer into an infinite loop. Clear interrupts, halt, then re-halt if it wakes up * /
-    //cli
     1:
     hlt
     jmp 1b

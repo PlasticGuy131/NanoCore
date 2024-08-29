@@ -13,6 +13,11 @@
 #define SYSTEM_CONTROL_A 0x0092
 #define SYSTEM_CONTROL_B 0x0061
 
+#define PIT0 0x0040
+#define PIT1 0x0041
+#define PIT2 0x0042
+#define PIT_COM 0x0043
+
 #define BDA_START 0x0400
 
 /// @brief Writes 1B to a serial port

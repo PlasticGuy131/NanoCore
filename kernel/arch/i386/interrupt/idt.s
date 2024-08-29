@@ -12,3 +12,8 @@ load_idt:
 enable_interrupts:
     sti
     ret
+
+.globl disable_interrupts
+enable_interrupts:
+    cli
+    ret

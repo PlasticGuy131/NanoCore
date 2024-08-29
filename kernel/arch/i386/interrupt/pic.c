@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include <pic.h>
+#include <interrupts.h>
 #include <port.h>
 
 static const int PIC_EOI = 0x20;

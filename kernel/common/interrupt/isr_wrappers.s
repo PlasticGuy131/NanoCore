@@ -1,6 +1,7 @@
 .macro interrupt_no_err isr, w=_wpr
 .globl \isr\w
 \isr\w:
+    hlt
     pushal
     cld
     call \isr

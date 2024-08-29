@@ -6,8 +6,7 @@
 
 #include <kernel.h>
 #include <interrupt.h>
-
-#include "pic.c"
+#include <pic.h>
 
 enum Type
 {

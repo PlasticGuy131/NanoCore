@@ -5,6 +5,7 @@
 #include <clock.h>
 #include <interrupt.h>
 #include <kernel.h>
+#include <pic.h>
 
 void (*interrupt_callback)();
 

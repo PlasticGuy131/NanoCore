@@ -31,7 +31,6 @@ struct __attribute__((packed)) IDTR
 };
 
 extern void load_idt();
-extern void enable_interrupts();
 
 __attribute__((aligned(0x10))) static uint8_t idt[256 * 8];
 extern struct IDTR idtr;

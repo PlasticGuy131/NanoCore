@@ -107,7 +107,7 @@ void kernel_main(void)
     interrupt_register_callback(foo);
     for (int i = 0; i < 8; i++)
     {
-        __asm__ volatile("int $%0" : : "a"(i));
+        __asm__ volatile("int $%0" : : (i));
     }   
     interrupt_end_callback();
 

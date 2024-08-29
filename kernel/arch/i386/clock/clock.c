@@ -13,8 +13,8 @@ void clock_increment() { if (timer) { timer--; } }
 
 void clock_sleep(unsigned time)
 {
-    //pic_unmask_irq(PIC_PIT);
+    pic_unmask_irq(PIC_PIT);
     timer = time;
     while (timer);
-    //pic_mask_irq(PIC_PIT);
+    pic_mask_irq(PIC_PIT);
 }

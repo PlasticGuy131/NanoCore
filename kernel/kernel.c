@@ -64,6 +64,8 @@ void* kernel_alloc(size_t size) { return memory_alloc(size); }
 
 void kernel_free(void* ptr) { memory_free(ptr); }
 
+void foo() { return; };
+
 void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
@@ -101,6 +103,7 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
+    foo();
     __asm__ volatile("int $0");
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

@@ -74,5 +74,6 @@ void pic_initialize()
     io_wait();
 
     pic_unmask_irq(0);
+    pic_unmask_irq(1);
     pic_unmask_irq(2);
 }

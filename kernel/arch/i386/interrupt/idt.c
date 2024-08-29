@@ -56,7 +56,7 @@ static void encode_IDT_entry(uint8_t* target, struct IDT source)
 static void load_idtr()
 {
     idtr.base = (uintptr_t)&idt[0];
-    idtr.limit = 32;
+    idtr.limit = 32 * 8;
 
     load_idt();
 }

@@ -81,7 +81,7 @@ int interrupt_initialize()
     idt_entry.offset = (uintptr_t)&interrupt_breakpoint_wpr;
     encode_IDT_entry(idt + 8 * 3, idt_entry);
 
-    idt_entry.offset = (uintptr_t)&interrupt_overflow_wpr;
+    idt_entry.offset = (uintptr_t)&interrupt_div_zero_wpr;
     encode_IDT_entry(idt + 8 * 4, idt_entry);
 
     idt_entry.offset = (uintptr_t)&interrupt_bound_wpr;

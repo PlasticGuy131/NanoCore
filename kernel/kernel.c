@@ -64,9 +64,6 @@ void* kernel_alloc(size_t size) { return memory_alloc(size); }
 
 void kernel_free(void* ptr) { memory_free(ptr); }
 
-static int f = 0;
-void foo() { printf("%d worked\n", f); f++; }
-
 void kernel_main(void)
 {
     bool serial_failure = serial_initialize();
@@ -104,13 +101,7 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    interrupt_register_callback(foo);
-    /*for (int i = 5; i < 8; i++)
-    {
-        __asm__ volatile("int %0" : : "N"(i));
-    }*/
-    __asm__ volatile("int $4");
-    interrupt_end_callback();
+    __asm__ volatile("int $0");
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

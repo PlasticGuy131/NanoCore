@@ -44,5 +44,6 @@ void interrupt_VMM_wpr();
 void interrupt_security_wpr();
 
 void interrupt_clock_wpr();
+void interrupt_keyboard_wpr();
 
 #endif

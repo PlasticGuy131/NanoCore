@@ -56,7 +56,7 @@ static void encode_IDT_entry(uint8_t* target, struct IDT source)
 static void load_idtr()
 {
     idtr.base = (uintptr_t)&idt[0];
-    idtr.limit = 33 * 8;
+    idtr.limit = 34 * 8;
 
     load_idt();
 }
@@ -140,6 +140,9 @@ int interrupt_initialize()
 
     idt_entry.offset = (uintptr_t)&interrupt_clock_wpr;
     encode_IDT_entry(idt + 8 * 32, idt_entry);
+
+    idt_entry.offset = (uintptr_t)&interrupt_keyboard_wpr;
+    encode_IDT_entry(idt + 8 * 33, idt_entry);
 
     load_idtr();
     enable_interrupts();

@@ -49,3 +49,4 @@ void interrupt_VMM() { kernel_panic("Exception Occurred: VMM Communication Excep
 void interrupt_security() { kernel_panic("Exception Occurred: Security Exception"); }
 
 void interrupt_clock() { clock_increment(); }
+void interrupt_keyboard() { printf("Keyboard Interrupt\n"); }

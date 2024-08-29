@@ -46,5 +46,4 @@ interrupt_no_err interrupt_VMM
 interrupt_no_err interrupt_security
 
 interrupt_no_err interrupt_clock
-
-
+interrupt_no_err interrupt_keyboard

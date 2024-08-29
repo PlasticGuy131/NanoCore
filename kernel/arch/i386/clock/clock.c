@@ -5,7 +5,7 @@
 
 #include "pit.c"
 
-volatile static unsigned timer = 0;
+static volatile unsigned timer = 0;
 
 void clock_initialize() { pit_set_count(PIT_COUNT_DEFAULT); }
 

@@ -83,7 +83,7 @@ void kernel_main(void)
     if (serial_failure)
     {
         terminal_col_warning();
-        printf("Warning: Serial initialization failure");
+        printf("Warning: Serial initialization failure\n");
         terminal_col_default();
     }
 
@@ -92,6 +92,9 @@ void kernel_main(void)
 
     printf("Initializing interrupts...\n");
     interrupt_initialize();
+
+    printf("Initializing clock...\n");
+    clock_initialize();
 
     printf("Initializing FPU...\n");
     float_initialize();

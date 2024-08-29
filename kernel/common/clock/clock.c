@@ -9,4 +9,5 @@ void clock_increment()
     printf(".");
     clock++;
 }
+
 int clock_count() { return clock; }

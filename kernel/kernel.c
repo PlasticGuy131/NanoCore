@@ -1,3 +1,5 @@
+#include <vscode.h>
+
 #include <ctype.h>
 #include <errno.h>
 #include <float.h>
@@ -98,14 +100,7 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
+    __asm__ volatile("int $32");
+    
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
-
-    int x = 0;
-    for (int i = 0; i < 10000; i++)
-    {
-        x++;
-    }
-
-    printf("(%d)Time passed: %d", x, clock_count());
-    while (1);
 }

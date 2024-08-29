@@ -14,6 +14,6 @@ enable_interrupts:
     ret
 
 .globl disable_interrupts
-enable_interrupts:
+disable_interrupts:
     cli
     ret

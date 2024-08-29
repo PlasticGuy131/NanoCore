@@ -43,4 +43,6 @@ void interrupt_hypervisor_wpr();
 void interrupt_VMM_wpr();
 void interrupt_security_wpr();
 
+void interrupt_clock_wpr();
+
 #endif

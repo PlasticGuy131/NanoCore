@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include <clock.h>
 #include <interrupt.h>
 #include <kernel.h>
 
@@ -46,3 +47,5 @@ void interrupt_control() { kernel_panic("Exception Occurred: Control protection 
 void interrupt_hypervisor() { kernel_panic("Exception Occurred: Hypervisior Injection Exception"); }
 void interrupt_VMM() { kernel_panic("Exception Occurred: VMM Communication Exception"); }
 void interrupt_security() { kernel_panic("Exception Occurred: Security Exception"); }
+
+void interrupt_clock() { clock_increment(); }

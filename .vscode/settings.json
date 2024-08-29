@@ -15,6 +15,7 @@
         "stdint.h": "c",
         "stdio.h": "c",
         "init.h": "c",
-        "interrupt.h": "c"
+        "interrupt.h": "c",
+        "port.h": "c"
     }
 }

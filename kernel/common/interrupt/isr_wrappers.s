@@ -45,12 +45,6 @@ interrupt_no_err interrupt_hypervisor
 interrupt_no_err interrupt_VMM
 interrupt_no_err interrupt_security
 
-/*.globl interrupt_panic_wpr
-interrupt_panic_wpr:
-    pushal
-    cld
-    call interrupt_panic
-    popal
-    iret*/
+interrupt_no_err interrupt_clock
 
 

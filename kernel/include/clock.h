@@ -6,6 +6,6 @@ void clock_increment();
 
 /// @brief Returns the value of the clock counter
 /// @return Current value of the clock
-int clock_time();
+int clock_count();
 
 #endif

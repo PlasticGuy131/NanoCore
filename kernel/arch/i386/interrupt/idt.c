@@ -56,7 +56,7 @@ static void encode_IDT_entry(uint8_t* target, struct IDT source)
 static void load_idtr()
 {
     idtr.base = (uintptr_t)&idt[0];
-    idtr.limit = 32 * 8;
+    idtr.limit = 33 * 8;
 
     load_idt();
 }
@@ -81,7 +81,7 @@ int interrupt_initialize()
     idt_entry.offset = (uintptr_t)&interrupt_breakpoint_wpr;
     encode_IDT_entry(idt + 8 * 3, idt_entry);
 
-    idt_entry.offset = (uintptr_t)&interrupt_div_zero_wpr;
+    idt_entry.offset = (uintptr_t)&interrupt_overflow_wpr;
     encode_IDT_entry(idt + 8 * 4, idt_entry);
 
     idt_entry.offset = (uintptr_t)&interrupt_bound_wpr;
@@ -138,10 +138,13 @@ int interrupt_initialize()
     idt_entry.offset = (uintptr_t)&interrupt_security_wpr;
     encode_IDT_entry(idt + 8 * 30, idt_entry);
 
+    idt_entry.offset = (uintptr_t)&interrupt_clock_wpr;
+    encode_IDT_entry(idt + 8 * 32, idt_entry);
+
     load_idtr();
     enable_interrupts();
 
-    //pic_initialize();
+    pic_initialize();
 
     return 0;
 }

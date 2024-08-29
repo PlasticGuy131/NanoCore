@@ -105,13 +105,13 @@ void kernel_main(void)
     __asm__ volatile("int $33");
     
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
-    int pause = 1000000;
+    int pause = 1000000000;
     while (1)
     {
         if (!pause)
         {
             printf("P");
-            pause = 1000000;
+            pause = 1000000000;
         }
         pause--;
     }

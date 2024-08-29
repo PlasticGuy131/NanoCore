@@ -105,12 +105,12 @@ void kernel_main(void)
         terminal_col_default();
     }
 
-    if (ps2_initialize())
+    /*if (ps2_initialize())
     {
         terminal_col_warning();
         printf("Warning: PS/2 controller initialization failed\n");
         terminal_col_default();
-    }
+    }*/
 
     printf("Initializing memory...\n");
     memory_initialize();

@@ -52,11 +52,11 @@ void interrupt_security() { kernel_panic("Exception Occurred: Security Exception
 void interrupt_clock()
 {
     clock_increment();
-    pic_send_eoi();
+    pic_send_eoi(0);
 }
 
 void interrupt_keyboard()
 {
     printf("Keyboard Interrupt\n");
-    pic_send_eoi();
+    pic_send_eoi(1);
 }

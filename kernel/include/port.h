@@ -18,6 +18,9 @@
 #define PIT2 0x0042
 #define PIT_COM 0x0043
 
+#define PS2_DATA 0x0060
+#define PS2_STAT_COM 0x0064
+
 #define BDA_START 0x0400
 
 /// @brief Writes 1B to a serial port

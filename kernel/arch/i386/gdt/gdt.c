@@ -56,7 +56,7 @@ static void setup_tss(uint32_t* tss, uint16_t ss0, uint32_t esp0, uint16_t iopb)
     tss[25] = iopb << 2;
 }
 
-int GDT_initialize()
+void GDT_initialize()
 {
     setup_tss((uint32_t*)_tss, 0x10, _stack_top, 104);
 
@@ -110,6 +110,4 @@ int GDT_initialize()
     encode_GDT_entry(gdt_offset, task_state);
 
     set_gdt();
-
-    return 0;
 }

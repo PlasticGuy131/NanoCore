@@ -20,6 +20,7 @@
 #include <mem_allocation.h>
 #include <multiboot.h>
 #include <port.h>
+#include <ps2.h>
 #include <serial.h>
 #include <terminal.h>
 
@@ -97,7 +98,19 @@ void kernel_main(void)
     clock_initialize();
 
     printf("Initializing FPU...\n");
-    float_initialize();
+    if (float_initialize())
+    {
+        terminal_col_error();
+        printf("ERROR: FLOAT INITIALIZATION FAILED\n");
+        terminal_col_default();
+    }
+
+    if (ps2_initialize())
+    {
+        terminal_col_warning();
+        printf("Warning: PS/2 controller initialization failed\n");
+        terminal_col_default();
+    }
 
     printf("Initializing memory...\n");
     memory_initialize();

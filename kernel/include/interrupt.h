@@ -8,8 +8,7 @@
 extern void (*interrupt_callback)();
 
 /// @brief Initialises interrupts
-/// @return Status Code: 0 OK, 1 ERROR
-int interrupt_initialize();
+void interrupt_initialize();
 
 /// @brief Registers a callback function that will be called in case of minor exception, instead of halting the program (Always pair with interrupt_end_callback)
 /// @param callback Callback function (used to recover the exception)

@@ -8,17 +8,14 @@
 extern void enter_protected();
 extern void load_tss();
 
-int general_initialize()
+void general_initialize()
 {
-    bool result = 0;
     printf("Initializing GDT...\n");
-    result |= GDT_initialize();
+    GDT_initialize();
 
     printf("Entering protected mode...\n");
     enter_protected();
 
     printf("Initialising TSS...\n");
     load_tss();
-
-    return result;
 }

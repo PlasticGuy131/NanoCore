@@ -58,7 +58,7 @@ static void load_idtr()
     load_idt();
 }
 
-int interrupt_initialize()
+void interrupt_initialize()
 {
     pic_disable();
     struct IDT idt_entry;
@@ -145,6 +145,4 @@ int interrupt_initialize()
     enable_interrupts();
 
     pic_initialize();
-
-    return 0;
 }

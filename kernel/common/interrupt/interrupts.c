@@ -48,5 +48,14 @@ void interrupt_hypervisor() { kernel_panic("Exception Occurred: Hypervisior Inje
 void interrupt_VMM() { kernel_panic("Exception Occurred: VMM Communication Exception"); }
 void interrupt_security() { kernel_panic("Exception Occurred: Security Exception"); }
 
-void interrupt_clock() { clock_increment(); }
-void interrupt_keyboard() { printf("Keyboard Interrupt\n"); }
+void interrupt_clock()
+{
+    clock_increment();
+    pic_send_eoi();
+}
+
+void interrupt_keyboard()
+{
+    printf("Keyboard Interrupt\n");
+    pic_send_eoi();
+}

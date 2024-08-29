@@ -99,5 +99,13 @@ void kernel_main(void)
     kernel_intro_splash();
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
-    printf("Time passed: %d", clock_count());
+
+    int x = 0;
+    for (int i = 0; i < 10000; i++)
+    {
+        x++;
+    }
+
+    printf("(%d)Time passed: %d", x, clock_count());
+    while (1);
 }

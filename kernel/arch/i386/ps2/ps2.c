@@ -18,7 +18,10 @@ static const int PS2_CONFIG_TRANSLATE_1 = 1 << 6;
 static int ps2_comamand(int command, bool response)
 {
     outb(PS2_STAT_COM, command);
-    while (!(inb(PS2_STAT_COM) & 1));
+    while (!(inb(PS2_STAT_COM) & 1))
+    {
+        printf("IN: %#x", inb(PS2_STAT_COM));
+    }
     if (response) { return inb(PS2_DATA); }
     return 0;
 }

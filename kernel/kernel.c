@@ -64,7 +64,8 @@ void* kernel_alloc(size_t size) { return memory_alloc(size); }
 
 void kernel_free(void* ptr) { memory_free(ptr); }
 
-void foo() { printf(":)\n"); }
+static int f = 0;
+void foo() { printf("%d worked\n", f); f++; }
 
 void kernel_main(void)
 {
@@ -104,7 +105,10 @@ void kernel_main(void)
     kernel_intro_splash();
 
     interrupt_register_callback(foo);
-    __asm__ volatile("int $1");
+    for (int i = 0; i < 8; i++)
+    {
+        __asm__ volatile("int $%0" : : "a"(i));
+    }   
     interrupt_end_callback();
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());

@@ -101,6 +101,10 @@ void kernel_main(void)
 
     printf("\n");
     kernel_intro_splash();
-    
+
+    printf("Sleeping 1 second...");
+    clock_sleep(1000);
+    printf("Done.\n");
+
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

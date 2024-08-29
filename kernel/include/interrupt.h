@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define PIC_PIT 0
+
 extern void (*interrupt_callback)();
 
 /// @brief Initialises interrupts
@@ -52,5 +54,8 @@ void pic_initialize();
 
 void enable_interrupts();
 void disable_interrupts();
+
+void pic_mask_irq(uint8_t irq);
+void pic_unmask_irq(uint8_t irq);
 
 #endif

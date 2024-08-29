@@ -12,7 +12,7 @@ static const int ICW4_8086 = 0x01;
 
 static const int PIC_OFFSET = 0x20;
 
-static void pic_mask_irq(uint8_t irq)
+void pic_mask_irq(uint8_t irq)
 {
     uint16_t port;
     if (irq < 8) { port = PIC1_DATA; }
@@ -25,7 +25,7 @@ static void pic_mask_irq(uint8_t irq)
     outb(port, inb(port) | (1 << irq));
 }
 
-static void pic_unmask_irq(uint8_t irq)
+void pic_unmask_irq(uint8_t irq)
 {
     uint16_t port;
     if (irq < 8) { port = PIC1_DATA; }

@@ -38,7 +38,7 @@ int keyboard_char_code(char ascii)
 {
     if (isdigit(ascii)) { return ascii - '0' + 1; }
     if (isupper(ascii)) { return ascii - 54; }
-    for (int i = 0; i < 15; i++) { if (ascii = symbol_code_chars[i]) { return i + 37; } }
+    for (int i = 0; i < 15; i++) { if (ascii == symbol_code_chars[i]) { return i + 37; } }
 
     return 0;
 }

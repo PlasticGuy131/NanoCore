@@ -97,6 +97,7 @@ void keyboard_read_key()
     }
     else
     {
+        scancode &= 0x7F;
         if (scancode == LEFT_SHIFT || scancode == RIGHT_SHIFT) { shifts--; }
         else if (scancode == LEFT_CTRL) { controls--; }
         else if (scancode == LEFT_ALT) { alt = false; }
@@ -107,8 +108,6 @@ void keyboard_read_key()
     if (controls) { keypress.flags |= KEY_FLAG_CTRL; }
     if (alt) { keypress.flags |= KEY_FLAG_ALT; }
     if (caps_lock) { keypress.flags |= KEY_FLAG_CAPS_LOCK; }
-
-    scancode &= 0x7F;
     
     keypress.code = scancode_to_code(scancode);
 

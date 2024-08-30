@@ -3,11 +3,17 @@
 
 #define KEY_FLAG_PRESSED 1
 #define KEY_FLAG_SHIFT (1 << 1)
-#define KEY_FLAG_CAPS (1 << 2)
+#define KEY_FLAG_CAPS_LOCK (1 << 2)
 #define KEY_FLAG_CTRL (1 << 3)
 #define KEY_FLAG_ALT (1 << 4)
 #define KEY_FLAG_NUM_LOCK (1 << 5)
-#define KEY_FLAG_SCRL_LOCK (1 << 6)
+#define KEY_FLAG_SCROLL_LOCK (1 << 6)
+
+#define KEYCODE_LEFT_CONTROL 56
+#define KEYCODE_LEFT_SHIFT 57
+#define KEYCODE_RIGHT_SHIFT 58
+#define KEYCODE_LEFT_ALT 59
+#define KEYCODE_CAPS_LOCK 60
 
 typedef struct
 {

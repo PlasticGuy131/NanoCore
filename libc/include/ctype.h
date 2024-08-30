@@ -5,4 +5,6 @@ int isdigit(int ch);
 int isspace(int ch);
 int isupper(int ch);
 
+int tolower(int ch);
+
 #endif

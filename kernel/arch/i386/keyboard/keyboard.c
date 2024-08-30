@@ -106,7 +106,7 @@ void keyboard_read_key()
     if (shifts) { keypress.flags |= KEY_FLAG_SHIFT; }
     if (controls) { keypress.flags |= KEY_FLAG_CTRL; }
     if (alt) { keypress.flags |= KEY_FLAG_ALT; }
-    if (alt) { keypress.flags |= KEY_FLAG_CAPS_LOCK; }
+    if (caps_lock) { keypress.flags |= KEY_FLAG_CAPS_LOCK; }
 
     scancode &= 0x7F;
     

@@ -60,7 +60,7 @@ char keyboard_keypress_char(Keypress keypress)
     if (keypress.code <= 10) { return keypress.code - 1 + '0'; }
     if (keypress.code <= 36) { return keypress.code + 54; }
     if (keypress.code <= 51) { return symbol_code_chars[keypress.code - 37]; }
-    if (keypress.code <= 55) { return scancode_extra_codes[keypress.code - 37]; }
+    if (keypress.code <= 55) { return extra_code_chars[keypress.code - 52]; }
     return '\0';
 }
 

@@ -6,12 +6,17 @@
 
 void (*keypress_callback)(Keypress);
 
+static const int convert[26] = {0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
+                                0x31, 0x18, 0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x27, 0x11, 0x2D, 0x15, 0x2C};
+
 static bool scancode_pass_on(int scancode) { return (scancode <= 0x58); }
 
 static unsigned scancode_to_code(int scancode)
 {
     if (scancode <= 0xA) { return scancode; }
     if (scancode == 0xB) { return 1; }
+    for (int i = 0; i < 26; i++) { if (scancode == convert[i]) { return i + 11; } }
+
     return 0;
 }
 

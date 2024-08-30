@@ -123,4 +123,5 @@ void kernel_main(void)
     printf("Done.\n");
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
+    printf("\0");
 }

@@ -247,6 +247,7 @@ void terminal_putchar(char c)
                 if (terminal_row) { terminal_row--; }
             }
             terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
+            break;
         default:
             serial_write(c);
             terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);

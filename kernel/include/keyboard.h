@@ -2,6 +2,12 @@
 #define KEYBOARD_H_INCLUDED 1
 
 #define KEY_FLAG_PRESSED 1
+#define KEY_FLAG_SHIFT (1 << 1)
+#define KEY_FLAG_CAPS (1 << 2)
+#define KEY_FLAG_CTRL (1 << 3)
+#define KEY_FLAG_ALT (1 << 4)
+#define KEY_FLAG_NUM_LOCK (1 << 5)
+#define KEY_FLAG_SCRL_LOCK (1 << 6)
 
 typedef struct
 {

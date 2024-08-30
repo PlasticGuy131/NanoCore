@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdbool.h>
 
 #include <keyboard.h>

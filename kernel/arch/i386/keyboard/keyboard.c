@@ -11,12 +11,12 @@ static const int scancode_alpha_codes[26] = {0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21,
                                              0x31, 0x18, 0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C};
 
 static const int scancode_symbol_codes[15] = {0x0C, 0x0D, 0x1A, 0x1B, 0x27,
-                                              0x28, 0x29, 0x56, 0x33, 0x34,
-                                              0x35, 0x37, 0x4A, 0x4E, 0x53};
+                                              0x28, 0x29, 0x33, 0x34, 0x35,
+                                              0x37, 0x4A, 0x4E, 0x53, 0x56};
 
 static const char symbol_code_chars[15] = {'-', '=', '[', ']', ';',
-                                           '\'', '`', '\\', ',', '.',
-                                           '/', '*', '-', '+', '.' };
+                                           '\'', '`', ',', '.', '/',
+                                           '*', '-', '+', '.', '\\'};
 
 static const int scancode_extra_codes[4] = { 0x0E, 0x0F, 0x1C, 0x39 };
 

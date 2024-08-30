@@ -229,6 +229,24 @@ void terminal_putchar(char c)
             terminal_column = 0;
             if (++terminal_row >= terminal_height) { terminal_scroll(); }
             break;
+        case '\t':
+            serial_write('\t');
+            terminal_column += 4;
+            if(terminal_column >= terminal_width)
+            {
+                terminal_column = 0;
+                if (++terminal_row >= terminal_height) { terminal_scroll(); }
+            }
+            break;
+        case '\b':
+            serial_write('\b');
+            if (terminal_column) { terminal_column--; }
+            else
+            {
+                terminal_column = terminal_width;
+                if (terminal_row) { terminal_row--; }
+            }
+            terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
         default:
             serial_write(c);
             terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);

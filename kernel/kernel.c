@@ -51,7 +51,7 @@ static void kernel_intro_splash()
 
 static void kernel_type(Keypress keypress)
 {
-    printf(keypress.flags & KEY_FLAG_PRESSED ? "%c" : "%cR", keyboard_keypress_ascii(keypress));
+    printf(keypress.flags & KEY_FLAG_PRESSED ? "%c" : "%cR", keyboard_keypress_char(keypress));
 }
 
 void kernel_panic(const char* error_message)
@@ -123,5 +123,4 @@ void kernel_main(void)
     printf("Done.\n");
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
-    printf("\0");
 }

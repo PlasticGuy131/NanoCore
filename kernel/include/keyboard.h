@@ -22,11 +22,11 @@ void keyboard_clear_callback();
 /// @brief Converts an ascii character to a keyboard code
 /// @param ascii Ascii character
 /// @return Keyboard code (0 if none exists)
-int keyboard_ascii_code(char ascii);
+int keyboard_char_code(char ascii);
 
 /// @brief Converts a keypress to an ascii character
 /// @param keypress Keypress
 /// @return Ascii character (or \0)
-char keyboard_keypress_ascii(Keypress keypress);
+char keyboard_keypress_char(Keypress keypress);
 
 #endif

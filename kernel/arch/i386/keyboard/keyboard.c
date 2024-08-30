@@ -12,6 +12,7 @@ static unsigned scancode_to_code(int scancode)
 {
     if (scancode <= 0xA) { return scancode; }
     if (scancode == 0xB) { return 1; }
+    return 0;
 }
 
 void keyboard_register_callback(void (*callback)(Keypress)) { keypress_callback = callback; }
@@ -21,12 +22,14 @@ int keyboard_ascii_code(char ascii)
 {
     if (isdigit(ascii)) { return ascii - '0' + 1; }
     if (isupper(ascii)) { return ascii - 54; }
+    return 0;
 }
 
 char keyboard_keypress_ascii(Keypress keypress)
 {
     if (keypress.code <= 10) { return keypress.code - 1 + '0'; }
     if (keypress.code <= 36) { return keypress.code + 54; }
+    return '\0';
 }
 
 void keyboard_read_key()

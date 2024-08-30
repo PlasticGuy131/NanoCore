@@ -17,6 +17,7 @@
         "init.h": "c",
         "interrupt.h": "c",
         "port.h": "c",
-        "vscode.h": "c"
+        "vscode.h": "c",
+        "mem_allocation.h": "c"
     }
 }

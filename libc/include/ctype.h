@@ -3,5 +3,6 @@
 
 int isdigit(int ch);
 int isspace(int ch);
+int isupper(int ch);
 
 #endif

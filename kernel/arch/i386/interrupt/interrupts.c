@@ -5,6 +5,7 @@
 #include <clock.h>
 #include <interrupt.h>
 #include <kernel.h>
+#include <keyboard.h>
 #include <port.h>
 
 enum DESCRIPTOR_TABLE
@@ -135,7 +136,6 @@ void interrupt_clock()
 
 void interrupt_keyboard()
 {
-    printf("Keyboard Interrupt\n");
-    printf("Scancode: %#x", inb(PS2_DATA));
+    keyboard_read_key();
     pic_send_eoi(1);
 }

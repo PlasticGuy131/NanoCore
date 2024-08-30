@@ -17,10 +17,10 @@
 #include <init.h>
 #include <interrupt.h>
 #include <kernel.h>
+#include <keyboard.h>
 #include <mem_allocation.h>
 #include <multiboot.h>
 #include <port.h>
-#include <ps2.h>
 #include <serial.h>
 #include <terminal.h>
 
@@ -47,6 +47,11 @@ static void kernel_intro_splash()
     printf("-");
     printf(ARCH);
     printf("\nWelcome.\n");
+}
+
+static void kernel_type(Keypress keypress)
+{
+    printf("%c", keyboard_keypress_ascii(keypress));
 }
 
 void kernel_panic(const char* error_message)
@@ -105,18 +110,13 @@ void kernel_main(void)
         terminal_col_default();
     }
 
-    /*if (ps2_initialize())
-    {
-        terminal_col_warning();
-        printf("Warning: PS/2 controller initialization failed\n");
-        terminal_col_default();
-    }*/
-
     printf("Initializing memory...\n");
     memory_initialize();
 
     printf("\n");
     kernel_intro_splash();
+
+    keyboard_register_callback(kernel_type);
 
     printf("Sleeping 1 second...");
     clock_sleep(1000);

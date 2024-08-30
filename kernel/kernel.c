@@ -51,7 +51,7 @@ static void kernel_intro_splash()
 
 static void kernel_type(Keypress keypress)
 {
-    printf("%c", keyboard_keypress_ascii(keypress));
+    printf(keypress.flags & KEY_FLAG_PRESSED ? "%c" : "%cR", keyboard_keypress_ascii(keypress));
 }
 
 void kernel_panic(const char* error_message)

@@ -1,6 +1,8 @@
 #ifndef KEYBOARD_H_INCLUDED
 #define KEYBOARD_H_INCLUDED 1
 
+#define KEY_FLAG_PRESSED 1
+
 typedef struct
 {
     unsigned code;

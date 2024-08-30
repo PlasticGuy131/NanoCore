@@ -9,8 +9,6 @@ void (*keypress_callback)(Keypress);
 static const int convert[26] = {0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
                                 0x31, 0x18, 0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C};
 
-static bool scancode_pass_on(int scancode) { return (scancode <= 0x58); }
-
 static unsigned scancode_to_code(int scancode)
 {
     if (scancode <= 0xA) { return scancode; }
@@ -40,12 +38,12 @@ char keyboard_keypress_ascii(Keypress keypress)
 void keyboard_read_key()
 {
     int scancode = inb(PS2_DATA);
-    if (scancode_pass_on(scancode))
-    {
-        Keypress keypress;
-        keypress.code = scancode_to_code(scancode);
-        keypress.flags = 0;
+    Keypress keypress;
+    keypress.flags = 0;
+    if (!(scancode & 0x80)) { keypress.flags |= KEY_FLAG_PRESSED; }
+    scancode &= 0x7F;
+    
+    keypress.code = scancode_to_code(scancode);
 
-        if (keypress_callback) { keypress_callback(keypress); }
-    }
+    if (keypress_callback) { keypress_callback(keypress); }
 }

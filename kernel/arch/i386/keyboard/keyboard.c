@@ -5,8 +5,8 @@
 #include <keyboard.h>
 #include <port.h>
 
-#define LEFT_SHIFT 0x1D
-#define LEFT_CTRL 0x2A
+#define LEFT_CTRL 0x1D
+#define LEFT_SHIFT 0x2A
 #define RIGHT_SHIFT 0x36
 #define LEFT_ALT 0x38
 #define CAPS_LOCK 0x3A

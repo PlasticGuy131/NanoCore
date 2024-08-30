@@ -14,6 +14,8 @@
 #define KEYCODE_RIGHT_SHIFT 58
 #define KEYCODE_LEFT_ALT 59
 #define KEYCODE_CAPS_LOCK 60
+#define KEYCODE_NUM_LOCK 61
+#define KEYCODE_SCROLL_LOCK 62
 
 typedef struct
 {

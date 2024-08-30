@@ -10,6 +10,8 @@
 #define RIGHT_SHIFT 0x36
 #define LEFT_ALT 0x38
 #define CAPS_LOCK 0x3A
+#define NUM_LOCK 0x45
+#define SCROLL_LOCK 0x46
 
 static const int SCANCODE_ALPHA_CODES[26] = { 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
                                              0x31, 0x18, 0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C};
@@ -26,12 +28,14 @@ static const int SCANCODE_EXTRA_CODES[4] = {0x0E, 0x0F, 0x1C, 0x39};
 
 static const char EXTRA_CODE_CHARS[4] = {'\b', '\t', '\n', ' '};
 
-static const int SCANCODE_CONTROL_CODES[5] = { LEFT_SHIFT, LEFT_CTRL, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK };
+static const int SCANCODE_CONTROL_CODES[7] = {LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK};
 
 static int shifts = 0;
 static int controls = 0;
-static bool caps_lock = false;
 static bool alt = false;
+static bool caps_lock = false;
+static bool num_lock = false;
+static bool scroll_lock = false;
 
 static void (*keypress_callback)(Keypress);
 
@@ -93,7 +97,9 @@ void keyboard_read_key()
         if (scancode == LEFT_SHIFT || scancode == RIGHT_SHIFT) { shifts++; }
         else if (scancode == LEFT_CTRL) { controls++; }
         else if (scancode == LEFT_ALT) { alt = true; }
-        else if (scancode == CAPS_LOCK) { caps_lock = true; }
+        else if (scancode == CAPS_LOCK) { caps_lock = !caps_lock; }
+        else if (scancode == NUM_LOCK) { num_lock = !num_lock; }
+        else if (scancode == SCROLL_LOCK) { scroll_lock = !scroll_lock; }
     }
     else
     {
@@ -101,14 +107,15 @@ void keyboard_read_key()
         if (scancode == LEFT_SHIFT || scancode == RIGHT_SHIFT) { shifts--; }
         else if (scancode == LEFT_CTRL) { controls--; }
         else if (scancode == LEFT_ALT) { alt = false; }
-        else if (scancode == CAPS_LOCK) { caps_lock = false; }
     }
 
     if (shifts) { keypress.flags |= KEY_FLAG_SHIFT; }
     if (controls) { keypress.flags |= KEY_FLAG_CTRL; }
     if (alt) { keypress.flags |= KEY_FLAG_ALT; }
     if (caps_lock) { keypress.flags |= KEY_FLAG_CAPS_LOCK; }
-    
+    if (num_lock) { keypress.flags |= KEY_FLAG_NUM_LOCK; }
+    if (scroll_lock) { keypress.flags |= KEY_FLAG_SCROLL_LOCK; }
+
     keypress.code = scancode_to_code(scancode);
 
     if (keypress_callback) { keypress_callback(keypress); }

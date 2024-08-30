@@ -14,7 +14,7 @@ static const int scancode_symbol_codes[15] = {0x0C, 0x0D, 0x1A, 0x1B, 0x27,
                                               0x35, 0x37, 0x4A, 0x4E, 0x53};
 
 static const char symbol_code_chars[15] = {'-', '=', '[', ']', ';',
-                                           '\'', '#', '\\', ',', '.',
+                                           '\'', '`', '\\', ',', '.',
                                            '/', '*', '-', '+', '.'};
 
 static unsigned scancode_to_code(int scancode)
@@ -55,6 +55,7 @@ char keyboard_keypress_char(Keypress keypress)
 void keyboard_read_key()
 {
     int scancode = inb(PS2_DATA);
+    printf("Escape code: %#.2x\n", scancode);
     Keypress keypress;
     keypress.flags = 0;
     if (!(scancode & 0x80)) { keypress.flags |= KEY_FLAG_PRESSED; }

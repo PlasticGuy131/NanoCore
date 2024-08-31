@@ -57,6 +57,10 @@ static void kernel_type(Keypress keypress)
         {
             printf("\nESC\n");
         }
+        if (keypress.code > KEYCODE_FUNCTION_PLUS_N)
+        {
+            printf("F%d", keypress.code - KEYCODE_FUNCTION_PLUS_N);
+        }
         unsigned char c = keyboard_keypress_char(keypress);
         if (c)
         {

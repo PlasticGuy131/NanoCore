@@ -152,7 +152,7 @@ void keyboard_read_key()
 
     if (extended)
     {
-        scancode |= 0xE0;
+        scancode |= 0xE000;
         extended = false;
     }
 

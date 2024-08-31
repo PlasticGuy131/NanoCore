@@ -46,7 +46,9 @@ static const char EXT_EXTRA_CODE_CHARS[2] = { '\n', 127 /* del */ };
 
 static const int EXT_SCANCODE_CONTROL_CODES[14] = { RIGHT_CONTROL, 0xE038, 0xE047, 0xE048,
                                                     0xE049, 0xE04B, 0xE04D, 0xE04F, 0xE050,
-                                                    0xE051, 0xE052, 0xE05B, 0xE05C, 0xE05D};
+                                                    0xE051, 0xE052, 0xE05B, 0xE05C, 0xE05D };
+
+static const int EXT_SCANCODE_ACPI_CODES[3] = { 0xE05E, 0xE05F, 0xE063 };
 
 static bool extended = false;
 
@@ -93,6 +95,11 @@ static unsigned scancode_to_code(int scancode)
     {
         if (scancode == EXT_SCANCODE_CONTROL_CODES[i]) { return i + 80; }
         else if (scancode < EXT_SCANCODE_CONTROL_CODES[i]) { break; }
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        if (scancode == EXT_SCANCODE_ACPI_CODES[i]) { return i + 94; }
+        else if (scancode < EXT_SCANCODE_ACPI_CODES[i]) { break; }
     }
 
     return 0;
@@ -144,6 +151,7 @@ char keyboard_keypress_char(Keypress keypress)
 void keyboard_read_key()
 {
     int scancode = inb(PS2_DATA);
+    printf("\nScancode: %#x\n", scancode);
     if (scancode == 0xE0)
     {
         extended = true;

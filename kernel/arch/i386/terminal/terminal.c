@@ -237,12 +237,10 @@ void terminal_putchar(unsigned char c)
     {
         case '\n':
             serial_write('\r');
-            serial_write('\n');
             terminal_column = 0;
             if (++terminal_row >= terminal_height) { terminal_scroll(); }
             break;
         case '\t':
-            serial_write('\t');
             terminal_column += 4;
             if(terminal_column >= terminal_width)
             {
@@ -251,7 +249,6 @@ void terminal_putchar(unsigned char c)
             }
             break;
         case '\b':
-            serial_write('\b');
             terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             if (terminal_column) { terminal_column--; }
             else
@@ -262,11 +259,9 @@ void terminal_putchar(unsigned char c)
             terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             break;
         case 127:
-            serial_write(127);
             terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             break;
         default:
-            serial_write(c);
             terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             if(++terminal_column >= terminal_width)
             {
@@ -274,6 +269,7 @@ void terminal_putchar(unsigned char c)
                 if (++terminal_row >= terminal_height) { terminal_scroll(); }
             }
     }
+    serial_write(c);
     if (cursor_enabled)
     {
         screen_putbitmap_bw(terminal_xpixel(terminal_column), terminal_ypixel(terminal_row), cursor_full, 1,

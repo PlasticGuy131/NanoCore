@@ -86,7 +86,15 @@ char keyboard_keypress_char(Keypress keypress)
         if (keypress.flags & KEY_FLAG_SHIFT) { return NUMBER_CODE_SYMBOLS[keypress.code - 1]; }
         return keypress.code - 1 + '0';
     }
-    if (keypress.code <= 36) { return keypress.code + 54; }
+    if (keypress.code <= 36)
+    {
+        char ch = keypress.code + 54;
+
+        bool upper = false;
+        if (keypress.flags & KEY_FLAG_CAPS_LOCK) { upper = true; }
+        if (keypress.flags & KEY_FLAG_SHIFT) { upper = !upper; }
+        return upper ? ch : tolower(ch);
+    }
     if (keypress.code <= 51) { return SYMBOL_CODE_CHARS[keypress.code - 37]; }
     if (keypress.code <= 55) { return EXTRA_CODE_CHARS[keypress.code - 52]; }
     return '\0';

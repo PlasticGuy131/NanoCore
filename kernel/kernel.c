@@ -56,14 +56,9 @@ static void kernel_type(Keypress keypress)
         char c = keyboard_keypress_char(keypress);
         if (c)
         {
-            bool upper = false;
-            if (keypress.flags & KEY_FLAG_CAPS_LOCK) { upper = true; }
-            if (keypress.flags & KEY_FLAG_SHIFT) { upper = !upper; }
-
             if (keypress.flags & KEY_FLAG_ALT) { printf("A"); }
             if (keypress.flags & KEY_FLAG_CTRL) { printf("C"); }
             
-            if (isupper(c)) { c = upper ? c : tolower(c); }
             printf("%c", c);
         }
     }

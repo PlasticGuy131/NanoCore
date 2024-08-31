@@ -126,6 +126,7 @@ void kernel_main(void)
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 
     keyboard_register_callback(kernel_type);
+    terminal_cursor_enable();
     while (1)
     {
         terminal_cursor_blink();

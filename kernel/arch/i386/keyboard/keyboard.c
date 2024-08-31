@@ -13,6 +13,8 @@
 #define NUM_LOCK 0x45
 #define SCROLL_LOCK 0x46
 
+static const unsigned char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 163 /* £ */, '$', '%', '^', '&', '*', '(' };
+
 static const int SCANCODE_ALPHA_CODES[26] = { 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
                                               0x31, 0x18, 0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C };
 
@@ -26,17 +28,15 @@ static const char SYMBOL_CODE_CHARS[16] = { '-', '=', '[', ']',
                                             ',', '.', '/', '*',
                                             '-', '+', '.', '\\' };
 
+static const unsigned char SYMBOL_CODE_SHIFT_CHARS[16] = { '_', '+', '{', '}', ':', '@',
+                                                           172 /* ¬ */, '~', '<', '>',
+                                                           '?', '*', '-', '+', '.', '|' };
+
 static const int SCANCODE_EXTRA_CODES[4] = { 0x0E, 0x0F, 0x1C, 0x39 };
 
 static const char EXTRA_CODE_CHARS[4] = { '\b', '\t', '\n', ' ' };
 
-static const int SCANCODE_CONTROL_CODES[8] = { 0x01, LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK };
-
-static const unsigned char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 163 /* £ */, '$', '%', '^', '&', '*', '(' };
-
-static const unsigned char SYMBOL_CODE_SSYMBOLS[16] = { '_', '+', '{', '}', ':', '@',
-                                                        172 /* ¬ */, '~', '<', '>', 
-                                                        '?', '*', '-', '+', '.', '|' };
+static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK };
 
 static int shifts = 0;
 static int controls = 0;
@@ -49,6 +49,7 @@ static void (*keypress_callback)(Keypress);
 
 static unsigned scancode_to_code(int scancode)
 {
+    if (scancode == 0) { return KEYCODE_ESCAPE; }
     if (scancode <= 0xA) { return scancode; }
     if (scancode == 0xB) { return 1; }
     for (int i = 0; i < 26; i++) { if (scancode == SCANCODE_ALPHA_CODES[i]) { return i + 11; } }
@@ -64,9 +65,11 @@ static unsigned scancode_to_code(int scancode)
     }
     for (int i = 0; i < 8; i++)
     {
-        if (scancode == SCANCODE_CONTROL_CODES[i]) { return i + 57; }
+        if (scancode == SCANCODE_CONTROL_CODES[i]) { return i + 58; }
         else if (scancode < SCANCODE_CONTROL_CODES[i]) { break; }
     }
+    if (scancode >= 0x3B && scancode <= 0x44) { return scancode + 6; }
+    if (scancode >= 0x57 && scancode <= 0x58) { return scancode - 12; }
 
     return 0;
 }
@@ -103,7 +106,7 @@ char keyboard_keypress_char(Keypress keypress)
     }
     if (keypress.code <= 52)
     {
-        if (keypress.flags & KEY_FLAG_SHIFT) { return SYMBOL_CODE_SSYMBOLS[keypress.code - 37]; }
+        if (keypress.flags & KEY_FLAG_SHIFT) { return SYMBOL_CODE_SHIFT_CHARS[keypress.code - 37]; }
         return SYMBOL_CODE_CHARS[keypress.code - 37];
     }
     if (keypress.code <= 56) { return EXTRA_CODE_CHARS[keypress.code - 53]; }

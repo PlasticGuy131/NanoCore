@@ -18,6 +18,8 @@
 #define KEYCODE_NUM_LOCK 63
 #define KEYCODE_SCROLL_LOCK 64
 
+#define KEYCODE_FUNCTION_PLUS_N 64
+
 typedef struct
 {
     unsigned code;

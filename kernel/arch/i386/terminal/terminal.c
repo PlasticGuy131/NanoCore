@@ -35,7 +35,7 @@ enum Colour terminal_warning_bg_colour;
 enum Colour terminal_error_fg_colour;
 enum Colour terminal_error_bg_colour;
 
-void (*terminal_putcharat)(char, enum Colour, enum Colour, size_t, size_t);
+void (*terminal_putcharat)(int, enum Colour, enum Colour, size_t, size_t);
 void (*terminal_scroll)();
 
 uint16_t* terminal_buffer;
@@ -55,13 +55,13 @@ static inline int terminal_ypixel(size_t y)
     return y * terminal_font_char_size;
 }
 
-static void terminal_vga_putentryat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
+static void terminal_vga_putentryat(int c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
     const size_t index = y * VGA_WIDTH + x;
     terminal_buffer[index] = vga_entry(c, vga_entry_colour(fg, bg));
 }
 
-static void terminal_rgb_putcharat(char c, enum Colour fg, enum Colour bg, size_t x, size_t y)
+static void terminal_rgb_putcharat(int c, enum Colour fg, enum Colour bg, size_t x, size_t y)
 {
     unsigned char* offset = font_offset;
     offset += unicode[(size_t)c] * terminal_font_char_size;

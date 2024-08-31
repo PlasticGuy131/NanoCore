@@ -13,7 +13,7 @@
 #define NUM_LOCK 0x45
 #define SCROLL_LOCK 0x46
 
-static const int SCANCODE_ALPHA_CODES[26] = { 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
+static const int SCANCODE_ALPHA_CODES[26] = {0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
                                              0x31, 0x18, 0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C};
 
 static const int SCANCODE_SYMBOL_CODES[15] = {0x0C, 0x0D, 0x1A, 0x1B, 0x27,
@@ -29,6 +29,8 @@ static const int SCANCODE_EXTRA_CODES[4] = {0x0E, 0x0F, 0x1C, 0x39};
 static const char EXTRA_CODE_CHARS[4] = {'\b', '\t', '\n', ' '};
 
 static const int SCANCODE_CONTROL_CODES[7] = {LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK};
+
+static const char NUMBER_CODE_SYMBOLS[10] = {'!', '\"', '£', '$', '%', '^', '&', '*', '(', ')'};
 
 static int shifts = 0;
 static int controls = 0;
@@ -79,7 +81,11 @@ int keyboard_char_code(char ascii)
 char keyboard_keypress_char(Keypress keypress)
 {
     if (keypress.code == 0) { return '\0'; }
-    if (keypress.code <= 10) { return keypress.code - 1 + '0'; }
+    if (keypress.code <= 10)
+    {
+        if (keypress.flags & KEY_FLAG_SHIFT) { return NUMBER_CODE_SYMBOLS[keypress.code - 1]; }
+        return keypress.code - 1 + '0';
+    }
     if (keypress.code <= 36) { return keypress.code + 54; }
     if (keypress.code <= 51) { return SYMBOL_CODE_CHARS[keypress.code - 37]; }
     if (keypress.code <= 55) { return EXTRA_CODE_CHARS[keypress.code - 52]; }

@@ -33,8 +33,8 @@ static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIF
 static const int NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 143 /* £ */, '$', '%', '^', '&', '*', '(' };
 
 static const int SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
-                                               '|', '¬', '<', '>', '?',
-                                               '*', '-', '+', '.', '\\' };
+                                              '@', '¬', '<', '>', '?',
+                                              '*', '-', '+', '.', '|' };
 
 static int shifts = 0;
 static int controls = 0;

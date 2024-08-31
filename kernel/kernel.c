@@ -53,24 +53,9 @@ static void kernel_type(Keypress keypress)
 {
     if (keypress.flags & KEY_FLAG_PRESSED)
     {
-        if (keypress.flags & KEY_FLAG_CTRL) { printf("C"); }
-        if (keypress.code == KEYCODE_ALTGR) { printf("\nALTGR\n"); }
-        if (keypress.code == KEYCODE_HOME) { printf("\nHOME\n"); }
-        if (keypress.code == KEYCODE_CURSOR_UP) { printf("\n^\n"); }
-        if (keypress.code == KEYCODE_PAGE_UP) { printf("\nPAGE UP\n"); }
-        if (keypress.code == KEYCODE_CURSOR_LEFT) { printf("\n<\n"); }
-        if (keypress.code == KEYCODE_CURSOR_RIGHT) { printf("\n>\n"); }
-        if (keypress.code == KEYCODE_END) { printf("\nEND\n"); }
-        if (keypress.code == KEYCODE_CURSOR_DOWN) { printf("\nV\n"); }
-        if (keypress.code == KEYCODE_PAGE_DOWN) { printf("\nPAGE DOWN\n"); }
-        if (keypress.code == KEYCODE_INSERT) { printf("\nINSERT\n"); }
-        if (keypress.code == KEYCODE_LEFT_GUI) { printf("\nLEFT GUI\n"); }
-        if (keypress.code == KEYCODE_RIGHT_GUI) { printf("\nRIGHT GUI\n"); }
-        if (keypress.code == KEYCODE_APPS) { printf("\nAPPS\n"); }
         unsigned char c = keyboard_keypress_char(keypress);
         if (c)
         {
-
             printf("%c", c);
         }
     }

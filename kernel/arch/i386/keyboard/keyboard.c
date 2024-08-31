@@ -30,11 +30,11 @@ static const char EXTRA_CODE_CHARS[4] = { '\b', '\t', '\n', ' ' };
 
 static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK };
 
-static const char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 173 /* £ */, '$', '%', '^', '&', '*', '(' };
+static const unsigned char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 173 /* £ */, '$', '%', '^', '&', '*', '(' };
 
-static const char SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
-                                              '@', 183, '<', '>', '?',
-                                              '*', '-', '+', '.', '|' };
+static const unsigned char SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
+                                                        '@', 183, '<', '>', '?',
+                                                        '*', '-', '+', '.', '|' };
 
 static int shifts = 0;
 static int controls = 0;

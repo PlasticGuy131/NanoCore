@@ -158,13 +158,6 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     terminal_scroll = &terminal_rgb_scroll;
 }
 
-static void terminal_rebase(unsigned stop)
-{
-    terminal_row = 0;
-    terminal_column = 0;
-    for (int i = drawing_from; i < stop; i++) { terminal_draw_char(text_buffer[i], false); }
-}
-
 static void terminal_draw_char(char c, bool draw)
 {
     switch (c)
@@ -188,7 +181,7 @@ static void terminal_draw_char(char c, bool draw)
             }*/
             break;
         default:
-            terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
+            if (draw) { terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
             if (++terminal_column >= terminal_width)
             {
                 terminal_column = 0;
@@ -202,8 +195,16 @@ static void terminal_draw_char(char c, bool draw)
     }
 }
 
+static void terminal_rebase(unsigned stop)
+{
+    terminal_row = 0;
+    terminal_column = 0;
+    for (unsigned i = drawing_from; i < stop; i++) { terminal_draw_char(text_buffer[i], false); }
+}
+
 static void terminal_redraw_from(unsigned from)
 {
+    terminal_rebase(from);
     unsigned i = from;
     while (text_buffer[i]) { terminal_draw_char(text_buffer[i], true); }
 }

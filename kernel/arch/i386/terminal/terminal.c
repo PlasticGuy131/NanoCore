@@ -248,6 +248,10 @@ void terminal_putchar(unsigned char c)
             }
             terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             break;
+        case 127:
+            serial_write(127);
+            terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
+            break;
         default:
             serial_write(c);
             terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);

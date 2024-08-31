@@ -13,6 +13,8 @@
 #define NUM_LOCK 0x45
 #define SCROLL_LOCK 0x46
 
+#define RIGHT_CONTROL 0xE01D
+
 static const unsigned char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 163 /* £ */, '$', '%', '^', '&', '*', '(' };
 
 static const int SCANCODE_ALPHA_CODES[26] = { 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
@@ -30,13 +32,23 @@ static const char SYMBOL_CODE_CHARS[16] = { '-', '=', '[', ']',
 
 static const unsigned char SYMBOL_CODE_SHIFT_CHARS[16] = { '_', '+', '{', '}', ':', '@',
                                                            172 /* ¬ */, '~', '<', '>',
-                                                           '?', '*', '-', '+', '.', '|' };
+                                                           '?', '*', '-', '+', 127 /* del */, '|' };
 
 static const int SCANCODE_EXTRA_CODES[4] = { 0x0E, 0x0F, 0x1C, 0x39 };
 
 static const char EXTRA_CODE_CHARS[4] = { '\b', '\t', '\n', ' ' };
 
 static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK };
+
+static const int EXT_SCANCODE_EXTRA_CODES[2] = { 0xE01C, 0xE053 };
+
+static const char EXT_EXTRA_CODE_CHARS[2] = { '\n', 127 /* del */ };
+
+static const int EXT_SCANCODE_CONTROL_CODES[14] = { RIGHT_CONTROL, 0xE038, 0xE047, 0xE048,
+                                                    0xE049, 0xE04B, 0xE04D, 0xE04F, 0xE050,
+                                                    0xE051, 0xE052, 0xE05B, 0xE05C, 0xE05D};
+
+static bool extended = false;
 
 static int shifts = 0;
 static int controls = 0;
@@ -70,6 +82,18 @@ static unsigned scancode_to_code(int scancode)
     }
     if (scancode >= 0x3B && scancode <= 0x44) { return scancode + 6; }
     if (scancode >= 0x57 && scancode <= 0x58) { return scancode - 12; }
+
+    if (scancode == 0xE035) { return KEYCODE_KEYPAD_SLASH; }
+    for (int i = 0; i < 2; i++)
+    {
+        if (scancode == EXT_SCANCODE_EXTRA_CODES[i]) { return i + 78; }
+        else if (scancode < EXT_SCANCODE_EXTRA_CODES[i]) { break; }
+    }
+    for (int i = 0; i < 14; i++)
+    {
+        if (scancode == EXT_SCANCODE_CONTROL_CODES[i]) { return i + 80; }
+        else if (scancode < EXT_SCANCODE_CONTROL_CODES[i]) { break; }
+    }
 
     return 0;
 }
@@ -110,41 +134,59 @@ char keyboard_keypress_char(Keypress keypress)
         return SYMBOL_CODE_CHARS[keypress.code - 37];
     }
     if (keypress.code <= 56) { return EXTRA_CODE_CHARS[keypress.code - 53]; }
+
+    if (keypress.code = KEYCODE_KEYPAD_SLASH) { return '/'; }
+    if (keypress.code >= 78 && keypress.code <= 79) { return EXT_EXTRA_CODE_CHARS[keypress.code - 78]; }
+
     return '\0';
 }
 
 void keyboard_read_key()
 {
     int scancode = inb(PS2_DATA);
-    printf("\nScancode: %#x\n", scancode);
-    Keypress keypress;
-    keypress.flags = 0;
-    if (!(scancode & 0x80))
+    if (scancode == 0xE0)
     {
-        keypress.flags |= KEY_FLAG_PRESSED;
-        if (scancode == LEFT_SHIFT || scancode == RIGHT_SHIFT) { shifts++; }
-        else if (scancode == LEFT_CTRL) { controls++; }
-        else if (scancode == LEFT_ALT) { alt = true; }
-        else if (scancode == CAPS_LOCK) { caps_lock = !caps_lock; }
-        else if (scancode == NUM_LOCK) { num_lock = !num_lock; }
-        else if (scancode == SCROLL_LOCK) { scroll_lock = !scroll_lock; }
-    }
-    else
-    {
-        scancode &= 0x7F;
-        if (scancode == LEFT_SHIFT || scancode == RIGHT_SHIFT) { shifts--; }
-        else if (scancode == LEFT_CTRL) { controls--; }
-        else if (scancode == LEFT_ALT) { alt = false; }
+        extended = true;
+        return;
     }
 
-    if (shifts) { keypress.flags |= KEY_FLAG_SHIFT; }
-    if (controls) { keypress.flags |= KEY_FLAG_CTRL; }
-    if (alt) { keypress.flags |= KEY_FLAG_ALT; }
-    if (caps_lock) { keypress.flags |= KEY_FLAG_CAPS_LOCK; }
-    if (num_lock) { keypress.flags |= KEY_FLAG_NUM_LOCK; }
-    if (scroll_lock) { keypress.flags |= KEY_FLAG_SCROLL_LOCK; }
+    if (extended)
+    {
+        scancode |= 0xE0;
+        extended = false;
+    }
 
-    keypress.code = scancode_to_code(scancode);
+    if (keypress_callback)
+    {
+        Keypress keypress;
+        keypress.flags = 0;
+        if (scancode & 0x80)
+        {
+            scancode &= 0x7F;
+            if (scancode == LEFT_SHIFT || scancode == RIGHT_SHIFT) { shifts--; }
+            else if (scancode == LEFT_CTRL) { controls--; }
+            else if (scancode == LEFT_ALT) { alt = false; }
+        }
+        else
+        {
+            keypress.flags |= KEY_FLAG_PRESSED;
+            if (scancode == LEFT_SHIFT || scancode == RIGHT_SHIFT) { shifts++; }
+            else if (scancode == LEFT_CTRL || scancode == RIGHT_CONTROL) { controls++; }
+            else if (scancode == LEFT_ALT) { alt = true; }
+            else if (scancode == CAPS_LOCK) { caps_lock = !caps_lock; }
+            else if (scancode == NUM_LOCK) { num_lock = !num_lock; }
+            else if (scancode == SCROLL_LOCK) { scroll_lock = !scroll_lock; }
+        }
 
-    if (keypress_callback) { keypress_callback(keypress); }
+        keypress.code = scancode_to_code(scancode);
+
+        if (shifts) { keypress.flags |= KEY_FLAG_SHIFT; }
+        if (controls) { keypress.flags |= KEY_FLAG_CTRL; }
+        if (alt) { keypress.flags |= KEY_FLAG_ALT; }
+        if (caps_lock) { keypress.flags |= KEY_FLAG_CAPS_LOCK; }
+        if (num_lock) { keypress.flags |= KEY_FLAG_NUM_LOCK; }
+        if (scroll_lock) { keypress.flags |= KEY_FLAG_SCROLL_LOCK; }
+
+        keypress_callback(keypress);
+    }
 }

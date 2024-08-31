@@ -49,7 +49,7 @@ static void (*keypress_callback)(Keypress);
 
 static unsigned scancode_to_code(int scancode)
 {
-    if (scancode == 0) { return KEYCODE_ESCAPE; }
+    if (scancode == 0x1) { return KEYCODE_ESCAPE; }
     if (scancode <= 0xA) { return scancode; }
     if (scancode == 0xB) { return 1; }
     for (int i = 0; i < 26; i++) { if (scancode == SCANCODE_ALPHA_CODES[i]) { return i + 11; } }
@@ -116,6 +116,7 @@ char keyboard_keypress_char(Keypress keypress)
 void keyboard_read_key()
 {
     int scancode = inb(PS2_DATA);
+    printf("\nScancode: %#x\n", scancode);
     Keypress keypress;
     keypress.flags = 0;
     if (!(scancode & 0x80))

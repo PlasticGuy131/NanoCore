@@ -53,10 +53,15 @@ static void kernel_type(Keypress keypress)
 {
     if (keypress.flags & KEY_FLAG_PRESSED)
     {
-        char c = keyboard_keypress_char(keypress);
+        if (keypress.code == KEYCODE_ESCAPE)
+        {
+            printf("\nESC\n");
+        }
+        unsigned char c = keyboard_keypress_char(keypress);
         if (c)
-        {            
-            printf("%u: %c\n", (int)c, (int)c);
+        {
+
+            printf("%c", c);
         }
     }
 }

@@ -30,7 +30,7 @@ static const int SCANCODE_EXTRA_CODES[4] = { 0x0E, 0x0F, 0x1C, 0x39 };
 
 static const char EXTRA_CODE_CHARS[4] = { '\b', '\t', '\n', ' ' };
 
-static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK };
+static const int SCANCODE_CONTROL_CODES[8] = { 0x01, LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK };
 
 static const unsigned char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 163 /* £ */, '$', '%', '^', '&', '*', '(' };
 
@@ -62,7 +62,7 @@ static unsigned scancode_to_code(int scancode)
         if (scancode == SCANCODE_EXTRA_CODES[i]) { return i + 53; }
         else if (scancode < SCANCODE_EXTRA_CODES[i]) { break; }
     }
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 8; i++)
     {
         if (scancode == SCANCODE_CONTROL_CODES[i]) { return i + 57; }
         else if (scancode < SCANCODE_CONTROL_CODES[i]) { break; }

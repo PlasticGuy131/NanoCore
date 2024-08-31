@@ -219,7 +219,7 @@ void terminal_clear()
     terminal_column = 0;
 }
 
-void terminal_putchar(char c)
+void terminal_putchar(int c)
 {
     switch (c)
     {

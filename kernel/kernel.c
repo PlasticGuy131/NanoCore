@@ -29,7 +29,7 @@
 #define ARCH "WARNING: Unknown Architecture"
 #endif
 
-void kernel_putchar(char c) { terminal_putchar(c); }
+void kernel_putchar(int c) { terminal_putchar(c); }
 
 static void kernel_intro_splash()
 {
@@ -126,11 +126,13 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    keyboard_register_callback(kernel_type);
+    printf("Testing font:\n");
+    for (int c = 0; c < 512; c++)
+    {
+        kernel_putchar(c);
+    }
 
-    printf("Sleeping 1 second...");
-    clock_sleep(1000);
-    printf("Done.\n");
+    keyboard_register_callback(kernel_type);
 
     printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 }

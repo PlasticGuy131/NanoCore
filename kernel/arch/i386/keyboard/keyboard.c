@@ -135,7 +135,7 @@ char keyboard_keypress_char(Keypress keypress)
     }
     if (keypress.code <= 56) { return EXTRA_CODE_CHARS[keypress.code - 53]; }
 
-    if (keypress.code = KEYCODE_KEYPAD_SLASH) { return '/'; }
+    if (keypress.code == KEYCODE_KEYPAD_SLASH) { return '/'; }
     if (keypress.code >= 78 && keypress.code <= 79) { return EXT_EXTRA_CODE_CHARS[keypress.code - 78]; }
 
     return '\0';

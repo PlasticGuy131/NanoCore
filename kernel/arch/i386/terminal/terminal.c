@@ -339,7 +339,7 @@ void terminal_putchar(unsigned char c)
     }*/
     if (cursor_enabled)
     {
-        screen_putbitmap_bw(terminal_xpixel(terminal_column), terminal_ypixel(terminal_row), cursor_full, 1,
+        screen_putbitmap_bw(terminal_xpixel(cursor_x), terminal_ypixel(cursor_y), cursor_full, 1,
             terminal_font_char_size, screen_rgb_name(terminal_fg_colour), screen_rgb_name(terminal_bg_colour));
         cursor_active = true;
     }

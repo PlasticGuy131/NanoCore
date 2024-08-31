@@ -21,7 +21,7 @@ enum Display_Type
 
 static const size_t TERMINAL_CHAR_WIDTH = 9;
 
-static const uint8_t CURSOR_FULL_VALUE = 0xC0;
+static const uint8_t CURSOR_FULL_VALUE = 0x80;
 
 static enum Display_Type display_type;
 static size_t terminal_row;
@@ -53,8 +53,9 @@ static unsigned char* font_offset;
 static unsigned char text_buffer[100000];
 static unsigned text_offset = 0;
 
-static bool cursor_on = false;
-static uint8_t* cursor_full;
+static bool cursor_enabled = false;
+static bool cursor_active = false;
+static uint8_t* cursor_full = 0;
 
 static inline int terminal_xpixel(size_t x)
 {
@@ -151,9 +152,6 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
 
     terminal_putcharat = &terminal_rgb_putcharat;
     terminal_scroll = &terminal_rgb_scroll;
-
-    cursor_full = malloc(terminal_font_char_size);
-    for (size_t i = 0; i < terminal_font_char_size; i++) { cursor_full[i] = CURSOR_FULL_VALUE; }
 }
 
 void terminal_initialize(Multiboot_Info* multiboot_info)
@@ -275,18 +273,36 @@ void terminal_putchar(unsigned char c)
                 if (++terminal_row >= terminal_height) { terminal_scroll(); }
             }
     }
+    if (cursor_enabled)
+    {
+        screen_putbitmap_bw(terminal_xpixel(terminal_column), terminal_ypixel(terminal_row), cursor_full, 1,
+            terminal_font_char_size, screen_rgb_name(terminal_fg_colour), screen_rgb_name(terminal_bg_colour));
+        cursor_active = true;
+    }
 }
 
 void terminal_cursor_blink()
 {
-    if (display_type == DISPLAY_RGB)
+    if (display_type == DISPLAY_RGB && cursor_enabled)
     {
-        if (cursor_on) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
+        if (cursor_active) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
         else
         {
             screen_putbitmap_bw(terminal_xpixel(terminal_column), terminal_ypixel(terminal_row), cursor_full, 1,
                 terminal_font_char_size, screen_rgb_name(terminal_fg_colour), screen_rgb_name(terminal_bg_colour));
         }
+        cursor_active = !cursor_active;
     }
-    cursor_on = !cursor_on;
 }
+
+void terminal_cursor_enable()
+{
+    if (cursor_full == 0)
+    {
+        cursor_full = malloc(terminal_font_char_size);
+        for (size_t i = 0; i < terminal_font_char_size; i++) { cursor_full[i] = CURSOR_FULL_VALUE; }
+    }
+    cursor_enabled = true;
+}
+
+void terminal_cursor_disable() { cursor_enabled = false; }

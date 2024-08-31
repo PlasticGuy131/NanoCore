@@ -64,4 +64,10 @@ void terminal_putchar(unsigned char c);
 /// @brief Blinks a cursor on the terminal (RGB only)
 void terminal_cursor_blink();
 
+/// @brief Enables the blinking cursor
+void terminal_cursor_enable();
+
+/// @brief Disables the blinking cursor
+void terminal_cursor_disable();
+
 #endif

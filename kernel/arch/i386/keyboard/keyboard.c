@@ -32,7 +32,7 @@ static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIF
 
 static const int NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', '£', '$', '%', '^', '&', '*', '(' };
 
-static const char SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
+static const int SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
                                                '|', '¬', '<', '>', '?',
                                                '*', '-', '+', '.', '\\' };
 
@@ -49,21 +49,17 @@ static unsigned scancode_to_code(int scancode)
 {
     if (scancode <= 0xA) { return scancode; }
     if (scancode == 0xB) { return 1; }
-    unsigned offset = 11;
-    for (int i = 0; i < 26; i++) { if (scancode == SCANCODE_ALPHA_CODES[i]) { return i + offset; } }
-    offset += 26;
+    for (int i = 0; i < 26; i++) { if (scancode == SCANCODE_ALPHA_CODES[i]) { return i + 11; } }
     for (int i = 0; i < 15; i++)
     {
-        if (scancode == SCANCODE_SYMBOL_CODES[i]) { return i + offset; }
+        if (scancode == SCANCODE_SYMBOL_CODES[i]) { return i + 37; }
         else if (scancode < SCANCODE_SYMBOL_CODES[i]) { break; }
     }
-    offset += (sizeof(SCANCODE_SYMBOL_CODES) / sizeof(*SCANCODE_SYMBOL_CODES));
     for (int i = 0; i < 4; i++)
     {
-        if (scancode == SCANCODE_EXTRA_CODES[i]) { return i + offset; }
+        if (scancode == SCANCODE_EXTRA_CODES[i]) { return i + 52; }
         else if (scancode < SCANCODE_EXTRA_CODES[i]) { break; }
     }
-    offset += (sizeof(SCANCODE_EXTRA_CODES) / sizeof(*SCANCODE_EXTRA_CODES));
     for (int i = 0; i < 5; i++)
     {
         if (scancode == SCANCODE_CONTROL_CODES[i]) { return i + 56; }

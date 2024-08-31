@@ -206,7 +206,11 @@ static void terminal_redraw_from(unsigned from)
 {
     terminal_rebase(from);
     unsigned i = from;
-    while (text_buffer[i]) { terminal_draw_char(text_buffer[i], true); }
+    while (text_buffer[i])
+    {
+        terminal_draw_char(text_buffer[i], true);
+        i++;
+    }
 }
 
 void terminal_initialize(Multiboot_Info* multiboot_info)

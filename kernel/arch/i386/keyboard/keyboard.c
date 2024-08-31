@@ -16,13 +16,15 @@
 static const int SCANCODE_ALPHA_CODES[26] = { 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32,
                                               0x31, 0x18, 0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C };
 
-static const int SCANCODE_SYMBOL_CODES[15] = { 0x0C, 0x0D, 0x1A, 0x1B, 0x27,
-                                               0x28, 0x29, 0x33, 0x34, 0x35,
-                                               0x37, 0x4A, 0x4E, 0x53, 0x56 };
+static const int SCANCODE_SYMBOL_CODES[16] = { 0x0C, 0x0D, 0x1A, 0x1B,
+                                               0x27, 0x28, 0x29, 0x2B,
+                                               0x33, 0x34, 0x35, 0x37,
+                                               0x4A, 0x4E, 0x53, 0x56 };
 
-static const char SYMBOL_CODE_CHARS[15] = { '-', '=', '[', ']', ';',
-                                            '\'', '`', ',', '.', '/',
-                                            '*', '-', '+', '.', '\\' };
+static const char SYMBOL_CODE_CHARS[16] = { '-', '=', '[', ']',
+                                            ';', '\'', '`', '#',
+                                            ',', '.', '/', '*',
+                                            '-', '+', '.', '\\' };
 
 static const int SCANCODE_EXTRA_CODES[4] = { 0x0E, 0x0F, 0x1C, 0x39 };
 
@@ -32,8 +34,8 @@ static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIF
 
 static const unsigned char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 163 /* £ */, '$', '%', '^', '&', '*', '(' };
 
-static const unsigned char SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
-                                                        '@', 172 /* ¬ */, '<', '>', 
+static const unsigned char SYMBOL_CODE_SSYMBOLS[16] = { '_', '+', '{', '}', ':', '@',
+                                                        172 /* ¬ */, '~', '<', '>', 
                                                         '?', '*', '-', '+', '.', '|' };
 
 static int shifts = 0;
@@ -50,19 +52,19 @@ static unsigned scancode_to_code(int scancode)
     if (scancode <= 0xA) { return scancode; }
     if (scancode == 0xB) { return 1; }
     for (int i = 0; i < 26; i++) { if (scancode == SCANCODE_ALPHA_CODES[i]) { return i + 11; } }
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 16; i++)
     {
         if (scancode == SCANCODE_SYMBOL_CODES[i]) { return i + 37; }
         else if (scancode < SCANCODE_SYMBOL_CODES[i]) { break; }
     }
     for (int i = 0; i < 4; i++)
     {
-        if (scancode == SCANCODE_EXTRA_CODES[i]) { return i + 52; }
+        if (scancode == SCANCODE_EXTRA_CODES[i]) { return i + 53; }
         else if (scancode < SCANCODE_EXTRA_CODES[i]) { break; }
     }
     for (int i = 0; i < 5; i++)
     {
-        if (scancode == SCANCODE_CONTROL_CODES[i]) { return i + 56; }
+        if (scancode == SCANCODE_CONTROL_CODES[i]) { return i + 57; }
         else if (scancode < SCANCODE_CONTROL_CODES[i]) { break; }
     }
 
@@ -76,8 +78,8 @@ int keyboard_char_code(char ascii)
 {
     if (isdigit(ascii)) { return ascii - '0' + 1; }
     if (isupper(ascii)) { return ascii - 54; }
-    for (int i = 0; i < 15; i++) { if (ascii == SYMBOL_CODE_CHARS[i]) { return i + 37; } }
-    for (int i = 0; i < 4; i++) { if (ascii == SCANCODE_EXTRA_CODES[i]) { return i + 52; } }
+    for (int i = 0; i < 16; i++) { if (ascii == SYMBOL_CODE_CHARS[i]) { return i + 37; } }
+    for (int i = 0; i < 4; i++) { if (ascii == SCANCODE_EXTRA_CODES[i]) { return i + 53; } }
     
     return 0;
 }
@@ -99,12 +101,12 @@ char keyboard_keypress_char(Keypress keypress)
         if (keypress.flags & KEY_FLAG_SHIFT) { upper = !upper; }
         return upper ? ch : tolower(ch);
     }
-    if (keypress.code <= 51)
+    if (keypress.code <= 52)
     {
         if (keypress.flags & KEY_FLAG_SHIFT) { return SYMBOL_CODE_SSYMBOLS[keypress.code - 37]; }
         return SYMBOL_CODE_CHARS[keypress.code - 37];
     }
-    if (keypress.code <= 55) { return EXTRA_CODE_CHARS[keypress.code - 52]; }
+    if (keypress.code <= 56) { return EXTRA_CODE_CHARS[keypress.code - 53]; }
     return '\0';
 }
 

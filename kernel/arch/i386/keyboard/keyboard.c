@@ -111,6 +111,7 @@ int keyboard_keypress_char(Keypress keypress)
 void keyboard_read_key()
 {
     int scancode = inb(PS2_DATA);
+    printf("Scancode: %#x\n", scancode);
     Keypress keypress;
     keypress.flags = 0;
     if (!(scancode & 0x80))

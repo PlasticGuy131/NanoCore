@@ -252,6 +252,7 @@ void terminal_putchar(unsigned char c)
             break;
         case '\b':
             serial_write('\b');
+            terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
             if (terminal_column) { terminal_column--; }
             else
             {

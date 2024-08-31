@@ -124,7 +124,8 @@ int keyboard_char_code(char ascii)
     if (isupper(ascii)) { return ascii - 54; }
     for (int i = 0; i < 16; i++) { if (ascii == SYMBOL_CODE_CHARS[i]) { return i + 37; } }
     for (int i = 0; i < 4; i++) { if (ascii == SCANCODE_EXTRA_CODES[i]) { return i + 53; } }
-    
+    if (ascii == 127) { return KEYCODE_DELETE; }
+
     return 0;
 }
 

@@ -22,7 +22,7 @@ struct block_header
 static const uint8_t MEMORY_PENDING = 0;
 static const size_t HEADER_WIDTH = sizeof(struct block_header);
 
-uint8_t* heap_start;
+static uint8_t* heap_start;
 
 int memory_usage()
 {

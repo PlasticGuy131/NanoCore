@@ -61,4 +61,7 @@ void terminal_set_error_colour(enum Colour fg, enum Colour bg);
 /// @param c Character to write
 void terminal_putchar(unsigned char c);
 
+/// @brief Blinks a cursor on the terminal (RGB only)
+void terminal_cursor_blink();
+
 #endif

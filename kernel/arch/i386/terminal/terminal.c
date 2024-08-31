@@ -1,6 +1,8 @@
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #include <multiboot.h>
 #include <serial.h>
@@ -17,37 +19,46 @@ enum Display_Type
     DISPLAY_VGA = 2
 };
 
-enum Display_Type display_type;
-size_t terminal_row;
-size_t terminal_column;
-size_t terminal_width;
-size_t terminal_height;
+static const size_t TERMINAL_CHAR_WIDTH = 9;
 
-enum Colour terminal_fg_colour;
-enum Colour terminal_bg_colour;
+static const uint8_t CURSOR_FULL_VALUE = 0xC0;
 
-enum Colour terminal_default_fg_colour;
-enum Colour terminal_default_bg_colour;
+static enum Display_Type display_type;
+static size_t terminal_row;
+static size_t terminal_column;
+static size_t terminal_width;
+static size_t terminal_height;
 
-enum Colour terminal_warning_fg_colour;
-enum Colour terminal_warning_bg_colour;
+static enum Colour terminal_fg_colour;
+static enum Colour terminal_bg_colour;
 
-enum Colour terminal_error_fg_colour;
-enum Colour terminal_error_bg_colour;
+static enum Colour terminal_default_fg_colour;
+static enum Colour terminal_default_bg_colour;
 
-void (*terminal_putcharat)(unsigned char, enum Colour, enum Colour, size_t, size_t);
-void (*terminal_scroll)();
+static enum Colour terminal_warning_fg_colour;
+static enum Colour terminal_warning_bg_colour;
 
-uint16_t* terminal_buffer;
+static enum Colour terminal_error_fg_colour;
+static enum Colour terminal_error_bg_colour;
 
-size_t terminal_font_char_size;
-static const size_t terminal_char_width = 9;
-uint16_t unicode[512];
-unsigned char* font_offset;
+static void (*terminal_putcharat)(unsigned char, enum Colour, enum Colour, size_t, size_t);
+static void (*terminal_scroll)();
+
+static uint16_t* terminal_buffer;
+
+static size_t terminal_font_char_size;
+static uint16_t unicode[512];
+static unsigned char* font_offset;
+
+static unsigned char text_buffer[100000];
+static unsigned text_offset = 0;
+
+static bool cursor_on = false;
+static uint8_t* cursor_full;
 
 static inline int terminal_xpixel(size_t x)
 {
-    return x * terminal_char_width;
+    return x * TERMINAL_CHAR_WIDTH;
 }
 
 static inline int terminal_ypixel(size_t y)
@@ -94,7 +105,7 @@ static void terminal_rgb_scroll()
 {
     for (size_t y = 0; y < (terminal_height-1) * terminal_font_char_size; y++)
     {
-        for (size_t x = 0; x < terminal_width * terminal_char_width; x++)
+        for (size_t x = 0; x < terminal_width * TERMINAL_CHAR_WIDTH; x++)
         {
             screen_copypixel(x, y+terminal_font_char_size, x, y);
         }
@@ -136,10 +147,13 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     screen_initialize(multiboot_info);
 
     terminal_height = multiboot_info->framebuffer_height / terminal_font_char_size;
-    terminal_width = multiboot_info->framebuffer_width / terminal_char_width;
+    terminal_width = multiboot_info->framebuffer_width / TERMINAL_CHAR_WIDTH;
 
     terminal_putcharat = &terminal_rgb_putcharat;
     terminal_scroll = &terminal_rgb_scroll;
+
+    cursor_full = malloc(terminal_font_char_size);
+    for (size_t i = 0; i < terminal_font_char_size; i++) { cursor_full = CURSOR_FULL_VALUE; }
 }
 
 void terminal_initialize(Multiboot_Info* multiboot_info)
@@ -261,4 +275,18 @@ void terminal_putchar(unsigned char c)
                 if (++terminal_row >= terminal_height) { terminal_scroll(); }
             }
     }
+}
+
+void terminal_cursor_blink()
+{
+    if (display_type == DISPLAY_RGB)
+    {
+        if (cursor_on) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
+        else
+        {
+            screen_putbitmap_bw(terminal_xpixel(terminal_column), terminal_ypixel(terminal_row), cursor_full, 1,
+                terminal_font_char_size, screen_rgb_name(terminal_fg_colour), screen_rgb_name(terminal_bg_colour));
+        }
+    }
+    cursor_on = !cursor_on;
 }

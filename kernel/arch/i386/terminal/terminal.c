@@ -153,7 +153,7 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     terminal_scroll = &terminal_rgb_scroll;
 
     cursor_full = malloc(terminal_font_char_size);
-    for (size_t i = 0; i < terminal_font_char_size; i++) { cursor_full = CURSOR_FULL_VALUE; }
+    for (size_t i = 0; i < terminal_font_char_size; i++) { cursor_full[i] = CURSOR_FULL_VALUE; }
 }
 
 void terminal_initialize(Multiboot_Info* multiboot_info)

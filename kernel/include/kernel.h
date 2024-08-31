@@ -18,7 +18,7 @@ void kernel_free(void* ptr);
 
 /// @brief Writes a character to the screen
 /// @param c Character to write
-void kernel_putchar(char c);
+void kernel_putchar(int c);
 
 /// @brief Halts the system, CALL ONLY IN DISASTER!
 /// @param error_message Error message to be displayed

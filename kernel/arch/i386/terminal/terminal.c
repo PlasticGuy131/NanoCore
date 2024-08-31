@@ -52,10 +52,14 @@ static unsigned char* font_offset;
 
 static unsigned char text_buffer[100000];
 static unsigned text_offset = 0;
+static unsigned drawing_from = 0;
 
 static bool cursor_enabled = false;
 static bool cursor_active = false;
 static uint8_t* cursor_full = 0;
+
+static unsigned cursor_x = 0;
+static unsigned cursor_y = 0;
 
 static inline int terminal_xpixel(size_t x)
 {
@@ -154,6 +158,56 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     terminal_scroll = &terminal_rgb_scroll;
 }
 
+static void terminal_rebase(unsigned stop)
+{
+    terminal_row = 0;
+    terminal_column = 0;
+    for (int i = drawing_from; i < stop; i++) { terminal_draw_char(text_buffer[i], false); }
+}
+
+static void terminal_draw_char(char c, bool draw)
+{
+    switch (c)
+    {
+        case '\n':
+            terminal_column = 0;
+            terminal_row++;
+            //if (++terminal_row >= terminal_height) { terminal_scroll(); }
+            break;
+        case '\t':
+            terminal_column += 4;
+            if (terminal_column >= terminal_width)
+            {
+                terminal_column = 0;
+                terminal_row++;
+            }
+            /*if(terminal_column >= terminal_width)
+            {
+                terminal_column = 0;
+                if (++terminal_row >= terminal_height) { terminal_scroll(); }
+            }*/
+            break;
+        default:
+            terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
+            if (++terminal_column >= terminal_width)
+            {
+                terminal_column = 0;
+                terminal_row++;
+            }
+            /*if(++terminal_column >= terminal_width)
+            {
+                terminal_column = 0;
+                if (++terminal_row >= terminal_height) { terminal_scroll(); }
+            }*/
+    }
+}
+
+static void terminal_redraw_from(unsigned from)
+{
+    unsigned i = from;
+    while (text_buffer[i]) { terminal_draw_char(text_buffer[i], true); }
+}
+
 void terminal_initialize(Multiboot_Info* multiboot_info)
 {
     if (!(multiboot_info->flags & MULTIBOOT_FLAG_FRAMEBUFFER))
@@ -233,7 +287,16 @@ void terminal_clear()
 
 void terminal_putchar(unsigned char c)
 {
-    switch (c)
+    text_buffer[text_offset] = c;
+    if (++cursor_x >= terminal_width)
+    {
+        cursor_x = 0;
+        cursor_y++;
+    }
+    serial_write(c);
+    terminal_redraw_from(text_offset);
+    text_offset++;
+    /*switch (c)
     {
         case '\n':
             serial_write('\r');
@@ -268,8 +331,7 @@ void terminal_putchar(unsigned char c)
                 terminal_column = 0;
                 if (++terminal_row >= terminal_height) { terminal_scroll(); }
             }
-    }
-    serial_write(c);
+    }*/
     if (cursor_enabled)
     {
         screen_putbitmap_bw(terminal_xpixel(terminal_column), terminal_ypixel(terminal_row), cursor_full, 1,
@@ -285,7 +347,7 @@ void terminal_cursor_blink()
         if (cursor_active) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
         else
         {
-            screen_putbitmap_bw(terminal_xpixel(terminal_column), terminal_ypixel(terminal_row), cursor_full, 1,
+            screen_putbitmap_bw(terminal_xpixel(cursor_x), terminal_ypixel(cursor_y), cursor_full, 1,
                 terminal_font_char_size, screen_rgb_name(terminal_fg_colour), screen_rgb_name(terminal_bg_colour));
         }
         cursor_active = !cursor_active;

@@ -56,7 +56,7 @@ static void kernel_type(Keypress keypress)
         char c = keyboard_keypress_char(keypress);
         if (c)
         {            
-            printf("%d: %c\n", c);
+            printf("%d: %c\n", c, c);
         }
     }
 }

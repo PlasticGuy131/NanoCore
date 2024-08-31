@@ -30,10 +30,10 @@ static const char EXTRA_CODE_CHARS[4] = { '\b', '\t', '\n', ' ' };
 
 static const int SCANCODE_CONTROL_CODES[7] = { LEFT_CTRL, LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, CAPS_LOCK, NUM_LOCK, SCROLL_LOCK };
 
-static const int NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 143 /* £ */, '$', '%', '^', '&', '*', '(' };
+static const char NUMBER_CODE_SYMBOLS[10] = { ')', '!', '\"', 173 /* £ */, '$', '%', '^', '&', '*', '(' };
 
-static const int SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
-                                              '@', '¬', '<', '>', '?',
+static const char SYMBOL_CODE_SSYMBOLS[15] = { '_', '+', '{', '}', ':',
+                                              '@', 183, '<', '>', '?',
                                               '*', '-', '+', '.', '|' };
 
 static int shifts = 0;
@@ -82,7 +82,7 @@ int keyboard_char_code(char ascii)
     return 0;
 }
 
-int keyboard_keypress_char(Keypress keypress)
+char keyboard_keypress_char(Keypress keypress)
 {
     if (keypress.code == 0) { return '\0'; }
     if (keypress.code <= 10)
@@ -92,7 +92,7 @@ int keyboard_keypress_char(Keypress keypress)
     }
     if (keypress.code <= 36)
     {
-        int ch = keypress.code + 54;
+        char ch = keypress.code + 54;
 
         bool upper = false;
         if (keypress.flags & KEY_FLAG_CAPS_LOCK) { upper = true; }

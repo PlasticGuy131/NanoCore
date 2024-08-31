@@ -59,6 +59,6 @@ void terminal_set_error_colour(enum Colour fg, enum Colour bg);
 
 /// @brief Writes a chacter to the terminal
 /// @param c Character to write
-void terminal_putchar(int c);
+void terminal_putchar(char c);
 
 #endif

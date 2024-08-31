@@ -29,7 +29,7 @@
 #define ARCH "WARNING: Unknown Architecture"
 #endif
 
-void kernel_putchar(int c) { terminal_putchar(c); }
+void kernel_putchar(char c) { terminal_putchar(c); }
 
 static void kernel_intro_splash()
 {
@@ -56,7 +56,7 @@ static void kernel_type(Keypress keypress)
         char c = keyboard_keypress_char(keypress);
         if (c)
         {            
-            printf("%u: %c\n", c, c);
+            printf("%u: %c\n", (int)c, (int)c);
         }
     }
 }
@@ -128,6 +128,7 @@ void kernel_main(void)
     {
         kernel_putchar(c);
         if (c == 255) { printf("\nExtras:\n"); }
+        if (c % 10 == 10) { printf("||"); }
     }
 
     keyboard_register_callback(kernel_type);

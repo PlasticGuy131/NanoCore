@@ -41,6 +41,6 @@ int keyboard_char_code(char ascii);
 /// @brief Converts a keypress to an ascii character
 /// @param keypress Keypress
 /// @return Ascii character (or \0)
-int keyboard_keypress_char(Keypress keypress);
+char keyboard_keypress_char(Keypress keypress);
 
 #endif

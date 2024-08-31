@@ -55,11 +55,8 @@ static void kernel_type(Keypress keypress)
     {
         char c = keyboard_keypress_char(keypress);
         if (c)
-        {
-            if (keypress.flags & KEY_FLAG_ALT) { printf("A"); }
-            if (keypress.flags & KEY_FLAG_CTRL) { printf("C"); }
-            
-            printf("%c", c);
+        {            
+            printf("%d: %c\n", c);
         }
     }
 }
@@ -130,6 +127,7 @@ void kernel_main(void)
     for (int c = 0; c < 512; c++)
     {
         kernel_putchar(c);
+        if (c == 255) { printf("\nExtras:\n"); }
     }
 
     keyboard_register_callback(kernel_type);

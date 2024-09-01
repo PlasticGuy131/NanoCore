@@ -296,7 +296,7 @@ void terminal_putchar(unsigned char c)
     serial_write(c);
     switch (c)
     {
-    /*case '\b':
+    case '\b':
         if (cursor_x == 0)
         {
             cursor_x = terminal_width - 1;
@@ -305,22 +305,22 @@ void terminal_putchar(unsigned char c)
         else { cursor_x--; }
         text_offset--;
         text_buffer[text_offset] = ' ';
+        text_offset--;
         break;
     case '\n':
         cursor_x = 0;
         cursor_y++;
-        text_offset++;
-        break;*/
+        break;
     default:
         if (++cursor_x >= terminal_width)
         {
             cursor_x = 0;
             cursor_y++;
         }
-        text_offset++;
         break;
     }
     terminal_redraw_from(text_offset);
+    text_offset++;
     /*switch (c)
     {
         case '\n':

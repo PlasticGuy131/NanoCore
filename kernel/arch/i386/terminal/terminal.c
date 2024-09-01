@@ -361,6 +361,9 @@ void terminal_putchar(unsigned char c)
         }
         break;
     }
+    terminal_rebase(text_offset);
+    cursor_x = terminal_column;
+    cursor_y = terminal_row;
     terminal_redraw_from(text_offset);
     text_offset++;
     /*switch (c)
@@ -411,7 +414,10 @@ void terminal_cursor_blink()
 {
     if (display_type == DISPLAY_RGB && cursor_enabled)
     {
-        if (cursor_active) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
+        terminal_rebase(text_offset);
+        cursor_x = terminal_column;
+        cursor_y = terminal_row;
+        if (cursor_active) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, cursor_x, cursor_y); }
         else
         {
             screen_putbitmap_bw(terminal_xpixel(cursor_x), terminal_ypixel(cursor_y), cursor_full, 1,

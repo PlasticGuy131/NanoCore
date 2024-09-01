@@ -306,6 +306,11 @@ void terminal_putchar(unsigned char c)
         text_offset--;
         text_buffer[text_offset] = ' ';
         break;
+    case '\n':
+        cursor_x = 0;
+        cursor_y++;
+        text_offset++;
+        break;
     default:
         if (++cursor_x >= terminal_width)
         {

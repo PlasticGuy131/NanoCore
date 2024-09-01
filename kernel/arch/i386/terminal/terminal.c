@@ -292,7 +292,6 @@ void terminal_clear()
 
 void terminal_putchar(unsigned char c)
 {
-    text_buffer[text_offset] = c;
     serial_write(c);
     switch (c)
     {
@@ -308,10 +307,12 @@ void terminal_putchar(unsigned char c)
         text_offset--;
         break;
     case '\n':
+        text_buffer[text_offset] = c;
         cursor_x = 0;
         cursor_y++;
         break;
     default:
+        text_buffer[text_offset] = c;
         if (++cursor_x >= terminal_width)
         {
             cursor_x = 0;

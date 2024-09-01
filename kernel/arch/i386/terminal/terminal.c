@@ -160,7 +160,7 @@ static void terminal_rebase(unsigned stop)
 {
     terminal_row = 0;
     terminal_column = 0;
-    for (unsigned i = drawing_from; i < stop; i++) { if (terminal_draw_char(text_buffer[i], false)) { break; } }
+    for (unsigned i = drawing_from; i < stop; i++) { terminal_draw_char(text_buffer[i], false); }
 }
 
 static void terminal_redraw_from(unsigned from)
@@ -169,7 +169,7 @@ static void terminal_redraw_from(unsigned from)
     unsigned i = from;
     while (text_buffer[i])
     {
-        terminal_draw_char(text_buffer[i], true);
+        if (terminal_draw_char(text_buffer[i], true)) { break; }
         i++;
     }
 }

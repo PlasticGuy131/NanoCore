@@ -51,6 +51,9 @@ static uint16_t unicode[512];
 static unsigned char* font_offset;
 
 static unsigned char text_buffer[100000];
+static enum Colour foreground_colours[100000];
+static enum Colour background_colours[100000];
+
 static unsigned text_offset = 0;
 static unsigned drawing_from = 0;
 
@@ -106,7 +109,7 @@ static void terminal_vga_scroll()
     terminal_row = terminal_height - 1;
 }
 
-static int terminal_draw_char(char c, bool draw)
+static int terminal_draw_char(char c, bool draw, enum Colour fg, enum Colour bg)
 {
     switch (c)
     {
@@ -119,19 +122,22 @@ static int terminal_draw_char(char c, bool draw)
         }
         break;
     case '\t':
-        terminal_column += 4;
-        if (terminal_column >= terminal_width)
+        for (int i = 0; i < 4;)
         {
-            terminal_column = 0;
-            if (++terminal_row >= terminal_height)
+            if (draw) { terminal_putcharat(' ', fg, bg, terminal_column, terminal_row); }
+            if (++terminal_column >= terminal_width)
             {
-                terminal_row = terminal_height - 1;
-                return 1;
+                terminal_column = 0;
+                if (++terminal_row >= terminal_height)
+                {
+                    terminal_row = terminal_height - 1;
+                    return 1;
+                }
             }
         }
-        break;
+            break;
     default:
-        if (draw) { terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
+        if (draw) { terminal_putcharat(c, fg, bg, terminal_column, terminal_row); }
         if (++terminal_column >= terminal_width)
         {
             terminal_column = 0;
@@ -149,7 +155,7 @@ static void terminal_rebase(unsigned stop)
 {
     terminal_row = 0;
     terminal_column = 0;
-    for (unsigned i = drawing_from; i < stop; i++) { terminal_draw_char(text_buffer[i], false); }
+    for (unsigned i = drawing_from; i < stop; i++) { terminal_draw_char(text_buffer[i], false, COLOUR_BLACK, COLOUR_BLACK); }
 }
 
 static void terminal_redraw_from(unsigned from)
@@ -158,7 +164,7 @@ static void terminal_redraw_from(unsigned from)
     unsigned i = from;
     while (text_buffer[i])
     {
-        if (terminal_draw_char(text_buffer[i], true)) { break; }
+        if (terminal_draw_char(text_buffer[i], true, foreground_colours[i], background_colours[i])) { break; }
         i++;
     }
 }
@@ -243,6 +249,13 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
 
     terminal_putcharat = &terminal_rgb_putcharat;
     terminal_scroll = &terminal_rgb_scroll;
+}
+
+static void write_to_buffers(char c, unsigned offset)
+{
+    text_buffer[offset] = c;
+    foreground_colours[offset] = terminal_fg_colour;
+    background_colours[offset] = terminal_fg_colour;
 }
 
 void terminal_initialize(Multiboot_Info* multiboot_info)
@@ -331,18 +344,18 @@ void terminal_putchar(unsigned char c)
         terminal_rebase(text_offset);
         terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
         text_offset--;
-        text_buffer[text_offset] = ' ';
+        write_to_buffers(' ', text_offset);
         text_offset--;
         if (cursor_x == 0 && cursor_y == 0 && display_type == DISPLAY_RGB) { terminal_rgb_scroll_up(); }
         break;
     case '\n':
         terminal_rebase(text_offset);
         terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
-        text_buffer[text_offset] = c;
+        write_to_buffers(c, text_offset);
         if (++cursor_y >= terminal_height) { terminal_scroll(); }
         break;
     case '\t':
-        text_buffer[text_offset] = c;
+        write_to_buffers(c, text_offset);
         cursor_x += 4;
         if (cursor_x >= terminal_width)
         {
@@ -350,7 +363,7 @@ void terminal_putchar(unsigned char c)
         }
         break;
     default:
-        text_buffer[text_offset] = c;
+        write_to_buffers(c, text_offset);
         if (++cursor_x >= terminal_width)
         {
             if (++cursor_y >= terminal_height) { terminal_scroll(); }

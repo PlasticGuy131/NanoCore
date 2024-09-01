@@ -293,14 +293,29 @@ void terminal_clear()
 void terminal_putchar(unsigned char c)
 {
     text_buffer[text_offset] = c;
-    if (++cursor_x >= terminal_width)
-    {
-        cursor_x = 0;
-        cursor_y++;
-    }
     serial_write(c);
+    switch (c)
+    {
+    case '\b':
+        if (cursor_x == 0)
+        {
+            cursor_x = terminal_width - 1;
+            cursor_y--;
+        }
+        else { cursor_x--; }
+        text_offset--;
+        text_buffer[text_offset] = ' ';
+        break;
+    default:
+        if (++cursor_x >= terminal_width)
+        {
+            cursor_x = 0;
+            cursor_y++;
+        }
+        text_offset++;
+        break;
+    }
     terminal_redraw_from(text_offset);
-    text_offset++;
     /*switch (c)
     {
         case '\n':

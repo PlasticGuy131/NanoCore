@@ -333,6 +333,8 @@ void terminal_putchar(unsigned char c)
         text_offset--;
         break;
     case '\n':
+        terminal_rebase(text_offset);
+        terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
         text_buffer[text_offset] = c;
         if (++cursor_y >= terminal_height) { terminal_scroll(); }
         break;
@@ -352,11 +354,11 @@ void terminal_putchar(unsigned char c)
         }
         break;
     }
-    terminal_rebase(text_offset+1);
+    terminal_redraw_from(text_offset);
+    text_offset++;
+    terminal_rebase(text_offset);
     cursor_x = terminal_column;
     cursor_y = terminal_row;
-    terminal_redraw_from((c == '\n') || (c == '\b') ? text_offset : text_offset - 1);
-    text_offset++;
     /*switch (c)
     {
         case '\n':

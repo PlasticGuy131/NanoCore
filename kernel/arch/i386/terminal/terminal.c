@@ -330,6 +330,8 @@ void terminal_putchar(unsigned char c)
     case '\b':
         text_offset--;
         text_buffer[text_offset] = ' ';
+        terminal_rebase(text_offset);
+        terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
         text_offset--;
         break;
     case '\n':

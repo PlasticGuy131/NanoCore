@@ -355,7 +355,7 @@ void terminal_putchar(unsigned char c)
     terminal_rebase(text_offset+1);
     cursor_x = terminal_column;
     cursor_y = terminal_row;
-    terminal_redraw_from(text_offset);
+    terminal_redraw_from((c == '\n') || (c == '\b') ? text_offset : text_offset - 1);
     text_offset++;
     /*switch (c)
     {

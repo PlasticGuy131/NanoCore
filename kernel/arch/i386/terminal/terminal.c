@@ -256,7 +256,7 @@ static void write_to_buffers(char c, unsigned offset)
 {
     text_buffer[offset] = c;
     foreground_colours[offset] = terminal_fg_colour;
-    background_colours[offset] = terminal_fg_colour;
+    background_colours[offset] = terminal_bg_colour;
 }
 
 void terminal_initialize(Multiboot_Info* multiboot_info)

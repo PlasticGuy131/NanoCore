@@ -351,6 +351,7 @@ void terminal_putchar(unsigned char c)
             cursor_x = 0;
             if (++cursor_y >= terminal_height) { terminal_scroll(); }
         }
+        break;
     default:
         text_buffer[text_offset] = c;
         if (++cursor_x >= terminal_width)

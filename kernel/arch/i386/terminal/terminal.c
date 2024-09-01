@@ -296,7 +296,7 @@ void terminal_putchar(unsigned char c)
     serial_write(c);
     switch (c)
     {
-    case '\b':
+    /*case '\b':
         if (cursor_x == 0)
         {
             cursor_x = terminal_width - 1;
@@ -310,7 +310,7 @@ void terminal_putchar(unsigned char c)
         cursor_x = 0;
         cursor_y++;
         text_offset++;
-        break;
+        break;*/
     default:
         if (++cursor_x >= terminal_width)
         {

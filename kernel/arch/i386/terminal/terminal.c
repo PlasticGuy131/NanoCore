@@ -198,6 +198,7 @@ static void terminal_rgb_scroll_up()
         if (text_buffer[drawing_from - 1] == '\n') { drawing_from--; }
         for (unsigned i = 0; i < terminal_width; i++)
         {
+            if (drawing_from == 0) { break; }
             drawing_from--;
             if (text_buffer[drawing_from] == '\n')
             {

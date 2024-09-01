@@ -328,19 +328,12 @@ void terminal_putchar(unsigned char c)
     switch (c)
     {
     case '\b':
-        if (cursor_x == 0)
-        {
-            cursor_x = terminal_width - 1;
-            cursor_y--;
-        }
-        else { cursor_x--; }
         text_offset--;
         text_buffer[text_offset] = ' ';
         text_offset--;
         break;
     case '\n':
         text_buffer[text_offset] = c;
-        cursor_x = 0;
         if (++cursor_y >= terminal_height) { terminal_scroll(); }
         break;
     case '\t':
@@ -348,7 +341,6 @@ void terminal_putchar(unsigned char c)
         cursor_x += 4;
         if (cursor_x >= terminal_width)
         {
-            cursor_x = 0;
             if (++cursor_y >= terminal_height) { terminal_scroll(); }
         }
         break;
@@ -356,7 +348,6 @@ void terminal_putchar(unsigned char c)
         text_buffer[text_offset] = c;
         if (++cursor_x >= terminal_width)
         {
-            cursor_x = 0;
             if (++cursor_y >= terminal_height) { terminal_scroll(); }
         }
         break;

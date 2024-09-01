@@ -106,9 +106,96 @@ static void terminal_vga_scroll()
     terminal_row = terminal_height - 1;
 }
 
+static int terminal_draw_char(char c, bool draw)
+{
+    switch (c)
+    {
+    case '\n':
+        terminal_column = 0;
+        if (++terminal_row >= terminal_height)
+        {
+            terminal_row = terminal_height - 1;
+            return 1;
+        }
+        //if (++terminal_row >= terminal_height) { terminal_scroll(); }
+        break;
+    case '\t':
+        terminal_column += 4;
+        if (terminal_column >= terminal_width)
+        {
+            terminal_column = 0;
+            if (++terminal_row >= terminal_height)
+            {
+                terminal_row = terminal_height - 1;
+                return 1;
+            }
+        }
+        /*if(terminal_column >= terminal_width)
+        {
+            terminal_column = 0;
+            if (++terminal_row >= terminal_height) { terminal_scroll(); }
+        }*/
+        break;
+    default:
+        if (draw) { terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
+        if (++terminal_column >= terminal_width)
+        {
+            terminal_column = 0;
+            if (++terminal_row >= terminal_height)
+            {
+                terminal_row = terminal_height - 1;
+                return 1;
+            }
+        }
+        /*if(++terminal_column >= terminal_width)
+        {
+            terminal_column = 0;
+            if (++terminal_row >= terminal_height) { terminal_scroll(); }
+        }*/
+    }
+    return 0;
+}
+
+static void terminal_rebase(unsigned stop)
+{
+    terminal_row = 0;
+    terminal_column = 0;
+    for (unsigned i = drawing_from; i < stop; i++) { if (terminal_draw_char(text_buffer[i], false)) { break; } }
+}
+
+static void terminal_redraw_from(unsigned from)
+{
+    terminal_rebase(from);
+    unsigned i = from;
+    while (text_buffer[i])
+    {
+        terminal_draw_char(text_buffer[i], true);
+        i++;
+    }
+}
+
 static void terminal_rgb_scroll()
 {
-    for (size_t y = 0; y < (terminal_height-1) * terminal_font_char_size; y++)
+    for (unsigned i = 0; i < terminal_width; i++)
+    {
+        drawing_from++;
+        if (text_buffer[drawing_from] == '\n')
+        {
+            drawing_from++;
+            break;
+        }
+    }
+
+    for (unsigned y = 0; y < terminal_height; y++)
+    {
+        for (unsigned x = 0; x < terminal_width; x++) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, x, y); }
+    }
+
+    terminal_redraw_from(drawing_from);
+
+    cursor_y = terminal_height - 1;
+
+    /*for (size_t y = 0; y < (terminal_height-1) * terminal_font_char_size; y++)
     {
         for (size_t x = 0; x < terminal_width * TERMINAL_CHAR_WIDTH; x++)
         {
@@ -121,7 +208,7 @@ static void terminal_rgb_scroll()
         terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, x, terminal_height - 1);
     }
 
-    terminal_row = terminal_height - 1;
+    terminal_row = terminal_height - 1;*/
 }
 
 static void terminal_vga_initialize(Multiboot_Info* multiboot_info)
@@ -156,61 +243,6 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
 
     terminal_putcharat = &terminal_rgb_putcharat;
     terminal_scroll = &terminal_rgb_scroll;
-}
-
-static void terminal_draw_char(char c, bool draw)
-{
-    switch (c)
-    {
-        case '\n':
-            terminal_column = 0;
-            terminal_row++;
-            //if (++terminal_row >= terminal_height) { terminal_scroll(); }
-            break;
-        case '\t':
-            terminal_column += 4;
-            if (terminal_column >= terminal_width)
-            {
-                terminal_column = 0;
-                terminal_row++;
-            }
-            /*if(terminal_column >= terminal_width)
-            {
-                terminal_column = 0;
-                if (++terminal_row >= terminal_height) { terminal_scroll(); }
-            }*/
-            break;
-        default:
-            if (draw) { terminal_putcharat(c, terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row); }
-            if (++terminal_column >= terminal_width)
-            {
-                terminal_column = 0;
-                terminal_row++;
-            }
-            /*if(++terminal_column >= terminal_width)
-            {
-                terminal_column = 0;
-                if (++terminal_row >= terminal_height) { terminal_scroll(); }
-            }*/
-    }
-}
-
-static void terminal_rebase(unsigned stop)
-{
-    terminal_row = 0;
-    terminal_column = 0;
-    for (unsigned i = drawing_from; i < stop; i++) { terminal_draw_char(text_buffer[i], false); }
-}
-
-static void terminal_redraw_from(unsigned from)
-{
-    terminal_rebase(from);
-    unsigned i = from;
-    while (text_buffer[i])
-    {
-        terminal_draw_char(text_buffer[i], true);
-        i++;
-    }
 }
 
 void terminal_initialize(Multiboot_Info* multiboot_info)
@@ -309,14 +341,22 @@ void terminal_putchar(unsigned char c)
     case '\n':
         text_buffer[text_offset] = c;
         cursor_x = 0;
-        cursor_y++;
+        if (++cursor_y >= terminal_height) { terminal_scroll(); }
         break;
+    case '\t':
+        text_buffer[text_offset] = c;
+        cursor_x += 4;
+        if (cursor_x >= terminal_width)
+        {
+            cursor_x = 0;
+            if (++cursor_y >= terminal_height) { terminal_scroll(); }
+        }
     default:
         text_buffer[text_offset] = c;
         if (++cursor_x >= terminal_width)
         {
             cursor_x = 0;
-            cursor_y++;
+            if (++cursor_y >= terminal_height) { terminal_scroll(); }
         }
         break;
     }

@@ -61,24 +61,7 @@ static void kernel_type(Keypress keypress)
     }
 }
 
-void kernel_panic(const char* error_message)
-{
-    terminal_clear();
-    terminal_col_error();
-    printf("ERRO/RERR/ORRE/RROR/\n");
-    printf("E/RROR/ERRO/RRER/ROR\n");
-    printf("ER/RORE/RROR/RERR/OR\n");
-    printf("ERR/ORER/RORR/ERRO/R\n");
-    terminal_col_default();
-    printf("KERNEL PANIC: %s\n", error_message);
-    while (1);
-}
-
-void* kernel_alloc(size_t size) { return memory_alloc(size); }
-
-void kernel_free(void* ptr) { memory_free(ptr); }
-
-void kernel_main(void)
+static void kernel_initialize()
 {
     bool serial_failure = serial_initialize();
     if(_multiboot_magic != MULTIBOOT_MAGIC)
@@ -100,11 +83,14 @@ void kernel_main(void)
         terminal_col_default();
     }
 
-    printf("Initializing processor state...\n");
+    //printf("Initializing processor state...\n");
     general_initialize();
 
     printf("Initializing interrupts...\n");
     interrupt_initialize();
+
+    printf("Initializing memory...\n");
+    memory_initialize();
 
     printf("Initializing clock...\n");
     clock_initialize();
@@ -116,14 +102,31 @@ void kernel_main(void)
         printf("ERROR: FLOAT INITIALIZATION FAILED\n");
         terminal_col_default();
     }
+}
 
-    printf("Initializing memory...\n");
-    memory_initialize();
+void kernel_panic(const char* error_message)
+{
+    terminal_clear();
+    terminal_col_error();
+    printf("ERRO/RERR/ORRE/RROR/\n");
+    printf("E/RROR/ERRO/RRER/ROR\n");
+    printf("ER/RORE/RROR/RERR/OR\n");
+    printf("ERR/ORER/RORR/ERRO/R\n");
+    terminal_col_default();
+    printf("KERNEL PANIC: %s\n", error_message);
+    while (1);
+}
+
+void* kernel_alloc(size_t size) { return memory_alloc(size); }
+
+void kernel_free(void* ptr) { memory_free(ptr); }
+
+void kernel_main(void)
+{
+    kernel_initialize();
 
     printf("\n");
     kernel_intro_splash();
-
-    printf("\nMEMORY USAGE: %i/%i\n", memory_usage(), memory_max());
 
     keyboard_register_callback(kernel_type);
     terminal_cursor_enable();

@@ -347,7 +347,7 @@ void terminal_putchar(unsigned char c)
         terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
         text_offset--;
         write_to_buffers(' ', text_offset);
-        if (cursor_x == 0 && cursor_y == 0 && display_type == DISPLAY_RGB) { terminal_rgb_scroll_up(); }
+        if (cursor_x == 0 && display_type == DISPLAY_RGB) { terminal_rgb_scroll_up(); }
         break;
     case '\n':
         terminal_rebase(text_offset);

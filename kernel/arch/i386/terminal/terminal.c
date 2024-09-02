@@ -54,7 +54,7 @@ static unsigned char text_buffer[100000];
 static enum Colour foreground_colours[100000];
 static enum Colour background_colours[100000];
 
-static unsigned text_offset = 0;
+static int text_offset = 0;
 static unsigned drawing_from = 0;
 
 static bool cursor_enabled = false;

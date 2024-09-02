@@ -342,11 +342,11 @@ void terminal_putchar(unsigned char c)
     switch (c)
     {
     case '\b':
+        if (text_offset == 0) { break; }
         terminal_rebase(text_offset);
         terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
         text_offset--;
         write_to_buffers(' ', text_offset);
-        text_offset--;
         if (cursor_x == 0 && cursor_y == 0 && display_type == DISPLAY_RGB) { terminal_rgb_scroll_up(); }
         break;
     case '\n':
@@ -354,6 +354,7 @@ void terminal_putchar(unsigned char c)
         terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, terminal_column, terminal_row);
         write_to_buffers(c, text_offset);
         if (++cursor_y >= terminal_height) { terminal_scroll(); }
+        text_offset++;
         break;
     case '\t':
         write_to_buffers(c, text_offset);
@@ -362,6 +363,7 @@ void terminal_putchar(unsigned char c)
         {
             if (++cursor_y >= terminal_height) { terminal_scroll(); }
         }
+        text_offset++;
         break;
     default:
         write_to_buffers(c, text_offset);
@@ -369,10 +371,10 @@ void terminal_putchar(unsigned char c)
         {
             if (++cursor_y >= terminal_height) { terminal_scroll(); }
         }
+        text_offset++;
         break;
     }
-    terminal_redraw_from(text_offset);
-    text_offset++;
+    terminal_redraw_from(text_offset-1);
     terminal_rebase(text_offset);
     cursor_x = terminal_column;
     cursor_y = terminal_row;

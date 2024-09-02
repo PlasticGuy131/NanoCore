@@ -374,7 +374,7 @@ void terminal_putchar(unsigned char c)
         text_offset++;
         break;
     }
-    terminal_redraw_from(text_offset-1);
+    if (text_offset) { terminal_redraw_from(text_offset - 1); }
     terminal_rebase(text_offset);
     cursor_x = terminal_column;
     cursor_y = terminal_row;

@@ -18,6 +18,7 @@
         "interrupt.h": "c",
         "port.h": "c",
         "vscode.h": "c",
-        "mem_allocation.h": "c"
+        "mem_allocation.h": "c",
+        "clock.h": "c"
     }
 }

@@ -83,20 +83,24 @@ static void kernel_initialize()
         terminal_col_default();
     }
 
+    memory_initialize();
+    init_print("MEMORY", true, false);
+    
     //printf("Initializing processor state...\n");
     general_initialize();
 
-    printf("Initializing interrupts...\n");
+    //printf("Initializing interrupts...\n");
     interrupt_initialize();
+    init_print("IDT", true, false);
 
-    printf("Initializing memory...\n");
-    memory_initialize();
-
-    printf("Initializing clock...\n");
+    //printf("Initializing clock...\n");
     clock_initialize();
+    init_print("CLOCK", true, true);
 
-    printf("Initializing FPU...\n");
-    if (float_initialize())
+    //printf("Initializing FPU...\n");
+    bool float_failed = float_initialize();
+    init_print("FPU", float_failed, true);
+    if (float_failed)
     {
         terminal_col_error();
         printf("ERROR: FLOAT INITIALIZATION FAILED\n");

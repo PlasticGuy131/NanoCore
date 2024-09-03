@@ -12,17 +12,14 @@ extern void load_tss();
 
 void general_initialize()
 {
-    //printf("Initializing GDT...\n");
     GDT_initialize();
     init_print("GDT", true, false);
 
-    ///printf("Entering protected mode...\n");
     terminal_col_warning();
     printf("=======BORDERLINE==PROTECTED=======\n");
     terminal_col_default();
     enter_protected();
 
-    //printf("Initialising TSS...\n");
     load_tss();
     init_print("TSS", true, false);
 }

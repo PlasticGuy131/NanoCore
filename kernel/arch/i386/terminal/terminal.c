@@ -415,3 +415,10 @@ void terminal_cursor_enable()
 }
 
 void terminal_cursor_disable() { cursor_enabled = false; }
+
+void terminal_cursor_left()
+{
+    if (cursor_x == 0 && cursor_y == 0 && display_type == DISPLAY_RGB) { terminal_rgb_scroll_up(); }
+    text_offset--;
+    terminal_rebase(text_offset);
+}

@@ -58,6 +58,7 @@ static void kernel_type(Keypress keypress)
         {
             printf("%c", c);
         }
+        else if (keypress.code == KEYCODE_CURSOR_LEFT) { terminal_cursor_left(); }
     }
 }
 
@@ -86,20 +87,16 @@ static void kernel_initialize()
     memory_initialize();
     init_print("MEMORY", true, false);
     
-    //printf("Initializing processor state...\n");
     general_initialize();
 
-    //printf("Initializing interrupts...\n");
     interrupt_initialize();
     init_print("IDT", true, false);
 
-    //printf("Initializing clock...\n");
     clock_initialize();
     init_print("CLOCK", true, true);
 
-    //printf("Initializing FPU...\n");
     bool float_failed = float_initialize();
-    init_print("FPU", float_failed, true);
+    init_print("FPU", !float_failed, true);
     if (float_failed)
     {
         terminal_col_error();

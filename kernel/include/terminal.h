@@ -70,4 +70,7 @@ void terminal_cursor_enable();
 /// @brief Disables the blinking cursor
 void terminal_cursor_disable();
 
+/// @brief Moves the cursor left
+void terminal_cursor_left();
+
 #endif

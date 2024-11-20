@@ -1,4 +1,5 @@
-ENTRY(_boot)
+STARTUP(out/bootloader.o)
+ENTRY(_start)
 
 SECTIONS
 {

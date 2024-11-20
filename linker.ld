@@ -1,3 +1,4 @@
+OUTPUT_FORMAT(binary)
 STARTUP(out/bootloader.o)
 ENTRY(_start)
 

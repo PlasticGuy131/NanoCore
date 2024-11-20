@@ -1,4 +1,3 @@
-STARTUP(out/bootloader.o)
 ENTRY(_boot)
 
 SECTIONS

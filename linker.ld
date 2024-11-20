@@ -1,3 +1,4 @@
+STARTUP(bootloader.o)
 ENTRY(_start)
 
 SECTIONS

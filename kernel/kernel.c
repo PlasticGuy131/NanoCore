@@ -24,7 +24,7 @@
 #include <serial.h>
 #include <terminal.h>
 
-#define VERSION "IDT setup"
+#define VERSION "Typing Interface"
 #ifndef ARCH
 #define ARCH "WARNING: Unknown Architecture"
 #endif

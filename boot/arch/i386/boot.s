@@ -21,10 +21,10 @@
 .long MFLAGS
 .long CHECKSUM
 .long 0, 0, 0, 0, 0
-//.long VIDEOMODE
-//.long VWIDTH
-//.long VHEIGHT
-//.long VDEPTH
+.long VIDEOMODE
+.long VWIDTH
+.long VHEIGHT
+.long VDEPTH
 
 / * Multiboot does not define a stack, and so this allocates a small one of 16 KiB * /
 .section .bss

@@ -339,11 +339,13 @@ void terminal_clear()
 void terminal_putchar(unsigned char c)
 {
     serial_write(c);
+
     if (cursor_enabled)
     {
         screen_fill(terminal_xpixel(cursor_x) - 1, terminal_ypixel(cursor_y), 1, terminal_font_char_size, colours[terminal_bg_colour]);
         cursor_active = false;
     }
+
     switch (c)
     {
     case '\b':
@@ -398,12 +400,6 @@ void terminal_cursor_blink()
         terminal_rebase(text_offset);
         cursor_x = terminal_column;
         cursor_y = terminal_row;
-        /*if (cursor_active) { terminal_putcharat(' ', terminal_fg_colour, terminal_bg_colour, cursor_x, cursor_y); }
-        else
-        {
-            screen_putbitmap_bw(terminal_xpixel(cursor_x), terminal_ypixel(cursor_y), cursor_full, 1,
-                terminal_font_char_size, screen_rgb_name(terminal_fg_colour), screen_rgb_name(terminal_bg_colour));
-        }*/
 
         screen_fill(terminal_xpixel(cursor_x) - 1, terminal_ypixel(cursor_y), 1, terminal_font_char_size, colours[cursor_active ? terminal_bg_colour : terminal_fg_colour]);
         cursor_active = !cursor_active;
@@ -424,6 +420,12 @@ void terminal_cursor_disable() { cursor_enabled = false; }
 
 void terminal_cursor_left()
 {
+    if (cursor_enabled)
+    {
+        screen_fill(terminal_xpixel(cursor_x) - 1, terminal_ypixel(cursor_y), 1, terminal_font_char_size, colours[terminal_bg_colour]);
+        cursor_active = false;
+    }
+
     if (cursor_x == 0 && cursor_y == 0 && display_type == DISPLAY_RGB) { terminal_rgb_scroll_up(); }
     text_offset--;
     terminal_rebase(text_offset);

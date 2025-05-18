@@ -368,6 +368,7 @@ void terminal_clear()
 
 void terminal_putchar(unsigned char c)
 {
+    return;
     serial_write(c);
 
     switch (c)

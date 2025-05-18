@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <multiboot.h>
 #include <serial.h>
@@ -54,7 +55,7 @@ static unsigned char text_buffer[100000];
 static enum Colour foreground_colours[100000];
 static enum Colour background_colours[100000];
 
-static int text_offset = 0;
+static unsigned text_offset = 0;
 static unsigned drawing_from = 0;
 
 static bool cursor_enabled = false;
@@ -359,9 +360,28 @@ void terminal_clear()
 
 void terminal_putchar(unsigned char c)
 {
-    return;
-
     serial_write(c);
+
+    switch (c)
+    {
+    case '\n':
+        unsigned move = terminal_width - (text_offset % terminal_width);
+        memset(text_buffer[text_offset], '\0', move - 1);
+        text_offset += move;
+        break;
+    case '\t':
+        memset(text_buffer[text_offset], ' ', 4);
+        text_offset += 5;
+        break;
+    default:
+        text_buffer[text_offset] = c;
+        text_offset++;
+        break;
+    }
+
+    terminal_rgb_draw(text_buffer);
+
+    /*return;
 
     if (cursor_enabled)
     {
@@ -414,7 +434,7 @@ void terminal_putchar(unsigned char c)
     {
         screen_fill(terminal_xpixel(cursor_x) - 1, terminal_ypixel(cursor_y), 1, terminal_font_char_size, colours[terminal_fg_colour]);
         cursor_active = true;
-    }
+    }*/
 }
 
 void terminal_cursor_blink()

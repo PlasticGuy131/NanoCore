@@ -25,7 +25,7 @@ static const uint8_t CURSOR_FULL_VALUE = 0x80;
 
 static enum Display_Type display_type;
 static size_t terminal_row = 0;
-static size_t terminal_column = 0;
+static size_t terminal_column = 1;
 static size_t terminal_width;
 static size_t terminal_height;
 

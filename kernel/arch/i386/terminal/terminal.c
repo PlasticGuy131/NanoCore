@@ -245,8 +245,6 @@ static void terminal_rgb_draw(unsigned char* start)
     {
         switch (start[i])
         {
-        case '\n':
-            break;
         case '\0':
             break;
         default:
@@ -370,7 +368,7 @@ void terminal_putchar(unsigned char c)
         text_offset += 5;
         break;
     case '\b':
-        text_offset--;
+        text_offset -= 2;
     default:
         text_buffer[text_offset] = c;
         text_offset++;

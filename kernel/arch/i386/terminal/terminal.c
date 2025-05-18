@@ -269,12 +269,6 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     terminal_putcharat = &terminal_rgb_putcharat;
     terminal_scroll = &terminal_rgb_scroll;
 
-    for (unsigned i = 0; i < terminal_width; i++)
-    {
-        text_buffer[i] = 'A';
-    }
-    text_buffer[terminal_width] = '\0';
-
     terminal_rgb_draw(text_buffer);
 }
 

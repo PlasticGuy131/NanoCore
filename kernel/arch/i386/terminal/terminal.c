@@ -243,7 +243,7 @@ static void terminal_rgb_draw(unsigned char* start)
     for (size_t i = 0; i < terminal_width * terminal_height; i++)
     {
         if (!start[i]) { break; }
-        terminal_draw_char(start[i], true, terminal_fg_colour, terminal_bg_colour);
+        terminal_putcharat(start[i], terminal_fg_colour, terminal_bg_colour, i % terminal_width, i / terminal_height);
     }
 }
 

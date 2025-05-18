@@ -24,8 +24,8 @@ static const size_t TERMINAL_CHAR_WIDTH = 9;
 static const uint8_t CURSOR_FULL_VALUE = 0x80;
 
 static enum Display_Type display_type;
-static size_t terminal_row;
-static size_t terminal_column;
+static size_t terminal_row = 0;
+static size_t terminal_column = 0;
 static size_t terminal_width;
 static size_t terminal_height;
 
@@ -50,7 +50,7 @@ static size_t terminal_font_char_size;
 static uint16_t unicode[512];
 static unsigned char* font_offset;
 
-static unsigned char text_buffer[100000];
+static unsigned char text_buffer[100000] = {' '};
 static enum Colour foreground_colours[100000];
 static enum Colour background_colours[100000];
 

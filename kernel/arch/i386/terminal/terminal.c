@@ -244,7 +244,15 @@ static void terminal_rgb_draw(unsigned char* start)
     for (size_t i = 0; i < terminal_width * terminal_height; i++)
     {
         if (!start[i]) { break; }
-        terminal_putcharat(start[i], terminal_fg_colour, terminal_bg_colour, i % terminal_width, i / terminal_height);
+        switch (start[i])
+        {
+        case '\n':
+            break;
+
+        default:
+            terminal_putcharat(start[i], terminal_fg_colour, terminal_bg_colour, i % terminal_width, i / terminal_height);
+            break;
+        }
     }
 }
 
@@ -367,6 +375,7 @@ void terminal_putchar(unsigned char c)
     case '\n':
         unsigned move = terminal_width - (text_offset % terminal_width);
         memset(text_buffer + text_offset, '\0', move - 1);
+        text_buffer[text_offset] = "\n";
         text_offset += move;
         break;
     case '\t':

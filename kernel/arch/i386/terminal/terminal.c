@@ -243,10 +243,12 @@ static void terminal_rgb_draw(unsigned char* start)
 {
     for (size_t i = 0; i < terminal_width * terminal_height; i++)
     {
-        //if (!start[i]) { break; }
         switch (start[i])
         {
         case '\n':
+            break;
+
+        case '\0':
             break;
 
         default:
@@ -364,11 +366,9 @@ void terminal_putchar(unsigned char c)
     {
     case '\n':
         unsigned move = terminal_width - (text_offset % terminal_width);
-        memset(text_buffer + text_offset, '\n', move - 1);
         text_offset += move;
         break;
     case '\t':
-        memset(text_buffer + text_offset, ' ', 4);
         text_offset += 5;
         break;
     default:

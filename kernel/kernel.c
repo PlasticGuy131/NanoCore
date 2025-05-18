@@ -129,11 +129,11 @@ void kernel_main(void)
     printf("\n");
     kernel_intro_splash();
 
-    keyboard_register_callback(kernel_type);
+    /*keyboard_register_callback(kernel_type);
     terminal_cursor_enable();
     while (1)
     {
         terminal_cursor_blink();
         clock_sleep(500);
-    }
+    }*/
 }

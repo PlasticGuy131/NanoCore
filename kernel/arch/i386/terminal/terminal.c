@@ -248,7 +248,7 @@ static void terminal_rgb_draw(unsigned char* start)
         case '\0':
             break;
         default:
-            terminal_putcharat(start[i], terminal_fg_colour, terminal_bg_colour, i % terminal_width, i / terminal_width);
+            terminal_putcharat(start[i], foreground_colours[i], background_colours[i], i % terminal_width, i / terminal_width);
             break;
         }
     }
@@ -372,6 +372,8 @@ void terminal_putchar(unsigned char c)
         break;
     default:
         text_buffer[text_offset] = c;
+        foreground_colours[text_offset] = terminal_fg_colour;
+        background_colours[text_offset] = terminal_bg_colour;
         text_offset++;
         break;
     }

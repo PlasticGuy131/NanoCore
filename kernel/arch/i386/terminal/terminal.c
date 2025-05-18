@@ -369,6 +369,7 @@ void terminal_clear()
 void terminal_putchar(unsigned char c)
 {
     serial_write(c);
+    if (!c) { serial_write('!'); }
 
     switch (c)
     {

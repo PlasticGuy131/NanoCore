@@ -268,6 +268,7 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     text_buffer[5] = 'I';
     text_buffer[6] = 'N';
     text_buffer[7] = 'G';
+    text_buffer[8] = '\0';
 
     terminal_rgb_draw(text_buffer);
 }

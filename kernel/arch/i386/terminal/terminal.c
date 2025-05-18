@@ -368,20 +368,19 @@ void terminal_clear()
 
 void terminal_putchar(unsigned char c)
 {
-    if (c == "\n") { serial_write('\r'); }
     serial_write(c);
 
     switch (c)
     {
-    /*case '\n':
-        unsigned move = terminal_width - (text_offset % terminal_width);
-        memset(text_buffer + text_offset, '\n', move - 1);
-        text_offset += move;
+    case '\n':
+        //unsigned move = terminal_width - (text_offset % terminal_width);
+        //memset(text_buffer + text_offset, '\n', move - 1);
+        //text_offset += move;
         break;
     case '\t':
-        memset(text_buffer + text_offset, ' ', 4);
-        text_offset += 5;
-        break;*/
+        //memset(text_buffer + text_offset, ' ', 4);
+        //text_offset += 5;
+        break;
     default:
         text_buffer[text_offset] = c;
         text_offset++;

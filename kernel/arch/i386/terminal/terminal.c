@@ -368,7 +368,8 @@ void terminal_putchar(unsigned char c)
         text_offset += 5;
         break;
     case '\b':
-        text_offset -= 2;
+        text_offset--;
+        break;
     default:
         text_buffer[text_offset] = c;
         text_offset++;

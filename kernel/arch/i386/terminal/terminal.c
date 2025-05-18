@@ -374,8 +374,7 @@ void terminal_putchar(unsigned char c)
     {
     case '\n':
         unsigned move = terminal_width - (text_offset % terminal_width);
-        memset(text_buffer + text_offset, '\0', move - 1);
-        text_buffer[text_offset] = '\n';
+        memset(text_buffer + text_offset, '\n', move - 1);
         text_offset += move;
         break;
     case '\t':

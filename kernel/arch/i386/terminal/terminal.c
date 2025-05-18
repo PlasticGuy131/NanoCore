@@ -368,6 +368,7 @@ void terminal_clear()
 
 void terminal_putchar(unsigned char c)
 {
+    if (c == "\n") { serial_write('\r'); }
     serial_write(c);
 
     switch (c)

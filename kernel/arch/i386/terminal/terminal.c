@@ -238,6 +238,14 @@ static void terminal_vga_initialize(Multiboot_Info* multiboot_info)
     terminal_scroll = &terminal_vga_scroll;
 }
 
+static void terminal_rgb_draw(char* start)
+{
+    for (size_t i = 0; i < terminal_width * terminal_height; i++)
+    {
+        terminal_draw_char(start[i], true, terminal_fg_colour, terminal_bg_colour);
+    }
+}
+
 static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
 {
     PSF_Header* font = psf_get_header();
@@ -261,14 +269,6 @@ static void terminal_rgb_initialize(Multiboot_Info* multiboot_info)
     text_buffer[7] = 'G';
 
     terminal_rgb_draw(text_buffer);
-}
-
-static void terminal_rgb_draw(char* start)
-{
-    for (size_t i = 0; i < terminal_width * terminal_height; i++)
-    {
-        terminal_draw_char(start[i], true, terminal_fg_colour, terminal_bg_colour);
-    }
 }
 
 static void write_to_buffers(char c, unsigned offset)

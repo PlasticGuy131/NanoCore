@@ -247,10 +247,8 @@ static void terminal_rgb_draw(unsigned char* start)
         {
         case '\n':
             break;
-
         case '\0':
             break;
-
         default:
             terminal_putcharat(start[i], terminal_fg_colour, terminal_bg_colour, i % terminal_width, i / terminal_width);
             break;
@@ -371,6 +369,8 @@ void terminal_putchar(unsigned char c)
     case '\t':
         text_offset += 5;
         break;
+    case '\b':
+        text_offset--;
     default:
         text_buffer[text_offset] = c;
         text_offset++;

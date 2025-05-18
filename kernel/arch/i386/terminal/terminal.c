@@ -366,11 +366,11 @@ void terminal_putchar(unsigned char c)
     {
     case '\n':
         unsigned move = terminal_width - (text_offset % terminal_width);
-        memset(text_buffer[text_offset], '\0', move - 1);
+        memset(text_buffer + text_offset, '\0', move - 1);
         text_offset += move;
         break;
     case '\t':
-        memset(text_buffer[text_offset], ' ', 4);
+        memset(text_buffer + text_offset, ' ', 4);
         text_offset += 5;
         break;
     default:

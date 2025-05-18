@@ -243,7 +243,7 @@ static void terminal_rgb_draw(unsigned char* start)
 {
     for (size_t i = 0; i < terminal_width * terminal_height; i++)
     {
-        if (!start[i]) { break; }
+        //if (!start[i]) { break; }
         switch (start[i])
         {
         case '\n':

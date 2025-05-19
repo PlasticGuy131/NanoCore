@@ -354,10 +354,17 @@ void terminal_clear()
     terminal_column = 0;
 }
 
+static void terminal_cursor_move(unsigned old_pos)
+{
+    screen_fill(terminal_xpixel(old_pos % terminal_width) - 1, terminal_ypixel(old_pos / terminal_width), 1, terminal_font_char_size, colours[terminal_bg_colour]);
+    screen_fill(terminal_xpixel(text_offset % terminal_width) - 1, terminal_ypixel(text_offset / terminal_width), 1, terminal_font_char_size, colours[terminal_fg_colour]);
+}
+
 void terminal_putchar(unsigned char c)
 {
     serial_write(c);
 
+    unsigned old_pos = text_offset;
     switch (c)
     {
     case '\n':
@@ -379,6 +386,7 @@ void terminal_putchar(unsigned char c)
     }
 
     terminal_rgb_draw(text_buffer);
+    if (cursor_enabled) { terminal_cursor_move(old_pos); }
 
     /*return;
 
@@ -451,12 +459,12 @@ void terminal_cursor_blink()
 
 void terminal_cursor_enable()
 {
-    if (cursor_full == 0)
+    /*if (cursor_full == 0)
     {
         cursor_full = malloc(terminal_font_char_size);
         for (size_t i = 0; i < terminal_font_char_size; i++) { cursor_full[i] = CURSOR_FULL_VALUE; }
-    }
-    cursor_enabled = true;
+    }*/
+    cursor_enabled = true && display_type == DISPLAY_RGB;
 }
 
 void terminal_cursor_disable() { cursor_enabled = false; }
